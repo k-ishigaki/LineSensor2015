@@ -1,5 +1,5 @@
 #include <xc.h>
-#include "GeneralPurposeInputOutputPins.h"
+#include "peripheral.GeneralPurposeInputOutputPin.h"
 
 int main(void) {
 	// do nothing

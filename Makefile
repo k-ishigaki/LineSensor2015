@@ -20,9 +20,9 @@ endif
 # processor name
 PROSESSOR_NAME := 16F1938
 # include paths
-INCLUDE_DIRS := peripheral/include application/include
+INCLUDE_DIRS := peripheral application
 # sourse files directory
-SRC_DIRS := peripheral/source application/source
+SRC_DIRS := peripheral application
 # compiler command
 CC := xc8
 # compiler options
@@ -67,9 +67,9 @@ clean:
 	$(RM) $(call FixPath,$(OBJS))
 	$(RM) $(call FixPath,$(DEPS))
 	$(RM) $(call FixPath,$(OBJS:%.p1=%.pre))
-	$(RM) $(call FixPath,bin/release.*)
-	$(RM) $(call FixPath,bin/startup.*)
-	$(RM) $(call FixPath,bin/doprnt.*)
+	$(RM) $(call FixPath,$(TARGET_DIR)/release.*)
+	$(RM) $(call FixPath,$(TARGET_DIR)/startup.*)
+	$(RM) $(call FixPath,$(TARGET_DIR)/doprnt.*)
 	$(RM) $(call FixPath,MPLABXLog.*)
 	$(RM) funclist l.obj
 
