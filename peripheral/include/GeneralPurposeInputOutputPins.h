@@ -5,126 +5,43 @@
 
 /** GPIO Interface */
 typedef struct {
+	void (*setAnalogInput)(void);
+} AnalogInputPin;
+
+typedef struct {
 	void (*setDigitalInput)(void);
+	bool (*getPinState)(void);
+} DigitalInputPin;
+
+typedef struct {
 	void (*setDigitalOutput)(void);
+	void (*setPinState)(void);
+} DigitalOutputPin;
+
+typedef struct {
+	void (*setDirection)(bool);
 	void (*setPinState)(bool);
 	bool (*getPinState)(void);
-} GPIOPin;
+} GeneralPurposeInputOutputPin;
 
-/** PORT A IO definition */
+/** analog inputable pin */
 typedef struct {
-	void (*setAnalogInput)(void);
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RA0;
+	AnalogInputPin* (*getAnalogInputPin)(void);
+	DigitalInputPin* (*getDigitalInputPin)(void);
+	DigitalOutputPin* (*getDigitalOutputPin)(void);
+	GeneralPurposeInputOutputPin* (*getGeneralPurposeInputOutputPin)(void);
+} AnalogInputablePin;
 
+/** digital pin */
 typedef struct {
-	void (*setAnalogInput)(void);
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RA1;
+	DigitalInputPin* (*getDigitalInputPin)(void);
+	DigitalOutputPin* (*getDigitalOutputPin)(void);
+	GeneralPurposeInputOutputPin* (*getGeneralPurposeInputOutputPin)(void);
+} DigitalPin;
 
+/** digital input only pin */
 typedef struct {
-	void (*setAnalogInput)(void);
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RA2;
-
-typedef struct {
-	void (*setAnalogInput)(void);
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RA3;
-
-typedef struct {
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RA4;
-
-typedef struct {
-	void (*setAnalogInput)(void);
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RA5;
-
-typedef struct {
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RA6;
-
-typedef struct {
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RA7;
-
-/** PORT B IO definition */
-typedef struct {
-	void (*setAnalogInput)(void);
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RB0;
-
-typedef struct {
-	void (*setAnalogInput)(void);
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RB1;
-
-typedef struct {
-	void (*setAnalogInput)(void);
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RB2;
-
-typedef struct {
-	void (*setAnalogInput)(void);
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RB3;
-
-typedef struct {
-	void (*setAnalogInput)(void);
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RB4;
-
-typedef struct {
-	void (*setAnalogInput)(void);
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RB5;
-
-typedef struct {
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RB6;
-
-typedef struct {
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RB7;
-
-/** PORT C IO definition */
-typedef struct {
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RC0;
-
-typedef struct {
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RC1;
-
-typedef struct {
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RC2;
-
-typedef struct {
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RC3;
-
-typedef struct {
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RC4;
-
-typedef struct {
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RC5;
-
-typedef struct {
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RC6;
-
-typedef struct {
-	GPIOPin* (*getGPIOPin)(void);
-} GPIOPin_RC7;
-
-/** PORT E IO definition */
-typedef struct {
-	void (*setDigitalInput)(void);
-	bool (*getPinState)(void);
-} GPIOPin_RE3;
+	DigitalInputPin* (*getDigitalInputPin)(void);
+} DigitalInputOnlyPin;
 
 #endif /* GENERAL_PURPOSE_INPUT_OUTPUT_PINS */
