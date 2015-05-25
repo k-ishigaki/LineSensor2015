@@ -44,4 +44,14 @@ typedef struct {
 	DigitalInputPin* (*getDigitalInputPin)(void);
 } DigitalInputOnlyPin;
 
+AnalogInputablePin* getRA0(void);
+AnalogInputablePin* getRA1(void);
+AnalogInputablePin* getRA2(void);
+AnalogInputablePin* getRA3(void);
+AnalogInputablePin* getRA4(void);
+AnalogInputablePin* getRA5(void);
+AnalogInputablePin* getRA6(void);
+AnalogInputablePin* getRA7(void);
+
+
 #endif /* GENERAL_PURPOSE_INPUT_OUTPUT_PINS */
