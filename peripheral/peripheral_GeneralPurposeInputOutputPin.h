@@ -6,16 +6,10 @@
 
 /** GPIO Interface */
 typedef struct {
-	void (*setAnalogInput)(void);
-} namespace(AnalogInputPin);
-
-typedef struct {
-	void (*setDigitalInput)(void);
 	bool (*getPinState)(void);
 } namespace(DigitalInputPin);
 
 typedef struct {
-	void (*setDigitalOutput)(void);
 	void (*setPinState)(void);
 } namespace(DigitalOutputPin);
 
@@ -27,7 +21,7 @@ typedef struct {
 
 /** analog inputable pin */
 typedef struct {
-	namespace(AnalogInputPin)* (*getAnalogInputPin)(void);
+	void (*setAnalogInput)(void);
 	namespace(DigitalInputPin)* (*getDigitalInputPin)(void);
 	namespace(DigitalOutputPin)* (*getDigitalOutputPin)(void);
 	namespace(GeneralPurposeInputOutputPin)* (*getGeneralPurposeInputOutputPin)(void);
@@ -54,5 +48,5 @@ namespace(AnalogInputablePin)* getRA5(void);
 namespace(AnalogInputablePin)* getRA6(void);
 namespace(AnalogInputablePin)* getRA7(void);
 
-
+#undef namespace
 #endif /* PERIPHERAL_GENERAL_PURPOSE_INPUT_OUTPUT_PIN */
