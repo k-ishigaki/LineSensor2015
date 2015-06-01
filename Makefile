@@ -2,27 +2,34 @@
 ifeq ($(OS),Windows_NT)
 # /Q option is force remove (no confirmation)
 	RM = del /Q
+	MKDIR = mkdir
 	FixPath = $(subst /,\,$1)
 # microchip mdb script file location
 	MDB = "C:\Program Files (x86)\Microchip\MPLABX\mplab_ide\bin\mdb.bat"
 # TEMP redirect target
 	TEMP_TARGET = $(TEMP)\microchip_mdb.log
+# source files
+	SRCS = $(shell dir /s /b)
+	SRCS := $(patsubst $(shell cd)\\%,%,$(SRCS))
+	SRCS := $(subst \,/,$(SRCS))
+	SRCS := $(filter %.c,$(SRCS))
 else
 # -f option is force remove (no confirmation)
 	RM = rm -f
+	MKDIR = mkdir -p
 	FixPath = $1
 # microchip mdb script file location
 	MDB = /opt/microchip/mplabx/mplab_ide/bin/mdb.sh
 # TEMP redirect target
 	TEMP_TARGET = /tmp/microchip_mdb.log
+# source files
+	SRCS = $(shell find  * -name *.c)
 endif
 
 # processor name
 PROSESSOR_NAME := 16F1938
 # include paths
-INCLUDE_DIRS := peripheral application
-# sourse files directory
-SRC_DIRS := peripheral application
+INCLUDE_DIRS := ../library
 # compiler command
 CC := xc8
 # compiler options
@@ -38,8 +45,6 @@ TARGET := $(TARGET_DIR)/release.hex
 LDFLAGS := 
 # library paths
 LIBS := 
-# source files
-SRCS := $(foreach src_dir,$(SRC_DIRS),$(wildcard $(addprefix $(src_dir)/,*.c)))
 # object files
 OBJS := $(addprefix $(TARGET_DIR)/,$(SRCS:%.c=%.p1))
 # intermediate files directory
@@ -56,6 +61,11 @@ $(TARGET): $(OBJS) $(LIBS)
 	$(CC) $(CFLAGS) --outdir=$(TARGET_DIR) -O$(call FixPath,$@) $(call FixPath,$^)
 
 $(TARGET_DIR)/%.p1:%.c
+ifeq ($(OS),Windows_NT)
+	@if not exist $(call FixPath,$(@D))\ ($(MKDIR) $(call FixPath,$(@D)))
+else
+	@[ -d $(@D) ] || $(MKDIR) $(@D)
+endif
 	$(CC) $(CFLAGS) --outdir=$(call FixPath,$(@D)) --pass1 $(call FixPath,$<)
 
 .PHONY: all
@@ -80,5 +90,10 @@ prog: $(TARGET)
 	@$(MDB) $(call FixPath,$(MDB_SCRIPT)) > $(TEMP_TARGET) 2>&1
 # remove unuse intermediate files
 	$(RM) MPLABXLog.*
+
+.PHONY: debug
+debug:
+	echo $(SRCS)
+	echo $(CPPS)
 
 -include $(DEPS)

@@ -1,52 +1,60 @@
-#ifndef PERIPHERAL_GENERAL_PURPOSE_INPUT_OUTPUT_PIN
-#define PERIPHERAL_GENERAL_PURPOSE_INPUT_OUTPUT_PIN
-#define namespace(name) peripheral_GeneralPurposeInputOutputPin_##name
+#ifndef PERIPHERAL_GPIO_PIN_H
+#define PERIPHERAL_GPIO_PIN_H
 
 #include <stdbool.h>
 
-/** GPIO Interface */
 typedef struct {
+	/**
+	 * Get pin state.
+	 * @return pin state high = true, low = false.
+	 */
 	bool (*getPinState)(void);
-} namespace(DigitalInputPin);
+} peripheral_DigitalInputPin;
 
 typedef struct {
+	/**
+	 * Get pin state (with internal pullup).
+	 * @return pin state high = true, low = false.
+	 */
+	bool (*getPinState)(void);
+} peripheral_DigitalInputPinWithInternalPullup;
+
+typedef struct {
+	/**
+	 * Get pin state (with internal pulldown).
+	 * @return pin state high = true, low = false.
+	 */
+	bool (*getPinState)(void);
+} peripheral_DigitalInputPinWithInternalPulldown;
+
+typedef struct {
+	/**
+	 * Set pin state.
+	 * @param pin state true = high, false = low.
+	 */
 	void (*setPinState)(void);
-} namespace(DigitalOutputPin);
+} peripheral_DigitalOutputPin;
 
 typedef struct {
+	/**
+	 * Set direction.
+	 * @param true = output, false = input.
+	 */
 	void (*setDirection)(bool);
-	void (*setPinState)(bool);
+	/**
+	 * Get pin state (with internal pulldown).
+	 * Before use this method, {@code setDirection(false)} must
+	 * be called.
+	 * @return pin state high = true, low = false.
+	 */
 	bool (*getPinState)(void);
-} namespace(GeneralPurposeInputOutputPin);
+	/**
+	 * Set pin state.
+	 * Before use this method, {@code setDirection(true)} must
+	 * be called.
+	 * @param pin state true = high, false = low.
+	 */
+	void (*setPinState)(bool);
+} peripheral_GPIOPin;
 
-/** analog inputable pin */
-typedef struct {
-	void (*setAnalogInput)(void);
-	namespace(DigitalInputPin)* (*getDigitalInputPin)(void);
-	namespace(DigitalOutputPin)* (*getDigitalOutputPin)(void);
-	namespace(GeneralPurposeInputOutputPin)* (*getGeneralPurposeInputOutputPin)(void);
-} namespace(AnalogInputablePin);
-
-/** digital pin */
-typedef struct {
-	namespace(DigitalInputPin)* (*getDigitalInputPin)(void);
-	namespace(DigitalOutputPin)* (*getDigitalOutputPin)(void);
-	namespace(GeneralPurposeInputOutputPin)* (*getGeneralPurposeInputOutputPin)(void);
-} namespace(DigitalPin);
-
-/** digital input only pin */
-typedef struct {
-	namespace(DigitalInputPin)* (*getDigitalInputPin)(void);
-} namespace(DigitalInputOnlyPin);
-
-namespace(AnalogInputablePin)* getRA0(void);
-namespace(AnalogInputablePin)* getRA1(void);
-namespace(AnalogInputablePin)* getRA2(void);
-namespace(AnalogInputablePin)* getRA3(void);
-namespace(AnalogInputablePin)* getRA4(void);
-namespace(AnalogInputablePin)* getRA5(void);
-namespace(AnalogInputablePin)* getRA6(void);
-namespace(AnalogInputablePin)* getRA7(void);
-
-#undef namespace
-#endif /* PERIPHERAL_GENERAL_PURPOSE_INPUT_OUTPUT_PIN */
+#endif /* PERIPHERAL_GPIO_PIN_H */
