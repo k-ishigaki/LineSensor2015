@@ -12,29 +12,35 @@ typedef struct {
 } InternalOscillator;
 
 typedef struct {
-	/** enable PLL. */
+	/**
+	 * Enable PLL.
+	 */
 	void (*enablePLL)(void);
-	/** disable PLL. */
+	/**
+	 * disable PLL.
+	 * Ensure the configuration word PLLEN = 0.
+	 * If SPLLEN = 1, PLL is always enabled.
+	 */
 	void (*disablePLL)(void);
 } PhaseLockedLoop;
 
 typedef struct {
 	/**
-	 * Select a system clock mode.
-	 * To find settable modes, see OscillatorModule.c.
-	 * @param system clock mode
+	 * Select a system clock Source.
+	 * To find settable clock sources, see OscillatorModule.c.
+	 * @param system clock source
 	 */
-	void (*selectSystemClock)(int mode);
+	void (*selectSystemClockSource)(int clockSource);
 	/**
 	 * returns InternalOscillator.
 	 * @return interface of internal oscillator module
 	 */
-	InternalOscillator* (*InternalOscillator)(void);
+	InternalOscillator* (*getInternalOscillator)(void);
 	/**
 	 * returns PhaseLockedLoop.
 	 * @return interface of phase locked loop
 	 */
-	PhaseLockedLoop* (*PhaseLockedLoop)(void);
+	PhaseLockedLoop* (*getPhaseLockedLoop)(void);
 } OscillatorModule;
 
 

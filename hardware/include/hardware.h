@@ -42,11 +42,16 @@
 #define OPERATING_FREQUENCY 32000000L
 
 #include "OscillatorModule.h"
+typedef enum {
+	INTERNAL_OSCILLATOR_BLOCK,	// internal oscillator block
+	TIMER1_OSCILLATOR,	// Secondary (SOSC) oscillator
+	CLOCK_DETERMINED_BY_FOSC,	// Primary clock (determined by FOSC<3:0> in CONFIG1H) 
+} OscillatorModule_clockSource;
 
 typedef struct {
-	OscillatorModule* (*OscillatorModule)(void);
+	OscillatorModule* (*getOscillatorModule)(void);
 } Hardware;
 
-extern Hardware;
+extern Hardware hardware;
 
 #endif /* HARDWARE_H */
