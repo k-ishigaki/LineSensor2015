@@ -29,16 +29,16 @@ endif
 # processor name
 PROSESSOR_NAME := 16F1938
 # include paths
-INCLUDE_DIRS := ../library
+INCLUDE_DIRS := ./hardware/include ./application/include
 # compiler command
 CC := xc8
 # compiler options
 CFLAGS := --chip=$(PROSESSOR_NAME) \
-	--CCI $(addprefix -I,$(INCLUDE_DIRS)) \
+	$(addprefix -I,$(INCLUDE_DIRS)) \
 	--stack=hybrid --asmlist --opt=default \
 	--errformat="%f:%l:%c:%n:%s" --warnformat="%f:%l:%c:%n:%s" --msgdisable=1273
 # target directory
-TARGET_DIR := output
+TARGET_DIR := bin
 # target file
 TARGET := $(TARGET_DIR)/release.hex
 # Link options
