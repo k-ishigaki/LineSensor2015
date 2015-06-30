@@ -94,6 +94,5 @@ prog: $(TARGET)
 .PHONY: debug
 debug:
 	echo $(SRCS)
-	echo $(CPPS)
 
 -include $(DEPS)
