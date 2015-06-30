@@ -1,5 +1,8 @@
-#ifndef HARDWARE_GPIO_PIN_H
-#define HARDWARE_GPIO_PIN_H
+/*
+ * GPIOPin.h
+ */
+#ifndef GPIO_PIN_H
+#define GPIO_PIN_H
 
 #include <stdbool.h>
 
@@ -57,4 +60,4 @@ typedef struct {
 	void (*setPinState)(bool);
 } GPIOPin;
 
-#endif /* HARDWARE_GPIO_PIN_H */
+#endif /* GPIO_PIN_H */
