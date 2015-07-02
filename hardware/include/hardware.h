@@ -41,11 +41,18 @@
 #define OPERATING_VOLTAGE   5.0
 #define OPERATING_FREQUENCY 32000000L
 
+// -----------------------------------------------------------------------------
+// OscillatorModule
+// -----------------------------------------------------------------------------
 #include "OscillatorModule.h"
+
 typedef enum {
-	INTERNAL_OSCILLATOR_BLOCK,	// internal oscillator block
-	TIMER1_OSCILLATOR,	// Secondary (SOSC) oscillator
-	CLOCK_DETERMINED_BY_FOSC,	// Primary clock (determined by FOSC<3:0> in CONFIG1H) 
+	/** internal oscillator block */
+	INTERNAL_OSCILLATOR_BLOCK,
+	/** Secondary (SOSC) oscillator */
+	TIMER1_OSCILLATOR,
+	/** Primary clock (determined by FOSC<3:0> in CONFIG1H)  */
+	CLOCK_DETERMINED_BY_FOSC,
 } OscillatorModule_clockSource;
 
 typedef struct {

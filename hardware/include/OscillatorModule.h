@@ -43,5 +43,4 @@ typedef struct {
 	PhaseLockedLoop* (*getPhaseLockedLoop)(void);
 } OscillatorModule;
 
-
 #endif /* OSCILLATOR_MODULE_H */
