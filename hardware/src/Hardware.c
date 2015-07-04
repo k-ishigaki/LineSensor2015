@@ -1,8 +1,12 @@
 #include "Hardware.h"
 
-extern OscillatorModule* getOscillatorModule(void); // defined at OscillatorModule.c
+// declared at InterruptVector.c
+extern InterruptVector* getInterruptVector(void);
+// declared at OscillatorModule.c
+extern OscillatorModule* getOscillatorModule(void);
 
 Hardware hardware = {
+	getInterruptVector,
 	getOscillatorModule,
 };
 	
