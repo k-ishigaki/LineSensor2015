@@ -64,14 +64,14 @@ static PhaseLockedLoop phaseLockedLoop = {
 // OscillatorModule
 // -----------------------------------------------------------------------------
 static void OscillatorModule_selectSystemClock(int clockSource) {
-	switch((OscillatorModule_clockSource)clockSource) {
-		case INTERNAL_OSCILLATOR_BLOCK:
+	switch((OscillatorModule_ClockSource)clockSource) {
+		case OSC_INTERNAL_OSCILLATOR_BLOCK:
 			OSCCONbits.SCS = 0b10;
 			break;
-		case TIMER1_OSCILLATOR:
+		case OSC_TIMER1_OSCILLATOR:
 			OSCCONbits.SCS = 0b01;
 			break;
-		case CLOCK_DETERMINED_BY_FOSC:
+		case OSC_CLOCK_DETERMINED_BY_FOSC:
 			OSCCONbits.SCS = 0b00;
 			break;
 	}
