@@ -5,7 +5,7 @@ void setup() {
 	OscillatorModule* osc = hardware.getOscillatorModule();
 	osc->getInternalOscillator()->setFrequency(8000000);
 	osc->getPhaseLockedLoop()->enablePLL();
-	osc->selectSystemClockSource(INTERNAL_OSCILLATOR_BLOCK);
+	osc->selectSystemClockSource(OSC_INTERNAL_OSCILLATOR_BLOCK);
 }
 
 void loop() {
