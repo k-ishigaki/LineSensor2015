@@ -5,7 +5,9 @@
 #ifndef HARDWARE_H
 #define HARDWARE_H
 
-// configuration bits
+// -----------------------------------------------------------------------------
+// device configurations
+// -----------------------------------------------------------------------------
 // CLKOUT function is disabled. I/O or oscillator function on the CLKOUT pin
 #pragma config CLKOUTEN = OFF
 // WDT controlled by the SWDTEN bit in the WDTCON register
@@ -37,9 +39,23 @@
 // 4x PLL enabled
 #pragma config PLLEN = ON
 
+// -----------------------------------------------------------------------------
 // constants
+// -----------------------------------------------------------------------------
 #define OPERATING_VOLTAGE   5.0
 #define OPERATING_FREQUENCY 32000000L
+
+// -----------------------------------------------------------------------------
+// InterruptVector
+// -----------------------------------------------------------------------------
+#include "InterruptVector.h"
+
+typedef enum {
+	/** High priority interrupt */
+	INT_HIGH_PRIORITY,
+	/** Low priority interrupt */
+	INT_LOW_PRIORITY,
+} InterruptVector_Priority;
 
 // -----------------------------------------------------------------------------
 // OscillatorModule
@@ -47,18 +63,30 @@
 #include "OscillatorModule.h"
 
 typedef enum {
-	/** internal oscillator block */
-	INTERNAL_OSCILLATOR_BLOCK,
+	/** Internal oscillator block */
+	OSC_INTERNAL_OSCILLATOR_BLOCK,
 	/** Secondary (SOSC) oscillator */
-	TIMER1_OSCILLATOR,
+	OSC_TIMER1_OSCILLATOR,
 	/** Primary clock (determined by FOSC<3:0> in CONFIG1H)  */
-	CLOCK_DETERMINED_BY_FOSC,
-} OscillatorModule_clockSource;
+	OSC_CLOCK_DETERMINED_BY_FOSC,
+} OscillatorModule_ClockSource;
 
+// -----------------------------------------------------------------------------
+// IOPort
+// -----------------------------------------------------------------------------
+
+/**
+ * Hardware peripheral definition.
+ */
 typedef struct {
+	InterruptVector* (*getInterruptVector)(void);
 	OscillatorModule* (*getOscillatorModule)(void);
 } Hardware;
 
+/**
+ * Hardware singleton instance.
+ * It is declared at Hardware.c
+ */
 extern Hardware hardware;
 
 #endif /* HARDWARE_H */
