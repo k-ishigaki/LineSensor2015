@@ -1,6 +1,6 @@
 /*
  * InterruptVector.h
- * InterruptVector is singleton instance represents the interrupt vector.
+ * InterruptVector is singleton instance represents a interrupt vector.
  * Other hardware instances can use the interrupt through
  * {@code interruptVector.addInterrupt(s, l, p)}
  * where these arguments are explained below.
