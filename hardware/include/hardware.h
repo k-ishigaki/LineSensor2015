@@ -79,13 +79,13 @@ typedef enum {
  * Hardware peripheral definition.
  */
 typedef struct {
-	InterruptVector* (*getInterruptVector)(void);
-	OscillatorModule* (*getOscillatorModule)(void);
+	InterruptVector* (*InterruptVector)(void);
+	OscillatorModule* (*OscillatorModule)(void);
 } Hardware;
 
 /**
  * Hardware singleton instance.
- * It is declared at Hardware.c
+ * This is declared at Hardware.c
  */
 extern Hardware hardware;
 

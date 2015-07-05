@@ -2,9 +2,9 @@
 #include <stdbool.h>
 
 void setup() {
-	OscillatorModule* osc = hardware.getOscillatorModule();
-	osc->getInternalOscillator()->setFrequency(8000000);
-	osc->getPhaseLockedLoop()->enablePLL();
+	OscillatorModule* osc = hardware.OscillatorModule();
+	osc->InternalOscillator()->setFrequency(8000000);
+	osc->PhaseLockedLoop()->enablePLL();
 	osc->selectSystemClockSource(OSC_INTERNAL_OSCILLATOR_BLOCK);
 }
 
