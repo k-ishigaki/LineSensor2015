@@ -12,7 +12,7 @@
 
 typedef struct {
 	/**
-	 * Returns whether interrupt pending or not.
+	 * Return whether interrupt pending or not.
 	 * If so, the pair listenr is called.
 	 * @return pending = true, not = false
 	 */
@@ -21,7 +21,7 @@ typedef struct {
 
 typedef struct {
 	/**
-	 * Called when interrupt pending.
+	 * Called when interrupt/interrupts is/are pending.
 	 * This method must be terminated shortly (about within 10 us)
 	 * because it is called at interrupt vector
 	 * and other any interrupts cannnot occur.
