@@ -74,6 +74,7 @@ typedef enum {
 // -----------------------------------------------------------------------------
 // IOPort
 // -----------------------------------------------------------------------------
+#include "IOPort.h"
 
 /**
  * Hardware peripheral definition.
@@ -81,6 +82,9 @@ typedef enum {
 typedef struct {
 	InterruptVector* (*InterruptVector)(void);
 	OscillatorModule* (*OscillatorModule)(void);
+	IOPort* (*PortA)(void);
+	IOPort* (*PortB)(void);
+	IOPort* (*PortC)(void);
 } Hardware;
 
 /**
