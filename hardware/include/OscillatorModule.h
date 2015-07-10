@@ -48,7 +48,7 @@ typedef struct {
 	 * Returns ClockSource enumuration constants.
 	 * @return clock source enumuration constants
 	 */
-	struct OscillatorModule_ClockSource* (*ClockSource)(void);
+	const struct OscillatorModule_ClockSource* (*ClockSource)(void);
 } OscillatorModule;
 
 #endif /* OSCILLATOR_MODULE_H */
