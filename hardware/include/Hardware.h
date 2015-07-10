@@ -64,11 +64,11 @@ typedef enum {
 
 typedef enum {
 	/** Internal oscillator block */
-	OSC_INTERNAL_OSCILLATOR_BLOCK,
+	OscillatorModule_ClockSource_INTERNAL_OSCILLATOR_BLOCK,
 	/** Secondary (SOSC) oscillator */
-	OSC_TIMER1_OSCILLATOR,
+	OscillatorModule_ClockSource_TIMER1_OSCILLATOR,
 	/** Primary clock (determined by FOSC<3:0> in CONFIG1H)  */
-	OSC_CLOCK_DETERMINED_BY_FOSC,
+	OscillatorModule_ClockSource_CLOCK_DETERMINED_BY_FOSC,
 } OscillatorModule_ClockSource;
 
 // -----------------------------------------------------------------------------
