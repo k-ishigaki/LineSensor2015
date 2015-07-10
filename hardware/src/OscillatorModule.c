@@ -39,7 +39,7 @@ static void InternalOscillator_setFrequency(unsigned long frequency) {
 	}
 }
 
-static InternalOscillator internalOscillator = {
+static const InternalOscillator internalOscillator = {
 	InternalOscillator_setFrequency,
 };
 
@@ -55,7 +55,7 @@ static void PhaseLockedLoop_disablePLL() {
 }
 
 
-static PhaseLockedLoop phaseLockedLoop = {
+static const PhaseLockedLoop phaseLockedLoop = {
 	PhaseLockedLoop_enablePLL,
 	PhaseLockedLoop_disablePLL,
 };
@@ -92,11 +92,11 @@ static void OscillatorModule_selectSystemClock(int clockSource) {
 	}
 }
 
-static InternalOscillator* OscillatorModule_getInternalOscillator() {
+static const InternalOscillator* OscillatorModule_getInternalOscillator() {
 	return &internalOscillator;
 }
 
-static PhaseLockedLoop* OscillatorModule_getPhaseLockedLoop() {
+static const PhaseLockedLoop* OscillatorModule_getPhaseLockedLoop() {
 	return &phaseLockedLoop;
 }
 
@@ -104,14 +104,14 @@ static const struct OscillatorModule_ClockSource* OscillatorModule_getClockSourc
 	return &clockSource;
 }
 
-static OscillatorModule oscillatorModule = {
+static const OscillatorModule oscillatorModule = {
 	OscillatorModule_selectSystemClock,
 	OscillatorModule_getInternalOscillator,
 	OscillatorModule_getPhaseLockedLoop,
 	OscillatorModule_getClockSource,
 };
 
-OscillatorModule* getOscillatorModule() {
+const OscillatorModule* getOscillatorModule() {
 	return &oscillatorModule;
 }
 
