@@ -29,7 +29,7 @@ endif
 # processor name
 PROSESSOR_NAME := 16F1938
 # include paths
-INCLUDE_DIRS := ./hardware/include ./application/include
+INCLUDE_DIRS := ./ ./hardware/include ./hardware/src ./application/include ./hardware/src
 # compiler command
 CC := xc8
 # compiler options
