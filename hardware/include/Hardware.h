@@ -62,14 +62,14 @@ typedef enum {
 // -----------------------------------------------------------------------------
 #include "OscillatorModule.h"
 
-typedef enum {
+struct OscillatorModule_ClockSource {
 	/** Internal oscillator block */
-	OscillatorModule_ClockSource_INTERNAL_OSCILLATOR_BLOCK,
+	int INTERNAL_OSCILLATOR_BLOCK;
 	/** Secondary (SOSC) oscillator */
-	OscillatorModule_ClockSource_TIMER1_OSCILLATOR,
+	int TIMER1_OSCILLATOR;
 	/** Primary clock (determined by FOSC<3:0> in CONFIG1H)  */
-	OscillatorModule_ClockSource_CLOCK_DETERMINED_BY_FOSC,
-} OscillatorModule_ClockSource;
+	int CLOCK_DETERMINED_BY_FOSC;
+};
 
 // -----------------------------------------------------------------------------
 // IOPort

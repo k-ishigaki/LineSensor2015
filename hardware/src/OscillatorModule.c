@@ -61,17 +61,32 @@ static PhaseLockedLoop phaseLockedLoop = {
 };
 
 // -----------------------------------------------------------------------------
+// OscillatorModule_ClockSource
+// -----------------------------------------------------------------------------
+static enum OscillatorModule_ClockSource_Constants {
+	INTERNAL_OSCILLATOR_BLOCK,
+	TIMER1_OSCILLATOR,
+	CLOCK_DETERMINED_BY_FOSC,
+};
+
+static const struct OscillatorModule_ClockSource clockSource = {
+	INTERNAL_OSCILLATOR_BLOCK,
+	TIMER1_OSCILLATOR,
+	CLOCK_DETERMINED_BY_FOSC,
+};
+
+// -----------------------------------------------------------------------------
 // OscillatorModule
 // -----------------------------------------------------------------------------
 static void OscillatorModule_selectSystemClock(int clockSource) {
-	switch((OscillatorModule_ClockSource)clockSource) {
-		case OscillatorModule_ClockSource_INTERNAL_OSCILLATOR_BLOCK:
+	switch((enum OscillatorModule_ClockSource_Constants)clockSource) {
+		case INTERNAL_OSCILLATOR_BLOCK:
 			OSCCONbits.SCS = 0b10;
 			break;
-		case OscillatorModule_ClockSource_TIMER1_OSCILLATOR:
+		case TIMER1_OSCILLATOR:
 			OSCCONbits.SCS = 0b01;
 			break;
-		case OscillatorModule_ClockSource_CLOCK_DETERMINED_BY_FOSC:
+		case CLOCK_DETERMINED_BY_FOSC:
 			OSCCONbits.SCS = 0b00;
 			break;
 	}
@@ -85,10 +100,15 @@ static PhaseLockedLoop* OscillatorModule_getPhaseLockedLoop() {
 	return &phaseLockedLoop;
 }
 
+static const struct OscillatorModule_ClockSource* OscillatorModule_getClockSource() {
+	return &clockSource;
+}
+
 static OscillatorModule oscillatorModule = {
 	OscillatorModule_selectSystemClock,
 	OscillatorModule_getInternalOscillator,
 	OscillatorModule_getPhaseLockedLoop,
+	OscillatorModule_getClockSource,
 };
 
 OscillatorModule* getOscillatorModule() {
