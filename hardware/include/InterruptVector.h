@@ -16,7 +16,7 @@ typedef struct {
 	 * If so, the pair listenr is called.
 	 * @return pending = true, not = false
 	 */
-	bool (const *isPending)(void);
+	bool (*isPending)(void);
 } InterruptSource;
 
 typedef struct {
@@ -26,7 +26,7 @@ typedef struct {
 	 * because it is called at interrupt vector
 	 * and other any interrupts cannnot occur.
 	 */
-	void (const *onInterrupt)(void);
+	void (*onInterrupt)(void);
 } InterruptListener;
 
 typedef struct {
@@ -37,7 +37,7 @@ typedef struct {
 	 * @param interrupt listener
 	 * @param priority
 	 */
-	void (const *addInterrupt)(InterruptSource*, InterruptListener*, int);
+	void (*addInterrupt)(InterruptSource*, InterruptListener*, int);
 } InterruptVector;
 
 #endif /* INTERRUPT_VECTOR_H */
