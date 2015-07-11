@@ -50,12 +50,14 @@
 // -----------------------------------------------------------------------------
 #include "InterruptVector.h"
 
-typedef enum {
+struct InterruptVector_Priority {
 	/** High priority interrupt */
-	INT_HIGH_PRIORITY,
+	int HIGH_PRIORITY;
 	/** Low priority interrupt */
-	INT_LOW_PRIORITY,
-} InterruptVector_Priority;
+	int LOW_PRIORITY;
+};
+
+extern const struct InterruptVector_Priority;
 
 // -----------------------------------------------------------------------------
 // OscillatorModule
@@ -64,12 +66,15 @@ typedef enum {
 
 struct OscillatorModule_ClockSource {
 	/** Internal oscillator block */
-	int INTERNAL_OSCILLATOR_BLOCK;
+	int INTERNAL;
 	/** Secondary (SOSC) oscillator */
-	int TIMER1_OSCILLATOR;
+	int SECONDARY;
 	/** Primary clock (determined by FOSC<3:0> in CONFIG1H)  */
-	int CLOCK_DETERMINED_BY_FOSC;
+	int DETERMINED_BY_CONFIG;
 };
+
+/** defined at OscillatorModule.c */
+extern const struct OscillatorModule_ClockSource OscillatorModule_ClockSource;
 
 // -----------------------------------------------------------------------------
 // IOPort
@@ -79,18 +84,18 @@ struct OscillatorModule_ClockSource {
 /**
  * Hardware peripheral definition.
  */
-typedef struct {
+struct Hardware {
 	InterruptVector* (*InterruptVector)(void);
 	OscillatorModule* (*OscillatorModule)(void);
 	IOPort* (*PortA)(void);
 	IOPort* (*PortB)(void);
 	IOPort* (*PortC)(void);
-} Hardware;
+};
 
 /**
  * Hardware singleton instance.
  * This is declared at Hardware.c
  */
-extern Hardware hardware;
+extern const struct Hardware Hardware;
 
 #endif /* HARDWARE_H */

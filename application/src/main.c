@@ -1,15 +1,15 @@
 #include "Hardware.h"
 #include <stdbool.h>
 
-IOPort* port;
+static IOPort* port;
 
 void setup() {
-	OscillatorModule* osc = hardware.OscillatorModule();
+	OscillatorModule* osc = Hardware.OscillatorModule();
 	osc->InternalOscillator()->setFrequency(8000000);
 	osc->PhaseLockedLoop()->enablePLL();
 	osc->selectSystemClockSource(
-			osc->ClockSource()->INTERNAL_OSCILLATOR_BLOCK);
-	port = hardware.PortA();
+			OscillatorModule_ClockSource.INTERNAL);
+	port = Hardware.PortA();
 	port->setDigitalOutput(0b11111111);
 }
 

@@ -9,7 +9,7 @@ extern IOPort* PortA_getInstance(void);
 extern IOPort* PortB_getInstance(void);
 extern IOPort* PortC_getInstance(void);
 
-Hardware hardware = {
+const struct Hardware Hardware = {
 	getInterruptVector,
 	getOscillatorModule,
 	PortA_getInstance,
