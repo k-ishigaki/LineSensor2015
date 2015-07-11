@@ -8,20 +8,20 @@ typedef struct {
 	 * To find settable frequencies, see OscillatorModule.c.
 	 * @param frequency(Hz)
 	 */
-	void (const *setFrequency)(unsigned long frequency);
+	void (*setFrequency)(unsigned long frequency);
 } InternalOscillator;
 
 typedef struct {
 	/**
 	 * Enable PLL.
 	 */
-	void (const *enablePLL)(void);
+	void (*enablePLL)(void);
 	/**
 	 * disable PLL.
 	 * Ensure the configuration word PLLEN = 0.
 	 * If SPLLEN = 1, PLL is always enabled.
 	 */
-	void (const *disablePLL)(void);
+	void (*disablePLL)(void);
 } PhaseLockedLoop;
 
 typedef struct {
@@ -30,7 +30,7 @@ typedef struct {
 	 * To find settable clock sources, see OscillatorModule.c.
 	 * @param system clock source
 	 */
-	void (const *selectSystemClockSource)(int clockSource);
+	void (*selectSystemClockSource)(int clockSource);
 	/**
 	 * Returns InternalOscillator.
 	 * @return interface of internal oscillator module
