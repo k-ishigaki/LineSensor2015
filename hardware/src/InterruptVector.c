@@ -61,7 +61,7 @@ static unsigned char pointer_H = 0;
 static unsigned char pointer_L = 0;
 
 // hardware interrupt service routine (ISR)
-static void interrupt isr() {
+static void __interrupt isr() {
 	bool interruptOccurred = false;
 	for(unsigned char i = 0; i < pointer_H; i++) {
 		if(sources_H[i]->isPending()) {
