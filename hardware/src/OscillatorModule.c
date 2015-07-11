@@ -39,7 +39,7 @@ static void InternalOscillator_setFrequency(unsigned long frequency) {
 	}
 }
 
-static const InternalOscillator internalOscillator = {
+static const InternalOscillator InternalOscillator_instance = {
 	InternalOscillator_setFrequency,
 };
 
@@ -55,7 +55,7 @@ static void PhaseLockedLoop_disablePLL() {
 }
 
 
-static const PhaseLockedLoop phaseLockedLoop = {
+static const PhaseLockedLoop PhaseLockedLoop_instance = {
 	PhaseLockedLoop_enablePLL,
 	PhaseLockedLoop_disablePLL,
 };
