@@ -85,11 +85,11 @@ extern const struct OscillatorModule_ClockSource OscillatorModule_ClockSource;
  * Hardware peripheral definition.
  */
 struct Hardware {
-	InterruptVector* (*InterruptVector)(void);
-	OscillatorModule* (*OscillatorModule)(void);
-	IOPort* (*PortA)(void);
-	IOPort* (*PortB)(void);
-	IOPort* (*PortC)(void);
+	const InterruptVector* InterruptVector;
+	const OscillatorModule* OscillatorModule;
+	const IOPort* PortA;
+	const IOPort* PortB;
+	const IOPort* PortC;
 };
 
 /**

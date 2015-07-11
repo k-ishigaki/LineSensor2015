@@ -69,7 +69,7 @@ static void Portx_(writeDigital)(uint8_t bits) {
 	LATx = bits;
 }
 
-static const IOPort Portx_(instance) = {
+const IOPort Portx_(instance) = {
 	Portx_(setAnalogInput),
 	Portx_(setAnalogOutput),
 	Portx_(setDigitalInput),
@@ -77,10 +77,6 @@ static const IOPort Portx_(instance) = {
 	Portx_(readDigital),
 	Portx_(writeDigital),
 };
-
-const IOPort* Portx_(getInstance)() {
-	return &Portx_(instance);
-}
 
 #undef Portx_
 #undef PORTx

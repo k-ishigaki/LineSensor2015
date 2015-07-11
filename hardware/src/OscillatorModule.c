@@ -92,21 +92,8 @@ static void OscillatorModule_selectSystemClock(int clockSource) {
 	}
 }
 
-static const InternalOscillator* OscillatorModule_getInternalOscillator() {
-	return &internalOscillator;
-}
-
-static const PhaseLockedLoop* OscillatorModule_getPhaseLockedLoop() {
-	return &phaseLockedLoop;
-}
-
-static const OscillatorModule OscillatorModule_instance = {
+const OscillatorModule OscillatorModule_instance = {
 	OscillatorModule_selectSystemClock,
-	OscillatorModule_getInternalOscillator,
-	OscillatorModule_getPhaseLockedLoop,
+	&InternalOscillator_instance,
+	&PhaseLockedLoop_instance,
 };
-
-const OscillatorModule* getOscillatorModule() {
-	return &OscillatorModule_instance;
-}
-

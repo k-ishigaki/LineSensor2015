@@ -1,19 +1,18 @@
 #include "Hardware.h"
 
 // declared at InterruptVector.c
-extern InterruptVector* getInterruptVector(void);
+extern const InterruptVector InterruptVector_instance;
 // declared at OscillatorModule.c
-extern OscillatorModule* getOscillatorModule(void);
+extern const OscillatorModule OscillatorModule_instance;
 // declared at IOPort.c
-extern IOPort* PortA_getInstance(void);
-extern IOPort* PortB_getInstance(void);
-extern IOPort* PortC_getInstance(void);
+extern const IOPort PortA_instance;
+extern const IOPort PortB_instance;
+extern const IOPort PortC_instance;
 
 const struct Hardware Hardware = {
-	getInterruptVector,
-	getOscillatorModule,
-	PortA_getInstance,
-	PortB_getInstance,
-	PortC_getInstance,
+	&InterruptVector_instance,
+	&OscillatorModule_instance,
+	&PortA_instance,
+	&PortB_instance,
+	&PortC_instance,
 };
-	

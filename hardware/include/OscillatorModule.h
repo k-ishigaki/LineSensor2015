@@ -35,12 +35,12 @@ typedef struct {
 	 * Returns InternalOscillator.
 	 * @return interface of internal oscillator module
 	 */
-	const InternalOscillator* (*InternalOscillator)(void);
+	const InternalOscillator* InternalOscillator;
 	/**
 	 * Returns PhaseLockedLoop.
 	 * @return interface of phase locked loop
 	 */
-	const PhaseLockedLoop* (*PhaseLockedLoop)(void);
+	const PhaseLockedLoop* PhaseLockedLoop;
 } OscillatorModule;
 
 #endif /* OSCILLATOR_MODULE_H */

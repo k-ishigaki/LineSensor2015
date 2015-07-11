@@ -102,10 +102,6 @@ static void InterruptVector_addInterrupt(
 	}
 }
 
-static const InterruptVector interruptVector = {
+const InterruptVector InterruptVector_instance = {
 	InterruptVector_addInterrupt,
 };
-
-const InterruptVector* getInterruptVector() {
-	return &interruptVector;
-}
