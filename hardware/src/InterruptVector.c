@@ -7,7 +7,9 @@
 #include "Hardware.h"
 #include <xc.h>
 
-#define LIST_SIZE 8
+enum {
+	LIST_SIZE = 8,
+};
 
 // -----------------------------------------------------------------------------
 // dummy instances
@@ -27,6 +29,19 @@ static void InterruptListener_onInterrupt() {
 
 static InterruptListener listener_dummy = {
 	InterruptListener_onInterrupt,
+};
+
+// -----------------------------------------------------------------------------
+// InterruptVector_Priority
+// -----------------------------------------------------------------------------
+enum InterruptVector_Priority_Constants {
+	HIGH_PRIORITY,
+	LOW_PRIORITY,
+};
+
+const struct InterruptVector_Priority InterruptVector_Priority = {
+	HIGH_PRIORITY,
+	LOW_PRIORITY,
 };
 
 // -----------------------------------------------------------------------------
@@ -73,13 +88,13 @@ static void InterruptVector_addInterrupt(
 		InterruptSource* source,
 		InterruptListener* listener,
 		int priority) {
-	switch((InterruptVector_Priority)priority) {
-		case INT_LOW_PRIORITY:
+	switch((enum InterruptVector_Priority_Constants)priority) {
+		case LOW_PRIORITY:
 			sources_L[pointer_L] = source;
 			listeners_L[pointer_L] = listener;
 			pointer_L++;
 			break;
-		case INT_HIGH_PRIORITY:
+		case HIGH_PRIORITY:
 			sources_H[pointer_H] = source;
 			listeners_H[pointer_H] = listener;
 			pointer_H++;
@@ -87,10 +102,10 @@ static void InterruptVector_addInterrupt(
 	}
 }
 
-static InterruptVector interruptVector = {
+static const InterruptVector interruptVector = {
 	InterruptVector_addInterrupt,
 };
 
-InterruptVector* getInterruptVector() {
+const InterruptVector* getInterruptVector() {
 	return &interruptVector;
 }
