@@ -52,9 +52,9 @@
 
 struct InterruptVector_Priority {
 	/** High priority interrupt */
-	int HIGH_PRIORITY;
+	char HIGH_PRIORITY;
 	/** Low priority interrupt */
-	int LOW_PRIORITY;
+	char LOW_PRIORITY;
 };
 
 extern const struct InterruptVector_Priority;
@@ -66,11 +66,11 @@ extern const struct InterruptVector_Priority;
 
 struct OscillatorModule_ClockSource {
 	/** Internal oscillator block */
-	int INTERNAL;
+	char INTERNAL;
 	/** Secondary (SOSC) oscillator */
-	int SECONDARY;
+	char SECONDARY;
 	/** Primary clock (determined by FOSC<3:0> in CONFIG1H)  */
-	int DETERMINED_BY_CONFIG;
+	char DETERMINED_BY_CONFIG;
 };
 
 /** defined at OscillatorModule.c */
