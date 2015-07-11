@@ -63,13 +63,13 @@ static const PhaseLockedLoop phaseLockedLoop = {
 // -----------------------------------------------------------------------------
 // OscillatorModule_ClockSource
 // -----------------------------------------------------------------------------
-static enum OscillatorModule_ClockSource_Constants {
+enum OscillatorModule_ClockSource_Constants {
 	INTERNAL_OSCILLATOR_BLOCK,
 	TIMER1_OSCILLATOR,
 	CLOCK_DETERMINED_BY_FOSC,
 };
 
-static const struct OscillatorModule_ClockSource clockSource = {
+const struct OscillatorModule_ClockSource OscillatorModule_ClockSource = {
 	INTERNAL_OSCILLATOR_BLOCK,
 	TIMER1_OSCILLATOR,
 	CLOCK_DETERMINED_BY_FOSC,
@@ -100,18 +100,13 @@ static const PhaseLockedLoop* OscillatorModule_getPhaseLockedLoop() {
 	return &phaseLockedLoop;
 }
 
-static const struct OscillatorModule_ClockSource* OscillatorModule_getClockSource() {
-	return &clockSource;
-}
-
-static const OscillatorModule oscillatorModule = {
+static const OscillatorModule OscillatorModule_instance = {
 	OscillatorModule_selectSystemClock,
 	OscillatorModule_getInternalOscillator,
 	OscillatorModule_getPhaseLockedLoop,
-	OscillatorModule_getClockSource,
 };
 
 const OscillatorModule* getOscillatorModule() {
-	return &oscillatorModule;
+	return &OscillatorModule_instance;
 }
 

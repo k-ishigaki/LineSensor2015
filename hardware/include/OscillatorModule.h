@@ -1,9 +1,6 @@
 #ifndef OSCILLATOR_MODULE_H
 #define OSCILLATOR_MODULE_H
 
-/** defined at Hardware.h */
-struct OscillatorModule_ClockSource;
-
 typedef struct {
 	/**
 	 * Set frequency of internal oscillator.
@@ -44,11 +41,6 @@ typedef struct {
 	 * @return interface of phase locked loop
 	 */
 	const PhaseLockedLoop* (*PhaseLockedLoop)(void);
-	/**
-	 * Returns ClockSource enumuration constants.
-	 * @return clock source enumuration constants
-	 */
-	const struct OscillatorModule_ClockSource* (*ClockSource)(void);
 } OscillatorModule;
 
 #endif /* OSCILLATOR_MODULE_H */
