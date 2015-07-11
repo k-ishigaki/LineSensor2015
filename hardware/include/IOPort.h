@@ -11,17 +11,17 @@
  *
  * usage: write to output latch
  * {@code
- * IOPort port = hardware.PortA(); // get instance of Port A
- * port.setDigitalOutput(0xFF);    // set all pins to digital output
- * port.writeDigital(0x55);        // pin 0, 2, 4, 6: output high
- *                                 // pin 1, 3, 5, 7: output low
+ * IOPort port = Hardware.PortA; // get instance of Port A
+ * port->setDigitalOutput(0xFF); // set all pins to digital output
+ * port->writeDigital(0x55);     // pin 0, 2, 4, 6: output high
+ *                               // pin 1, 3, 5, 7: output low
  * }
  *
  * usage: read port status
  * {@code
- * IOPort port = hardware.PortA();
- * port.setDigitalInput(0xFF);          // set all pins to digital input
- * uint8_t result = port.readDigital(); // read port and store
+ * IOPort port = Hardware.PortA;
+ * port->setDigitalInput(0xFF);          // set all pins to digital input
+ * uint8_t result = port->readDigital(); // read port and store
  * }
  */
 typedef struct {
