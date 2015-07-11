@@ -35,7 +35,7 @@ typedef struct {
 	 *
 	 * @param selected pin positions
 	 */
-	void (const *setAnalogInput)(uint8_t);
+	void (*setAnalogInput)(uint8_t);
 	/**
 	 * Set pins to analog output.
 	 *
@@ -46,7 +46,7 @@ typedef struct {
 	 *
 	 * @param selected pin positions
 	 */
-	void (const *setAnalogOutput)(uint8_t);
+	void (*setAnalogOutput)(uint8_t);
 	/**
 	 * Set pins to digital input.
 	 *
@@ -55,7 +55,7 @@ typedef struct {
 	 *
 	 * @param selected pin positions
 	 */
-	void (const *setDigitalInput)(uint8_t);
+	void (*setDigitalInput)(uint8_t);
 	/**
 	 * Set pins to digital input.
 	 *
@@ -64,7 +64,7 @@ typedef struct {
 	 *
 	 * @param selected pin positions
 	 */
-	void (const *setDigitalOutput)(uint8_t);
+	void (*setDigitalOutput)(uint8_t);
 	/**
 	 * Read levels on the digital input pins.
 	 *
@@ -72,7 +72,7 @@ typedef struct {
 	 *
 	 * @return 1 if high level , else 0 for respective pins
 	 */
-	uint8_t (const *readDigital)(void);
+	uint8_t (*readDigital)(void);
 	/**
 	 * Write outputs to digital output pins.
 	 *
@@ -82,7 +82,7 @@ typedef struct {
 	 * 	1 = output high<br>
 	 * 	0 = output low
 	 */
-	void (const *writeDigital)(uint8_t);
+	void (*writeDigital)(uint8_t);
 } IOPort;
 
 #endif /* IO_PORT_H */
