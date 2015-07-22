@@ -1,9 +1,30 @@
 #include "Hardware.h"
 #include <xc.h>
 
-// -----------------------------------------------------------------------------
+#ifndef IO_PORT_COMMON_DECRARED
+#define IO_PORT_COMMON_DECRARED
+// ----------------------------------------------------------------------------
+// IOPort_PinMode
+// ----------------------------------------------------------------------------
+enum IOPort_PinMode_Constants {
+	DIGITAL_INPUT,
+	DIGITAL_INPUT_WITH_INTERNAL_PULLUP,
+	DIGITAL_OUTPUT,
+	ANALOG_INPUT,
+};
+
+const struct IOPort_PinMode IOPort_PinMode = {
+	DIGITAL_INPUT,
+	DIGITAL_INPUT_WITH_INTERNAL_PULLUP,
+	DIGITAL_OUTPUT,
+	ANALOG_INPUT,
+};
+
+#endif
+
+// ----------------------------------------------------------------------------
 // Port A, Port B, Port C
-// -----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 #if !defined(PORTA_DECLARED)
 #define PORTA_DECLARED
 
@@ -21,6 +42,7 @@
 #define ANSELx       ANSELB
 #define TRISx        TRISB
 #define LATx         LATB
+#define WPUx         WPUB
 
 #elif !defined(PORTC_DECLARED)
 #define PORTC_DECLARED
@@ -33,32 +55,39 @@
 #define EXIT_LOOP
 #endif
 
-static void Portx_(setAnalogInput)(uint8_t bits) {
+static void Portx_(setPinModes)(uint8_t bits, char mode) {
+	switch((enum IOPort_PinMode_Constants)mode) {
+		case DIGITAL_INPUT:
 #ifdef ANSELx
-	ANSELx |= bits;
-	TRISx  |= bits;
+			ANSELx &= ~bits;
 #endif
-}
-
-static void Portx_(setAnalogOutput)(uint8_t bits) {
+#ifdef WPUx
+			WPUx   &= ~bits;
+#endif
+			TRISx  |= bits;
+			break;
+		case DIGITAL_INPUT_WITH_INTERNAL_PULLUP:
 #ifdef ANSELx
-	ANSELx |= bits;
-	TRISx  &= ~bits;
+			ANSELx &= ~bits;
 #endif
-}
-
-static void Portx_(setDigitalInput)(uint8_t bits) {
+#ifdef WPUx
+			WPUx   |= bits;
+#endif
+			TRISx  |= bits;
+			break;
+		case DIGITAL_OUTPUT:
 #ifdef ANSELx
-	ANSELx &= ~bits;
+			ANSELx &= ~bits;
 #endif
-	TRISx  |= bits;
-}
-
-static void Portx_(setDigitalOutput)(uint8_t bits) {
+			TRISx  &= ~bits;
+			break;
+		case ANALOG_INPUT:
 #ifdef ANSELx
-	ANSELx &= ~bits;
+			ANSELx |= bits;
+			TRISx  |= bits;
 #endif
-	TRISx  &= ~bits;
+			break;
+	}
 }
 
 static uint8_t Portx_(readDigital)() {
@@ -70,10 +99,7 @@ static void Portx_(writeDigital)(uint8_t bits) {
 }
 
 const IOPort Portx_(instance) = {
-	Portx_(setAnalogInput),
-	Portx_(setAnalogOutput),
-	Portx_(setDigitalInput),
-	Portx_(setDigitalOutput),
+	Portx_(setPinModes),
 	Portx_(readDigital),
 	Portx_(writeDigital),
 };
@@ -83,6 +109,7 @@ const IOPort Portx_(instance) = {
 #undef ANSELx
 #undef TRISx
 #undef LATx
+#undef WPUx
 
 #if !defined(EXIT_LOOP)
 #include "IOPort.c"

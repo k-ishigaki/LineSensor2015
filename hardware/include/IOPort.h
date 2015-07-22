@@ -12,7 +12,8 @@
  * usage: write to output latch
  * {@code
  * IOPort port = Hardware.PortA; // get instance of Port A
- * port->setDigitalOutput(0xFF); // set all pins to digital output
+ * // set all pins to digital output
+ * port->setPinModes(0xFF, IOPort_PinMode.DIGITAL_OUTPUT);
  * port->writeDigital(0x55);     // pin 0, 2, 4, 6: output high
  *                               // pin 1, 3, 5, 7: output low
  * }
@@ -20,51 +21,30 @@
  * usage: read port status
  * {@code
  * IOPort port = Hardware.PortA;
- * port->setDigitalInput(0xFF);          // set all pins to digital input
+ * // set all pins to digital input
+ * port->setPinModes(0xFF, IOPort_PinMode.DIGITAL_INPUT);
  * uint8_t result = port->readDigital(); // read port and store
  * }
  */
 typedef struct {
 	/**
-	 * Set pins to analog input.
+	 * Apply pin mode to selected pins.
 	 *
-	 * The analog input pins are often used by ADC.
+	 * You can select pins at first argument, and pin mode at second
+	 * argument.
+	 * The pin mode is defined at Hardware.h.
 	 * Please check data sheet not to select unsupported pins.
-	 * example:
-	 * {@code setAnalogInput(0b00010001); // pin 0 and pin 4 selected}
 	 *
-	 * @param selected pin positions
+	 * For example:
+	 * {@code
+	 * // set pin 0 and pin 4 to digital input
+	 * port->setPinModes(0b00010001, IOPort_PinMode.DIGITAL_INPUT);
+	 * }
+	 *
+	 * @param pin positions
+	 * @param pin mode
 	 */
-	void (*setAnalogInput)(uint8_t);
-	/**
-	 * Set pins to analog output.
-	 *
-	 * The analog output pins are often used by DAC.
-	 * Please check data sheet not to select unsupported pins.
-	 * example:
-	 * {@code setAnalogOutput(0b00010001); // pin 0 and pin 4 selected}
-	 *
-	 * @param selected pin positions
-	 */
-	void (*setAnalogOutput)(uint8_t);
-	/**
-	 * Set pins to digital input.
-	 *
-	 * Please check data sheet not to select unsupported pins.
-	 * {@code setDigitalInput(0b00010001); // pin 0 and pin 4 selected}
-	 *
-	 * @param selected pin positions
-	 */
-	void (*setDigitalInput)(uint8_t);
-	/**
-	 * Set pins to digital input.
-	 *
-	 * Please check data sheet not to select unsupported pins.
-	 * {@code setDigitalOutput(0b00010001); // pin 0 and pin 4 selected}
-	 *
-	 * @param selected pin positions
-	 */
-	void (*setDigitalOutput)(uint8_t);
+	void (*setPinModes)(uint8_t, char);
 	/**
 	 * Read levels on the digital input pins.
 	 *

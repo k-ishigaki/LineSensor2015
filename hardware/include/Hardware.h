@@ -76,10 +76,72 @@ struct OscillatorModule_ClockSource {
 /** defined at OscillatorModule.c */
 extern const struct OscillatorModule_ClockSource OscillatorModule_ClockSource;
 
-// -----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 // IOPort
-// -----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 #include "IOPort.h"
+
+struct IOPort_PinMode {
+	char DIGITAL_INPUT;
+	char DIGITAL_INPUT_WITH_INTERNAL_PULLUP;
+	char DIGITAL_OUTPUT;
+	char ANALOG_INPUT;
+}
+
+/** defined at IOPort.c */
+extern const struct IOPort_PinMode IOPort_PinMode;
+
+// ----------------------------------------------------------------------------
+// ADConverterModule
+// ----------------------------------------------------------------------------
+#include "ADConverterModule.h"
+
+struct ADConverterModule_PositiveReference {
+	char FVR;
+	char VREF_PLUS;
+	char VDD;
+};
+
+extern const struct ADConverterModule_PositiveReference ADConverterModule_PositiveReference;
+
+struct ADConverterModule_NegativeReference {
+	char VREF_MINUS;
+	char VSS;
+};
+
+extern const struct ADConverterModule_NegativeReference ADConverterModule_NegativeReference;
+
+struct ADConverterModule_ConversionClock {
+	char F_RC;
+	char F_OSC_DIV_64;
+	char F_OSC_DIV_32;
+	char F_OSC_DIV_16;
+	char F_OSC_DIV_8;
+	char F_OSC_DIV_4;
+	char F_OSC_DIV_2;
+};
+
+extern const struct ADConverterModule_ConversionClock ADConverterModule_ConversionClock;
+
+struct ADConverterModule_InputChannel {
+	char FVR_BUFFER_1;
+	char DAC;
+	char TEMPERATURE_INDICATOR;
+	char AN13;
+	char AN12;
+	char AN11;
+	char AN10;
+	char AN9;
+	char AN8;
+	// AN5, AN6, AN7 are not available on the PIC16F1933/1936/1938
+	char AN4;
+	char AN3;
+	char AN2;
+	char AN1;
+	char AN0;
+};
+
+extern const struct ADConverterModule_InputChannel ADConverterModule_InputChannel;
 
 /**
  * Hardware peripheral definition.
