@@ -59,10 +59,30 @@ struct InterruptService_Priority {
 
 extern const struct InterruptService_Priority InterruptService_Priority;
 
-// -----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 // OscillatorModule
-// -----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 #include "OscillatorModule.h"
+
+struct InternalOscillator_Frequency {
+	char HF_16MHz;
+	char HF_8MHz;
+	char HF_4MHz;
+	char HF_2MHz;
+	char HF_1MHz;
+	char HF_500kHz;
+	char HF_250kHz;
+	char HF_125kHz;
+	char MF_500kHz;
+	char MF_250kHz;
+	char MF_125kHz;
+	char MF_62500Hz;
+	char HF_31250Hz;
+	char MF_31250Hz;
+	char LF_31kHz;
+};
+
+extern const struct InternalOscillator_Frequency InternalOscillator_Frequency;
 
 struct OscillatorModule_ClockSource {
 	/** Internal oscillator block */
