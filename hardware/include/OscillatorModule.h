@@ -3,12 +3,11 @@
 
 typedef struct {
 	/**
-	 * Set frequency of internal oscillator.
-	 * If you select a invalid value, doing nothing.
-	 * To find settable frequencies, see OscillatorModule.c.
-	 * @param frequency(Hz)
+	 * Select frequency of internal oscillator.
+	 * To find selectable frequencies, see Hardware.h.
+	 * @param frequency identifer
 	 */
-	void (*setFrequency)(unsigned long frequency);
+	void (*selectFrequency)(char);
 } InternalOscillator;
 
 typedef struct {
@@ -28,9 +27,9 @@ typedef struct {
 	/**
 	 * Select a system clock Source.
 	 * To find settable clock sources, see OscillatorModule.c.
-	 * @param system clock source
+	 * @param system clock source identifer
 	 */
-	void (*selectSystemClockSource)(int clockSource);
+	void (*selectSystemClockSource)(char);
 	/**
 	 * Returns InternalOscillator.
 	 * @return interface of internal oscillator module
