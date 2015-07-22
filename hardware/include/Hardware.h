@@ -51,10 +51,8 @@
 #include "InterruptVector.h"
 
 struct InterruptService_Priority {
-	/** High priority interrupt */
-	char HIGH_PRIORITY;
-	/** Low priority interrupt */
-	char LOW_PRIORITY;
+	/** priority is dafault only */
+	char DEFAULT;
 };
 
 extern const struct InterruptService_Priority InterruptService_Priority;

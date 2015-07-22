@@ -33,47 +33,26 @@ static InterruptListener listener_dummy = {
 // InterruptService_Priority
 // ----------------------------------------------------------------------------
 enum InterruptService_Priority_Constants {
-	HIGH_PRIORITY,
-	LOW_PRIORITY,
+	DEFAULT,
 };
 
 const struct InterruptService_Priority InterruptService_Priority = {
-	HIGH_PRIORITY,
-	LOW_PRIORITY,
+	DEFAULT,
 };
 
 // ----------------------------------------------------------------------------
 // InterruptVector
 // ----------------------------------------------------------------------------
-/** interrupt handlers (high priority) */
-static void (*handlers_H[LIST_SIZE])() = {&handler_dummy};
+/** interrupt handlers */
+static void (*handlers[LIST_SIZE])() = {&handler_dummy};
 
-/** interrupt handlers (low priority) */
-static void (*handlers_L[LIST_SIZE])() = {&handler_dummy};
-
-/** pointer of lists (high priority) */
-static unsigned char pointer_H = 0;
-
-/** pointer of lists (low priority) */
-static unsigned char pointer_L = 0;
+/** number of registered handlers */
+static unsigned char numOfHandlers = 0;
 
 /** hardware interrupt service routine (ISR) */
 static void __interrupt isr() {
-	bool interruptOccurred = false;
-	for(unsigned char i = 0; i < pointer_H; i++) {
-		handlers_H[i]();
-		interruptOccurred = true;
-	}
-	// If high priority interrupt occurred, return from interrupt.
-	// And then if any interrupts are pending, interrupt again.
-	// This is because of distinction between high and low priority.
-	if(interruptOccurred) return;
-	for(unsigned char i = 0; i < pointer_L; i++) {
-		handlers_L[i]();
-		// Once low priority interrupt occurred,
-		// return from interrupt to deal with
-		// high priority interrupts.
-		return;
+	for(unsigned char i = 0; i < numOfHandlers; i++) {
+		handlers[i]();
 	}
 }
 
@@ -81,28 +60,14 @@ static void __interrupt isr() {
 static void registerHandler(void (*handler)(), char priority) {
 	// If argument handler has been already registered to vector;
 	// remove it and register again.
-	for(unsigned char i = 0; i < pointer_L; i++) {
-		if(handlers_L[i] == handler) {
-			pointer_L--;
+	for(unsigned char i = 0; i < numOfHandlers; i++) {
+		if(handlers[i] == handler) {
+			numOfHandlers--;
 		}
 	}
-	for(unsigned char i = 0; i < pointer_H; i++) {
-		if(handlers_H[i] == handler) {
-			pointer_H--;
-		}
-	}
-	switch((enum InterruptService_Priority_Constants)priority) {
-		case LOW_PRIORITY:
-			handlers_L[pointer_L] = handler;
-			pointer_L++;
-			break;
-		case HIGH_PRIORITY:
-			handlers_H[pointer_H] = handler;
-			pointer_H++;
-			break;
-	}
+	handlers[numOfHandlers] = handler;
+	numOfHandlers++;
 }
-
 
 #endif /* DECRARING_INTERRUPT_SERVICE_COMMON */
 
@@ -133,6 +98,7 @@ static void InterruptService_(registerListener)(
 		char priority) {
 	InterruptService_(listener) = listener;
 	registerHandler(&InterruptService_(handleInterrupt), priority);
+	// priority is not determined (enhanced mid-range)
 }
 
 static void InterruptService_(enableInterrupt)() {

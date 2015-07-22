@@ -27,7 +27,7 @@ void setup() {
 	adc->enable();
 	adc->selectInputChannel(ADConverterModule_InputChannel.AN0);
 	const InterruptService* adcIntService = Hardware.ADConverterModuleInterruptService;
-	adcIntService->registerListener(&adcListener, InterruptService_Priority.HIGH_PRIORITY);
+	adcIntService->registerListener(&adcListener, InterruptService_Priority.DEFAULT);
 	adcIntService->enableInterrupt();
 }
 
