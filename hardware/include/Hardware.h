@@ -1,6 +1,6 @@
 /*
  * Hardware.h
- * definitions for PIC16F1825
+ * definitions for PIC16F1938
  */
 #ifndef HARDWARE_H
 #define HARDWARE_H
