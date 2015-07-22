@@ -50,14 +50,14 @@
 // -----------------------------------------------------------------------------
 #include "InterruptVector.h"
 
-struct InterruptVector_Priority {
+struct InterruptService_Priority {
 	/** High priority interrupt */
 	char HIGH_PRIORITY;
 	/** Low priority interrupt */
 	char LOW_PRIORITY;
 };
 
-extern const struct InterruptVector_Priority;
+extern const struct InterruptService_Priority InterruptService_Priority;
 
 // -----------------------------------------------------------------------------
 // OscillatorModule
@@ -85,7 +85,7 @@ extern const struct OscillatorModule_ClockSource OscillatorModule_ClockSource;
  * Hardware peripheral definition.
  */
 struct Hardware {
-	const InterruptVector* InterruptVector;
+	const InterruptService* ADConverterModuleInterruptService;
 	const OscillatorModule* OscillatorModule;
 	const IOPort* PortA;
 	const IOPort* PortB;
