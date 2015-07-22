@@ -8,6 +8,8 @@ extern const OscillatorModule OscillatorModule_instance;
 extern const IOPort PortA_instance;
 extern const IOPort PortB_instance;
 extern const IOPort PortC_instance;
+// declared at ADConverterModule.c
+extern const ADConverterModule ADConverterModule_instance;
 
 const struct Hardware Hardware = {
 	&ADConverterModuleInterruptService_instance,
@@ -15,4 +17,5 @@ const struct Hardware Hardware = {
 	&PortA_instance,
 	&PortB_instance,
 	&PortC_instance,
+	&ADConverterModule_instance,
 };
