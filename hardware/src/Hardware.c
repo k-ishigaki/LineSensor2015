@@ -17,6 +17,7 @@ extern const ADConverterModule ADConverterModule_instance;
 // declared at TimerModule.c
 extern const TimerModule Timer0Module_instance;
 extern const TimerModule Timer1Module_instance;
+extern const TimerGateControl Timer1GateControl_instance;
 
 const struct Hardware Hardware = {
 	&ADConverterModuleInterruptService_instance,
@@ -31,4 +32,5 @@ const struct Hardware Hardware = {
 	&ADConverterModule_instance,
 	&Timer0Module_instance,
 	&Timer1Module_instance,
+	&Timer1GateControl_instance,
 };

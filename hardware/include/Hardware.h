@@ -273,6 +273,7 @@ struct Hardware {
 	const ADConverterModule* ADConverterModule;
 	const TimerModule* Timer0;
 	const TimerModule* Timer1;
+	const TimerGateControl* Timer1GateControl;
 };
 
 /**
