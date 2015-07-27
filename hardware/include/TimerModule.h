@@ -150,19 +150,6 @@ typedef struct {
 	 * 		a timer module unsupport period count setting
 	 */
 	void (*setPeriodCount)(timer_module_counter_max_t);
-
-	/**
-	 * Timer module gate control interface.
-	 *
-	 * If a timer module has gate control, this interface can be used.
-	 * You must switch to gate control mode with TimerModule#selectMode.
-	 * The time module interfaces may be also tied to gate control.
-	 * Please check data sheet for more details.
-	 *
-	 * @return interface of gate control<br>
-	 * 	(if a timer module don't have it, return NULL)
-	 */
-	const TimerGateControl* TimerGateControl;
 } TimerModule;
 
 #endif /* TIMER_MODULE_H */

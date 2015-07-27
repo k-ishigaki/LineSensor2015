@@ -112,7 +112,6 @@ const TimerModule Timer0Module_instance = {
 	Timer0Module_selectPostScaler,
 	Timer0Module_selectMode,
 	Timer0Module_setPeriodCount,
-	NULL, // does not have gate control
 };
 
 // ----------------------------------------------------------------------------
@@ -287,7 +286,6 @@ const TimerModule Timer1Module_instance = {
 	Timer1Module_selectPostscaler,
 	Timer1Module_selectMode,
 	Timer1Module_setPeriodCount,
-	&Timer1GateControl_instance,
 };
 
 #endif
