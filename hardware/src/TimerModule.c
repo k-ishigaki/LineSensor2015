@@ -115,76 +115,6 @@ const TimerModule Timer0Module_instance = {
 };
 
 // ----------------------------------------------------------------------------
-// Timer1GateControl_Constants
-// ----------------------------------------------------------------------------
-enum Timer1GateControl_Source_Constants {
-	T1G_T1G             = 0b00,
-	T1G_TIMER0_OVERFLOW = 0b01,
-	T1G_SYNC_C1OUT      = 0b10,
-	T1G_SYNC_C2OUT      = 0b11,
-};
-const struct Timer1GateControl_Source Timer1GateControl_Source = {
-	T1G_T1G,
-	T1G_TIMER0_OVERFLOW,
-	T1G_SYNC_C1OUT,
-	T1G_SYNC_C2OUT,
-};
-
-enum Timer1GateControl_Mode_Constants {
-	ENABLE_POSITIVE                  = 0b100,
-	ENABLE_NEGATIVE                  = 0b000,
-	TOGGLE_POSITIVE                  = 0b110,
-	TOGGLE_NEGATIVE                  = 0b010,
-	SINGLE_PULSE_POSITIVE            = 0b101,
-	SINGLE_PULSE_NEGATIVE            = 0b001,
-	TOGGLE_AND_SINGLE_PULSE_POSITIVE = 0b111,
-	TOGGLE_AND_SINGLE_PULSE_NEGATIVE = 0b011,
-};
-const struct Timer1GateControl_Mode Timer1GateControl = {
-	ENABLE_POSITIVE,
-	ENABLE_NEGATIVE,
-	TOGGLE_POSITIVE,
-	TOGGLE_NEGATIVE,
-	SINGLE_PULSE_POSITIVE,
-	SINGLE_PULSE_NEGATIVE,
-	TOGGLE_AND_SINGLE_PULSE_POSITIVE,
-	TOGGLE_AND_SINGLE_PULSE_NEGATIVE,
-};
-
-// ----------------------------------------------------------------------------
-// Timer1GateControl
-// ----------------------------------------------------------------------------
-static void Timer1GateControl_selectSource(char source) {
-	T1GCONbits.T1GSS = source;
-}
-
-static void Timer1GateControl_selectMode(char mode) {
-	T1GCONbits.T1GPOL = mode >> 2;
-	T1GCONbits.T1GTM  = mode >> 1;
-	T1GCONbits.T1GSPM = mode;
-}
-
-static bool Timer1GateControl_getState() {
-	return T1GCONbits.T1GVAL;
-}
-
-static void Timer1GateControl_startSinglePulseAquisition() {
-	T1GCONbits.T1GGO = 1;
-}
-
-static bool Timer1GateControl_isWaitingSinglePulse() {
-	return T1GCONbits.T1GGO;
-}
-
-const TimerGateControl Timer1GateControl_instance = {
-	Timer1GateControl_selectSource,
-	Timer1GateControl_selectMode,
-	Timer1GateControl_getState,
-	Timer1GateControl_startSinglePulseAquisition,
-	Timer1GateControl_isWaitingSinglePulse,
-};
-
-// ----------------------------------------------------------------------------
 // Timer1Module_Constants
 // ----------------------------------------------------------------------------
 enum Timer1Module_ClockSource_Constants {
@@ -286,6 +216,76 @@ const TimerModule Timer1Module_instance = {
 	Timer1Module_selectPostscaler,
 	Timer1Module_selectMode,
 	Timer1Module_setPeriodCount,
+};
+
+// ----------------------------------------------------------------------------
+// Timer1GateControl_Constants
+// ----------------------------------------------------------------------------
+enum Timer1GateControl_Source_Constants {
+	T1G_T1G             = 0b00,
+	T1G_TIMER0_OVERFLOW = 0b01,
+	T1G_SYNC_C1OUT      = 0b10,
+	T1G_SYNC_C2OUT      = 0b11,
+};
+const struct Timer1GateControl_Source Timer1GateControl_Source = {
+	T1G_T1G,
+	T1G_TIMER0_OVERFLOW,
+	T1G_SYNC_C1OUT,
+	T1G_SYNC_C2OUT,
+};
+
+enum Timer1GateControl_Mode_Constants {
+	ENABLE_POSITIVE                  = 0b100,
+	ENABLE_NEGATIVE                  = 0b000,
+	TOGGLE_POSITIVE                  = 0b110,
+	TOGGLE_NEGATIVE                  = 0b010,
+	SINGLE_PULSE_POSITIVE            = 0b101,
+	SINGLE_PULSE_NEGATIVE            = 0b001,
+	TOGGLE_AND_SINGLE_PULSE_POSITIVE = 0b111,
+	TOGGLE_AND_SINGLE_PULSE_NEGATIVE = 0b011,
+};
+const struct Timer1GateControl_Mode Timer1GateControl = {
+	ENABLE_POSITIVE,
+	ENABLE_NEGATIVE,
+	TOGGLE_POSITIVE,
+	TOGGLE_NEGATIVE,
+	SINGLE_PULSE_POSITIVE,
+	SINGLE_PULSE_NEGATIVE,
+	TOGGLE_AND_SINGLE_PULSE_POSITIVE,
+	TOGGLE_AND_SINGLE_PULSE_NEGATIVE,
+};
+
+// ----------------------------------------------------------------------------
+// Timer1GateControl
+// ----------------------------------------------------------------------------
+static void Timer1GateControl_selectSource(char source) {
+	T1GCONbits.T1GSS = source;
+}
+
+static void Timer1GateControl_selectMode(char mode) {
+	T1GCONbits.T1GPOL = mode >> 2;
+	T1GCONbits.T1GTM  = mode >> 1;
+	T1GCONbits.T1GSPM = mode;
+}
+
+static bool Timer1GateControl_getState() {
+	return T1GCONbits.T1GVAL;
+}
+
+static void Timer1GateControl_startSinglePulseAquisition() {
+	T1GCONbits.T1GGO = 1;
+}
+
+static bool Timer1GateControl_isWaitingSinglePulse() {
+	return T1GCONbits.T1GGO;
+}
+
+const TimerGateControl Timer1GateControl_instance = {
+	Timer1GateControl_selectSource,
+	Timer1GateControl_selectMode,
+	Timer1GateControl_getState,
+	Timer1GateControl_startSinglePulseAquisition,
+	Timer1GateControl_isWaitingSinglePulse,
 };
 
 #endif

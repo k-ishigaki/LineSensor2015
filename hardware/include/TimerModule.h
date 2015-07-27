@@ -9,74 +9,6 @@
 typedef uint16_t timer_module_counter_max_t;
 
 /**
- * Timer gate control interface.
- */
-typedef struct {
-
-	/**
-	 * Select gate count source.
-	 *
-	 * @param identifier of gate count source
-	 */
-	void (*selectSource)(char);
-
-	/**
-	 * Select gate control mode.
-	 *
-	 * @param identifier of gate control mode
-	 */
-	void (*selectMode)(char);
-
-	/**
-	 * Get current state of gate value.
-	 *
-	 * @return true if high-level, false if low-level
-	 */
-	bool (*getState)(void);
-
-	/**
-	 * Start single pulse aquisition.
-	 *
-	 * This method can be used when gate control mode is SINGLE_PULSE.
-	 * If interrupt is enabled at
-	 * TimerGateControlInterruptService#enableInterrupt, a interrupt
-	 * occur at the end of aquisition.
-	 * If you don't use interrupt, TimerGateControl#isWaitingSinglePulse
-	 * is can be used for aquisition of a single pulse.
-	 *
-	 * example:
-	 * {@code
-	 * // timer module setup
-	 * const TimerModule* tm = Hardware.Timer1Module;
-	 * tm->enable();
-	 * tm->selectClockSource(Timer1Module_ClockSource.XXX);
-	 * tm->selectPrescaler(Timer1Module_Prescaler.XXX);
-	 * tm->setMode(Timer1Module_Mode.COUNTER);
-	 * tm->stop();
-	 * tm->setCount(0);
-	 * // timer gate control setup
-	 * const TimerGateControl* tgc = tm->Timer1GateControl;
-	 * tgc->selectSource(Timer1GateControl_Source.XXX);
-	 * tgc->selectMode(Timer1GateControl_Mode.SINGLE_PULSE);
-	 * // do single pulse aquisition and get result value
-	 * tm->start();
-	 * tgc->startSinglePulseAquisition();
-	 * while(tgc->isWaitingSinglePulse());
-	 * uint16_t result = tm->getCount();
-	 * }
-	 */
-	void (*startSinglePulseAquisition)(void);
-
-	/**
-	 * Represent single pulse aquisition state.
-	 *
-	 * @return true if waiting single pulse edge<br>
-	 * 	false if aquisition is completed or not conducted.
-	 */
-	bool (*isWaitingSinglePulse)(void);
-} TimerGateControl;
-
-/**
  * Timer module interface.
  * If you want to use timer overflow interrupt, use
  * TimerxModuleInterruptService (x is number or char identifier).
@@ -151,5 +83,73 @@ typedef struct {
 	 */
 	void (*setPeriodCount)(timer_module_counter_max_t);
 } TimerModule;
+
+/**
+ * Timer gate control interface.
+ */
+typedef struct {
+
+	/**
+	 * Select gate count source.
+	 *
+	 * @param identifier of gate count source
+	 */
+	void (*selectSource)(char);
+
+	/**
+	 * Select gate control mode.
+	 *
+	 * @param identifier of gate control mode
+	 */
+	void (*selectMode)(char);
+
+	/**
+	 * Get current state of gate value.
+	 *
+	 * @return true if high-level, false if low-level
+	 */
+	bool (*getState)(void);
+
+	/**
+	 * Start single pulse aquisition.
+	 *
+	 * This method can be used when gate control mode is SINGLE_PULSE.
+	 * If interrupt is enabled at
+	 * TimerGateControlInterruptService#enableInterrupt, a interrupt
+	 * occur at the end of aquisition.
+	 * If you don't use interrupt, TimerGateControl#isWaitingSinglePulse
+	 * is can be used for aquisition of a single pulse.
+	 *
+	 * example:
+	 * {@code
+	 * // timer module setup
+	 * const TimerModule* tm = Hardware.Timer1Module;
+	 * tm->enable();
+	 * tm->selectClockSource(Timer1Module_ClockSource.XXX);
+	 * tm->selectPrescaler(Timer1Module_Prescaler.XXX);
+	 * tm->setMode(Timer1Module_Mode.COUNTER);
+	 * tm->stop();
+	 * tm->setCount(0);
+	 * // timer gate control setup
+	 * const TimerGateControl* tgc = tm->Timer1GateControl;
+	 * tgc->selectSource(Timer1GateControl_Source.XXX);
+	 * tgc->selectMode(Timer1GateControl_Mode.SINGLE_PULSE);
+	 * // do single pulse aquisition and get result value
+	 * tm->start();
+	 * tgc->startSinglePulseAquisition();
+	 * while(tgc->isWaitingSinglePulse());
+	 * uint16_t result = tm->getCount();
+	 * }
+	 */
+	void (*startSinglePulseAquisition)(void);
+
+	/**
+	 * Represent single pulse aquisition state.
+	 *
+	 * @return true if waiting single pulse edge<br>
+	 * 	false if aquisition is completed or not conducted.
+	 */
+	bool (*isWaitingSinglePulse)(void);
+} TimerGateControl;
 
 #endif /* TIMER_MODULE_H */
