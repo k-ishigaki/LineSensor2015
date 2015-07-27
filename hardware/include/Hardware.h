@@ -161,6 +161,102 @@ struct ADConverterModule_InputChannel {
 
 extern const struct ADConverterModule_InputChannel ADConverterModule_InputChannel;
 
+// ----------------------------------------------------------------------------
+// TimerModule
+// ----------------------------------------------------------------------------
+#include "TimerModule.h"
+
+struct Timer0Module_ClockSource {
+	/** external T0CKI pin */
+	char T0CKI;
+	/** capacitive sensing oscillator */
+	char CPSCLK;
+	/** internal instruction cycle clock */
+	char F_OSC_DIV_4;
+};
+extern const struct Timer0Module_ClockSource Timer0Module_ClockSource;
+
+struct Timer0Module_Prescaler {
+	char RATE_1_1;
+	char RATE_1_2;
+	char RATE_1_4;
+	char RATE_1_8;
+	char RATE_1_16;
+	char RATE_1_32;
+	char RATE_1_64;
+	char RATE_1_128;
+	char RATE_1_256;
+};
+extern const struct Timer0Module_Prescaler Timer0Module_Prescaler;
+
+// timer0 module postscaler is not selectable
+// timer0 module mode is no selectable
+
+struct Timer1Module_ClockSource {
+	/**
+	 * delicated low-power 32.768kHz oscillator circuit
+	 * between pins T1OSI and T1OSO
+	 */
+	char T1OSC_SYNC;
+	/**
+	 * delicated low-power 32.768kHz oscillator circuit
+	 * (not sync with Fosc)
+	 * between pins T1OSI and T1OSO
+	 */
+	char T1OSC_NOT_SYNC;
+	/** capacitive sensing oscillator */
+	char CPSCLK_SYNC;
+	/** capacitive sensing oscillator (not sync with Fosc) */
+	char CPSCLK_NOT_SYNC;
+	/** external clock on T1CKI pin */
+	char T1CKI_SYNC;
+	/** external clock on T1CKI pin (not sync with Fosc) */
+	char T1CKI_NOT_SYNC;
+	/** system clock */
+	char F_OSC;
+	/** internal instruction cycle clock */
+	char F_OSC_DIV_4;
+};
+extern const struct Timer1Module_ClockSource Timer1Module_ClockSource;
+
+struct Timer1Module_Prescaler {
+	char RATE_1_1;
+	char RATE_1_2;
+	char RATE_1_4;
+	char RATE_1_8;
+};
+extern const struct Timer1Module_Prescaler Timer1Module_Prescaler;
+
+struct Timer1Module_Mode {
+	char ALWAYS_COUNT;
+	char GATE_COUNT;
+};
+extern const struct Timer1Module_Mode Timer1Module_Mode;
+
+struct Timer1GateControl_Source {
+	/** timer1 gate pin */
+	char T1G;
+	/** overflow of timer0 */
+	char TIMER0_OVERFLOW;
+	/** comparator1 output */
+	char SYNC_C1OUT;
+	/** comparator2 output */
+	char SYNC_C2OUT;
+};
+extern const struct Timer1_GateControlSource Timer1_GateControlSource;
+
+struct Timer1GateControl_Mode {
+	char ENABLE_POSITIVE;
+	char ENABLE_NEGATIVE;
+	char TOGGLE_POSITIVE;
+	char TOGGLE_NEGATIVE;
+	char SINGLE_PULSE_POSITIVE;
+	char SINGLE_PULSE_NEGATIVE;
+	char TOGGLE_AND_SINGLE_PULSE_POSITIVE;
+	char TOGGLE_AND_SINGLE_PULSE_NEGATIVE;
+};
+extern const struct Timer1GateControl_Mode Timer1GateControl_Mode;
+
 /**
  * Hardware peripheral definition.
  */
@@ -171,6 +267,8 @@ struct Hardware {
 	const IOPort* PortB;
 	const IOPort* PortC;
 	const ADConverterModule* ADConverterModule;
+	const TimerModule* Timer0;
+	const TimerModule* Timer1;
 };
 
 /**

@@ -10,6 +10,9 @@ extern const IOPort PortB_instance;
 extern const IOPort PortC_instance;
 // declared at ADConverterModule.c
 extern const ADConverterModule ADConverterModule_instance;
+// declared at TimerModule.c
+extern const TimerModule Timer0Module_instance;
+extern const TimerModule Timer1Module_instance;
 
 const struct Hardware Hardware = {
 	&ADConverterModuleInterruptService_instance,
@@ -18,4 +21,6 @@ const struct Hardware Hardware = {
 	&PortB_instance,
 	&PortC_instance,
 	&ADConverterModule_instance,
+	&Timer0Module_instance,
+	&Timer1Module_instance,
 };
