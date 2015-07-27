@@ -262,6 +262,8 @@ extern const struct Timer1GateControl_Mode Timer1GateControl_Mode;
  */
 struct Hardware {
 	const InterruptService* ADConverterModuleInterruptService;
+	const InterruptService* Timer0ModuleInterruptService;
+	const InterruptService* Timer1ModuleInterruptService;
 	const OscillatorModule* OscillatorModule;
 	const InternalOscillator* InternalOscillator;
 	const PhaseLockedLoop* PhaseLockedLoop;
