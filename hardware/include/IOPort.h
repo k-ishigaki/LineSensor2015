@@ -27,6 +27,7 @@
  * }
  */
 typedef struct {
+
 	/**
 	 * Apply pin mode to selected pins.
 	 *
@@ -45,6 +46,7 @@ typedef struct {
 	 * @param pin mode
 	 */
 	void (*setPinModes)(uint8_t, char);
+
 	/**
 	 * Read levels on the digital input pins.
 	 *
