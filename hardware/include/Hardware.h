@@ -263,6 +263,8 @@ extern const struct Timer1GateControl_Mode Timer1GateControl_Mode;
 struct Hardware {
 	const InterruptService* ADConverterModuleInterruptService;
 	const OscillatorModule* OscillatorModule;
+	const InternalOscillator* InternalOscillator;
+	const PhaseLockedLoop* PhaseLockedLoop;
 	const IOPort* PortA;
 	const IOPort* PortB;
 	const IOPort* PortC;

@@ -1,8 +1,12 @@
 #include "Hardware.h"
 #include <stdbool.h>
 
+// function prototype
+void setupOscillator(void);
+
 static const IOPort* port;
 static const ADConverterModule* adc;
+static const TimerModule* timer;
 
 int adcResult;
 
@@ -15,12 +19,7 @@ InterruptListener adcListener = {
 };
 
 void setup() {
-	const OscillatorModule* osc = Hardware.OscillatorModule;
-	osc->InternalOscillator->selectFrequency(
-			InternalOscillator_Frequency.HF_8MHz);
-	osc->PhaseLockedLoop->enablePLL();
-	osc->selectSystemClockSource(
-			OscillatorModule_ClockSource.INTERNAL);
+	setupOscillator();
 	port = Hardware.PortA;
 	port->setPinModes(0b11111111, IOPort_PinMode.DIGITAL_OUTPUT);
 	adc = Hardware.ADConverterModule;
@@ -29,10 +28,16 @@ void setup() {
 	const InterruptService* adcIntService = Hardware.ADConverterModuleInterruptService;
 	adcIntService->registerListener(&adcListener, InterruptService_Priority.DEFAULT);
 	adcIntService->enableInterrupt();
+
+	timer = Hardware.Timer0;
+	timer->selectClockSource(Timer0Module_ClockSource.F_OSC_DIV_4);
+	timer->selectPrescaler(Timer0Module_Prescaler.RATE_1_256);
+	timer->setCount(0);
+	timer->enable();
 }
 
 void loop() {
-	port->writeDigital(0xFF);
+	port->write(0xFF);
 	adc->startConversion();
 }
 
@@ -41,5 +46,13 @@ int main(void) {
 	while(true) {
 		loop();
 	}
+}
+
+void setupOscillator() {
+	Hardware.OscillatorModule->selectSystemClockSource(
+			OscillatorModule_ClockSource.INTERNAL);
+	Hardware.InternalOscillator->selectFrequency(
+			InternalOscillator_Frequency.HF_8MHz);
+	Hardware.PhaseLockedLoop->enablePLL();
 }
 

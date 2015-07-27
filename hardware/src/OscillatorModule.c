@@ -49,7 +49,7 @@ static void InternalOscillator_selectFrequency(char frequency) {
 	OSCCONbits.IRCF = frequency;
 }
 
-static const InternalOscillator InternalOscillator_instance = {
+const InternalOscillator InternalOscillator_instance = {
 	InternalOscillator_selectFrequency,
 };
 
@@ -65,7 +65,7 @@ static void PhaseLockedLoop_disablePLL() {
 }
 
 
-static const PhaseLockedLoop PhaseLockedLoop_instance = {
+const PhaseLockedLoop PhaseLockedLoop_instance = {
 	PhaseLockedLoop_enablePLL,
 	PhaseLockedLoop_disablePLL,
 };
@@ -94,6 +94,4 @@ static void OscillatorModule_selectSystemClock(char clockSource) {
 
 const OscillatorModule OscillatorModule_instance = {
 	OscillatorModule_selectSystemClock,
-	&InternalOscillator_instance,
-	&PhaseLockedLoop_instance,
 };
