@@ -52,7 +52,8 @@ typedef struct {
 	 *
 	 * @return 1 if high level , else 0 for respective pins
 	 */
-	uint8_t (*readDigital)(void);
+	uint8_t (*read)(void);
+
 	/**
 	 * Write outputs to digital output pins.
 	 *
@@ -62,7 +63,7 @@ typedef struct {
 	 * 	1 = output high<br>
 	 * 	0 = output low
 	 */
-	void (*writeDigital)(uint8_t);
+	void (*write)(uint8_t);
 } IOPort;
 
 #endif /* IO_PORT_H */
