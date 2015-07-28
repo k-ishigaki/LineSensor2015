@@ -288,10 +288,151 @@ const TimerGateControl Timer1GateControl_instance = {
 	Timer1GateControl_isWaitingSinglePulse,
 };
 
+// ----------------------------------------------------------------------------
+// Timer2/4/6Module_Constants
+// ----------------------------------------------------------------------------
+enum Timer2Module_Prescaler_Constants {
+	T2_PRATE_1_1  = 0b00,
+	T2_PRATE_1_4  = 0b01,
+	T2_PRATE_1_16 = 0b10,
+	T2_PRATE_1_64 = 0b11,
+};
+const struct Timer2Module_Prescaler Timer2Module_Prescaler = {
+	T2_PRATE_1_1,
+	T2_PRATE_1_4,
+	T2_PRATE_1_16,
+	T2_PRATE_1_64,
+};
+
+enum Timer2Module_Postscaler_Constants {
+	T2_RATE_1_1  = 0b0000,
+	T2_RATE_1_2  = 0b0001,
+	T2_RATE_1_3  = 0b0010,
+	T2_RATE_1_4  = 0b0011,
+	T2_RATE_1_5  = 0b0100,
+	T2_RATE_1_6  = 0b0101,
+	T2_RATE_1_7  = 0b0110,
+	T2_RATE_1_8  = 0b0111,
+	T2_RATE_1_9  = 0b1000,
+	T2_RATE_1_10 = 0b1001,
+	T2_RATE_1_11 = 0b1010,
+	T2_RATE_1_12 = 0b1011,
+	T2_RATE_1_13 = 0b1100,
+	T2_RATE_1_14 = 0b1101,
+	T2_RATE_1_15 = 0b1110,
+	T2_RATE_1_16 = 0b1111,
+};
+const struct Timer2Module_Postscaler Timer2Module_Postscaler = {
+	T2_RATE_1_1,
+	T2_RATE_1_2,
+	T2_RATE_1_3,
+	T2_RATE_1_4,
+	T2_RATE_1_5,
+	T2_RATE_1_6,
+	T2_RATE_1_7,
+	T2_RATE_1_8,
+	T2_RATE_1_9,
+	T2_RATE_1_10,
+	T2_RATE_1_11,
+	T2_RATE_1_12,
+	T2_RATE_1_13,
+	T2_RATE_1_14,
+	T2_RATE_1_15,
+	T2_RATE_1_16,
+};
+
 #endif
 
-#define EXIT_LOOP
+// ----------------------------------------------------------------------------
+// Timer2/4/6Module
+// ----------------------------------------------------------------------------
+#if !defined(TIMER2_MODULE_DECLARED)
+#define TIMER2_MODULE_DECLARED
 
+#define TimerxModule_(name) Timer2Module_##name
+#define TMRx TMR2
+#define TMRxON T2CONbits.TMR2ON
+#define TxCKPS T2CONbits.T2CKPS
+#define TxOUTPS T2CONbits.T2OUTPS
+#define PRx PR2
+
+#elif !defined(TIMER4_MODULE_DECLARED)
+#define TIMER4_MODULE_DECLARED
+
+#define TimerxModule_(name) Timer4Module_##name
+#define TMRx TMR4
+#define TMRxON T4CONbits.TMR4ON
+#define TxCKPS T4CONbits.T4CKPS
+#define TxOUTPS T4CONbits.T4OUTPS
+#define PRx PR4
+
+#elif !defined(TIMER6_MODULE_DECLARED)
+#define TIMER6_MODULE_DECLARED
+
+#define TimerxModule_(name) Timer6Module_##name
+#define TMRx TMR6
+#define TMRxON T6CONbits.TMR6ON
+#define TxCKPS T6CONbits.T6CKPS
+#define TxOUTPS T6CONbits.T6OUTPS
+#define PRx PR6
+
+#define EXIT_LOOP
+#endif
+
+static timer_module_counter_max_t TimerxModule_(getCount)() {
+	return TMRx;
+}
+
+static void TimerxModule_(setCount)(timer_module_counter_max_t count) {
+	TMRx = count;
+}
+
+static void TimerxModule_(enable)() {
+	TMRxON = 1;
+}
+
+static void TimerxModule_(disable)() {
+	TMRxON = 0;
+}
+
+static void TimerxModule_(selectClockSource)(char clockSource) {
+	// clock source is fixed to Fosc/4
+}
+
+static void TimerxModule_(selectPrescaler)(char prescaler) {
+	TxCKPS = prescaler;
+}
+
+static void TimerxModule_(selectPostscaler)(char postscaler) {
+	TxOUTPS = postscaler;
+}
+
+static void TimerxModule_(selectMode)(char mode) {
+	// operation is fixed to timer mode
+}
+
+static void TimerxModule_(setPeriodCount)(timer_module_counter_max_t count) {
+	PRx = count;
+}
+
+const TimerModule TimerxModule_(instance) = {
+	TimerxModule_(getCount),
+	TimerxModule_(setCount),
+	TimerxModule_(enable),
+	TimerxModule_(disable),
+	TimerxModule_(selectClockSource),
+	TimerxModule_(selectPrescaler),
+	TimerxModule_(selectPostscaler),
+	TimerxModule_(selectMode),
+	TimerxModule_(setPeriodCount),
+};
+
+#undef TimerxModule_
+#undef TMRx
+#undef TMRxON
+#undef TxCKPS
+#undef TxOUTPS
+#undef PRx
 
 #ifndef EXIT_LOOP
 #include "TimerModule.c"

@@ -257,6 +257,38 @@ struct Timer1GateControl_Mode {
 };
 extern const struct Timer1GateControl_Mode Timer1GateControl_Mode;
 
+// timer2/4/6 module have only one clock source (Fosc/4)
+
+struct Timer2Module_Prescaler {
+	char RATE_1_1;
+	char RATE_1_4;
+	char RATE_1_16;
+	char RATE_1_64;
+};
+extern const struct Timer2Module_Prescaler Timer2Module_Prescaler;
+
+struct Timer2Module_Postscaler {
+	char RATE_1_1;
+	char RATE_1_2;
+	char RATE_1_3;
+	char RATE_1_4;
+	char RATE_1_5;
+	char RATE_1_6;
+	char RATE_1_7;
+	char RATE_1_8;
+	char RATE_1_9;
+	char RATE_1_10;
+	char RATE_1_11;
+	char RATE_1_12;
+	char RATE_1_13;
+	char RATE_1_14;
+	char RATE_1_15;
+	char RATE_1_16;
+};
+extern const struct Timer2Module_Postscaler Timer2Module_Postscaler;
+
+// timer2/4/6 module have only one mode (timer mode)
+
 /**
  * Hardware peripheral definition.
  */
@@ -274,6 +306,9 @@ struct Hardware {
 	const TimerModule* Timer0;
 	const TimerModule* Timer1;
 	const TimerGateControl* Timer1GateControl;
+	const TimerModule* Timer2;
+	const TimerModule* Timer4;
+	const TimerModule* Timer6;
 };
 
 /**
