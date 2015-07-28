@@ -4,6 +4,9 @@
 extern const InterruptService ADConverterModuleInterruptService_instance;
 extern const InterruptService Timer0ModuleInterruptService_instance;
 extern const InterruptService Timer1ModuleInterruptService_instance;
+extern const InterruptService Timer2ModuleInterruptService_instance;
+extern const InterruptService Timer4ModuleInterruptService_instance;
+extern const InterruptService Timer6ModuleInterruptService_instance;
 // declared at OscillatorModule.c
 extern const OscillatorModule OscillatorModule_instance;
 extern const InternalOscillator InternalOscillator_instance;
@@ -26,6 +29,9 @@ const struct Hardware Hardware = {
 	&ADConverterModuleInterruptService_instance,
 	&Timer0ModuleInterruptService_instance,
 	&Timer1ModuleInterruptService_instance,
+	&Timer2ModuleInterruptService_instance,
+	&Timer4ModuleInterruptService_instance,
+	&Timer6ModuleInterruptService_instance,
 	&OscillatorModule_instance,
 	&InternalOscillator_instance,
 	&PhaseLockedLoop_instance,

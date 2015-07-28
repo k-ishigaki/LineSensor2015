@@ -95,6 +95,27 @@ static void registerHandler(void (*handler)(), char priority) {
 #define PIRbit PIR1bits.TMR1IF
 #define PIEbit PIE1bits.TMR1IE
 
+#elif !defined(TIMER2_MODULE_INTERRUPT_SERVICE_DECLARED)
+#define TIMER2_MODULE_INTERRUPT_SERVICE_DECLARED
+
+#define InterruptService_(name) Timer2ModuleInterruptService_##name
+#define PIRbit PIR1bits.TMR2IF
+#define PIEbit PIE1bits.TMR2IE
+
+#elif !defined(TIMER4_MODULE_INTERRUPT_SERVICE_DECLARED)
+#define TIMER4_MODULE_INTERRUPT_SERVICE_DECLARED
+
+#define InterruptService_(name) Timer4ModuleInterruptService_##name
+#define PIRbit PIR3bits.TMR4IF
+#define PIEbit PIE3bits.TMR4IE
+
+#elif !defined(TIMER6_MODULE_INTERRUPT_SERVICE_DECLARED)
+#define TIMER6_MODULE_INTERRUPT_SERVICE_DECLARED
+
+#define InterruptService_(name) Timer6ModuleInterruptService_##name
+#define PIRbit PIR3bits.TMR6IF
+#define PIEbit PIE3bits.TMR6IE
+
 #define EXIT_LOOP
 #endif /* AD_CONVERTER_MODULE_INTERRUPT_SERVICE_DECLARED */
 
