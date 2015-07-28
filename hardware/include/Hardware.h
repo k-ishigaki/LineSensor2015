@@ -296,6 +296,7 @@ struct Hardware {
 	const InterruptService* ADConverterModuleInterruptService;
 	const InterruptService* Timer0ModuleInterruptService;
 	const InterruptService* Timer1ModuleInterruptService;
+	const InterruptService* Timer1GateControlInterruptService;
 	const InterruptService* Timer2ModuleInterruptService;
 	const InterruptService* Timer4ModuleInterruptService;
 	const InterruptService* Timer6ModuleInterruptService;

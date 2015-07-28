@@ -102,6 +102,13 @@ static void registerHandler(void (*handler)(), char priority) {
 #define PIRbit PIR1bits.TMR2IF
 #define PIEbit PIE1bits.TMR2IE
 
+#elif !defined(TIMER1_GATE_CONTROL_INTERRUPT_SERVICE_DECLARED)
+#define TIMER1_GATE_CONTROL_INTERRUPT_SERVICE_DECLARED
+
+#define InterruptService_(name) Timer1GateControlInterruptService_##name
+#define PIRbit PIR1bits.TMR1GIF
+#define PIEbit PIE1bits.TMR1GIE
+
 #elif !defined(TIMER4_MODULE_INTERRUPT_SERVICE_DECLARED)
 #define TIMER4_MODULE_INTERRUPT_SERVICE_DECLARED
 
