@@ -56,11 +56,11 @@ static void Timer0Module_setCount(timer_module_counter_max_t count) {
 }
 
 static void Timer0Module_enable() {
-	// timer1 module is always enabled
+	// timer0 module is always enabled
 }
 
 static void Timer0Module_disable() {
-	// timer1 module is always enabled
+	// timer0 module is always enabled
 }
 
 static void Timer0Module_selectClockSource(char clockSource) {
