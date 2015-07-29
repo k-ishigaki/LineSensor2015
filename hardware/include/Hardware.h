@@ -190,7 +190,6 @@ struct Timer0Module_Prescaler {
 extern const struct Timer0Module_Prescaler Timer0Module_Prescaler;
 
 // timer0 module postscaler is not selectable
-// timer0 module mode is no selectable
 
 struct Timer1Module_ClockSource {
 	/**
@@ -226,12 +225,6 @@ struct Timer1Module_Prescaler {
 	char RATE_1_8;
 };
 extern const struct Timer1Module_Prescaler Timer1Module_Prescaler;
-
-struct Timer1Module_Mode {
-	char ALWAYS_COUNT;
-	char GATE_COUNT;
-};
-extern const struct Timer1Module_Mode Timer1Module_Mode;
 
 struct Timer1GateControl_Source {
 	/** timer1 gate pin */
@@ -286,8 +279,6 @@ struct Timer2Module_Postscaler {
 	char RATE_1_16;
 };
 extern const struct Timer2Module_Postscaler Timer2Module_Postscaler;
-
-// timer2/4/6 module have only one mode (timer mode)
 
 /**
  * Hardware peripheral definition.

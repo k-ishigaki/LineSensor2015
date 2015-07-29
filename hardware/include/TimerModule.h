@@ -67,13 +67,6 @@ typedef struct {
 	void (*selectPostscaler)(char);
 
 	/**
-	 * Select operating mode of timer module.
-	 *
-	 * @param operating mode identifier
-	 */
-	void (*selectMode)(char);
-
-	/**
 	 * Set timer period count.
 	 *
 	 * @param timer period count<br>

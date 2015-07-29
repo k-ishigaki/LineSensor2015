@@ -93,11 +93,6 @@ static void Timer0Module_selectPostScaler(char postscaler) {
 	// postscaler value is always 1:1
 }
 
-static void Timer0Module_selectMode(char mode) {
-	// if clock source is Fosc, operation is timer mode
-	// otherwise it is counter mode
-}
-
 static void Timer0Module_setPeriodCount(timer_module_counter_max_t period) {
 	// period count is fixed to 255 and not changeable
 }
@@ -110,7 +105,6 @@ const TimerModule Timer0Module_instance = {
 	Timer0Module_selectClockSource,
 	Timer0Module_selectPrescaler,
 	Timer0Module_selectPostScaler,
-	Timer0Module_selectMode,
 	Timer0Module_setPeriodCount,
 };
 
@@ -151,15 +145,6 @@ const struct Timer1Module_Prescaler Timer1Module_Prescaler = {
 	T1_RATE_1_8,
 };
 
-enum Timer1Module_Mode_Constants {
-	T1_ALWAYS_COUNT = 0,
-	T1_GATE_COUNT   = 1,
-};
-const struct Timer1Module_Mode Timer1Module_Mode = {
-	T1_ALWAYS_COUNT,
-	T1_GATE_COUNT,
-};
-
 // ----------------------------------------------------------------------------
 // Timer1Module
 // ----------------------------------------------------------------------------
@@ -198,10 +183,6 @@ static void Timer1Module_selectPostscaler(char postscaler) {
 	// postscaler is fixed to 1:1
 }
 
-static void Timer1Module_selectMode(char mode) {
-	T1GCONbits.TMR1GE = mode;
-}
-
 static void Timer1Module_setPeriodCount(timer_module_counter_max_t count) {
 	// period count is fixed to 65535 and not changeable
 }
@@ -214,7 +195,6 @@ const TimerModule Timer1Module_instance = {
 	Timer1Module_selectClockSource,
 	Timer1Module_selectPrescaler,
 	Timer1Module_selectPostscaler,
-	Timer1Module_selectMode,
 	Timer1Module_setPeriodCount,
 };
 
@@ -407,10 +387,6 @@ static void TimerxModule_(selectPostscaler)(char postscaler) {
 	TxOUTPS = postscaler;
 }
 
-static void TimerxModule_(selectMode)(char mode) {
-	// operation is fixed to timer mode
-}
-
 static void TimerxModule_(setPeriodCount)(timer_module_counter_max_t count) {
 	PRx = count;
 }
@@ -423,7 +399,6 @@ const TimerModule TimerxModule_(instance) = {
 	TimerxModule_(selectClockSource),
 	TimerxModule_(selectPrescaler),
 	TimerxModule_(selectPostscaler),
-	TimerxModule_(selectMode),
 	TimerxModule_(setPeriodCount),
 };
 
