@@ -238,6 +238,14 @@ const struct Timer1GateControl_Mode Timer1GateControl = {
 // ----------------------------------------------------------------------------
 // Timer1GateControl
 // ----------------------------------------------------------------------------
+static void Timer1GateControl_enable() {
+	T1GCONbits.TMR1GE = 1;
+}
+
+static void Timer1GateControl_disable() {
+	T1GCONbits.TMR1GE = 0;
+}
+
 static void Timer1GateControl_selectSource(char source) {
 	T1GCONbits.T1GSS = source;
 }
@@ -261,6 +269,8 @@ static bool Timer1GateControl_isWaitingSinglePulse() {
 }
 
 const TimerGateControl Timer1GateControl_instance = {
+	Timer1GateControl_enable,
+	Timer1GateControl_disable,
 	Timer1GateControl_selectSource,
 	Timer1GateControl_selectMode,
 	Timer1GateControl_getState,

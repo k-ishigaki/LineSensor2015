@@ -81,6 +81,15 @@ typedef struct {
  * Timer gate control interface.
  */
 typedef struct {
+	/**
+	 * Enable gate function.
+	 */
+	void (*enable)(void);
+
+	/**
+	 * Disable gate function.
+	 */
+	void (*disable)(void);
 
 	/**
 	 * Select gate count source.
