@@ -46,9 +46,9 @@
 #define OPERATING_FREQUENCY 32000000L
 
 // ----------------------------------------------------------------------------
-// InterruptVector
+// NativeInterrupts
 // ----------------------------------------------------------------------------
-#include "InterruptVector.h"
+#include "NativeInterrupts.h"
 
 struct InterruptService_Priority {
 	/** priority is dafault only */

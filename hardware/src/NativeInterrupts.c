@@ -164,5 +164,5 @@ const InterruptService InterruptService_(instance) = {
 #undef PIEbit
 
 #ifndef EXIT_LOOP
-#include "InterruptVector.c"
+#include "NativeInterrupts.c"
 #endif /* EXIT_LOOP */

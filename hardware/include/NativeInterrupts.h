@@ -1,8 +1,7 @@
-#ifndef INTERRUPT_SERVICE_H
-#define INTERRUPT_SERVICE_H
+#ifndef NATIVE_INTERRUPTS_H
+#define NATIVE_INTERRUPTS_H
 
 #include <stdbool.h>
-
 /**
  * A interface of interrupt listener.
  *
@@ -86,4 +85,4 @@ typedef struct {
 	void (*disableInterrupt)(void);
 } InterruptService;
 
-#endif /* INTERRUPT_SERVICE_H */
+#endif /* NATIVE_INTERRUPTS_H */
