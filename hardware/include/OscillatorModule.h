@@ -5,7 +5,7 @@ typedef struct {
 	/**
 	 * Select frequency of internal oscillator.
 	 * To find selectable frequencies, see Hardware.h.
-	 * @param frequency identifer
+	 * @param frequency identifier
 	 */
 	void (*selectFrequency)(char);
 } InternalOscillator;
@@ -27,7 +27,7 @@ typedef struct {
 	/**
 	 * Select a system clock Source.
 	 * To find settable clock sources, see OscillatorModule.c.
-	 * @param system clock source identifer
+	 * @param system clock source identifier
 	 */
 	void (*selectSystemClockSource)(char);
 } OscillatorModule;
