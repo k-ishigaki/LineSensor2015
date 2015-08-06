@@ -25,6 +25,22 @@ extern const TimerGateControl Timer1GateControl_instance;
 extern const TimerModule Timer2Module_instance;
 extern const TimerModule Timer4Module_instance;
 extern const TimerModule Timer6Module_instance;
+// declared at CCPModule.c
+extern const CaptureModule CaptureModule1_instance;
+extern const CaptureModule CaptureModule2_instance;
+extern const CaptureModule CaptureModule3_instance;
+extern const CaptureModule CaptureModule4_instance;
+extern const CaptureModule CaptureModule5_instance;
+extern const CompareModule CompareModule1_instance;
+extern const CompareModule CompareModule2_instance;
+extern const CompareModule CompareModule3_instance;
+extern const CompareModule CompareModule4_instance;
+extern const CompareModule CompareModule5_instance;
+extern const PWMModule PWMModule1_instance;
+extern const PWMModule PWMModule2_instance;
+extern const PWMModule PWMModule3_instance;
+extern const PWMModule PWMModule4_instance;
+extern const PWMModule PWMModule5_instance;
 
 const struct Hardware Hardware = {
 	&ADConverterModuleInterruptService_instance,
@@ -47,4 +63,19 @@ const struct Hardware Hardware = {
 	&Timer2Module_instance,
 	&Timer4Module_instance,
 	&Timer6Module_instance,
+	&CaptureModule1_instance,
+	&CaptureModule2_instance,
+	&CaptureModule3_instance,
+	&CaptureModule4_instance,
+	&CaptureModule5_instance,
+	&CompareModule1_instance,
+	&CompareModule2_instance,
+	&CompareModule3_instance,
+	&CompareModule4_instance,
+	&CompareModule5_instance,
+	&PWMModule1_instance,
+	&PWMModule2_instance,
+	&PWMModule3_instance,
+	&PWMModule4_instance,
+	&PWMModule5_instance,
 };

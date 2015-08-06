@@ -280,6 +280,83 @@ struct Timer2Module_Postscaler {
 };
 extern const struct Timer2Module_Postscaler Timer2Module_Postscaler;
 
+// ----------------------------------------------------------------------------
+// CCPModule
+// ----------------------------------------------------------------------------
+#include "CCPModule.h"
+
+struct CaptureModule_Mode {
+	char EVERY_FALLING_EDGE;
+	char EVERY_RISING_EDGE;
+	char EVERY_4TH_RISING_EDGE;
+	char EVERY_16TH_RISING_EDGE;
+};
+extern const struct CaptureModule_Mode CaptureModule_Mode;
+
+struct CompareModule_Mode {
+	/**
+	 * initialize ECCPx pin low
+	 *
+	 * set output on compare match (set CCPxIF)
+	 */
+	char LOW_TO_HIGH;
+	/**
+	 * initialize ECCPx pin high
+	 *
+	 * clear output on compare match (set CCPxIF)
+	 */
+	char HIGH_TO_LOW;
+	/**
+	 * generate software interrupt only
+	 *
+	 * ECCPx pin reverts to I/O state
+	 */
+	char SOFTWARE_INTERRUPT;
+	/**
+	 *  Special Event Trigger(not implemented on CCP4 and CCP5)
+	 *
+	 *  (ECCPx resets Timer, sets CCPxIF bit starts A/D conversion if A/D
+	 *  module is enabled)
+	 */
+	char SPECIAL_EVENT_TRIGGER;
+};
+extern const struct CompareModule_Mode CompareModule_Mode;
+
+struct PWMModule_BaseTimer {
+	char TIMER2;
+	char TIMER4;
+	char TIMER6;
+};
+extern const struct PWMModule_BaseTimer PWMModule_BaseTimer;
+
+struct PWMModule_OutputConfig {
+	char SINGLE;
+	char FULL_BRIDGE_FORWARD;
+	char HALF_BRIDGE;
+	char FULL_BRIDGE_REVERCE;
+};
+extern const struct PWMModule_OutputConfig PWMModule_OutputConfig;
+
+struct PWMModule_OutputPolarity {
+	/**
+	 * PxA, PxC active-high; PxB, PxD active-high
+	 */
+	char ACTIVE_HIGH_ACTIVE_HIGH;
+	/**
+	 * PxA, PxC active-high; PxB, PxD active-low
+	 */
+	char ACTIVE_HIGH_ACTIVE_LOW;
+	/**
+	 * PxA, PxC active-low; PxB, PxD active-high
+	 */
+	char ACTIVE_LOW_ACTIVE_HIGH;
+	/**
+	 * PxA, PxC active-low; PxB, PxD active-low
+	 */
+	char ACTIVE_LOW_ACTIVE_LOW;
+};
+extern const struct PWMModule_OutputPolarity PWMModule_OutputPolarity;
+
 /**
  * Hardware peripheral definition.
  */
@@ -304,6 +381,21 @@ struct Hardware {
 	const TimerModule* Timer2;
 	const TimerModule* Timer4;
 	const TimerModule* Timer6;
+	const CaptureModule* CaptureModule1;
+	const CaptureModule* CaptureModule2;
+	const CaptureModule* CaptureModule3;
+	const CaptureModule* CaptureModule4;
+	const CaptureModule* CaptureModule5;
+	const CompareModule* CompareModule1;
+	const CompareModule* CompareModule2;
+	const CompareModule* CompareModule3;
+	const CompareModule* CompareModule4;
+	const CompareModule* CompareModule5;
+	const PWMModule* PWMModule1;
+	const PWMModule* PWMModule2;
+	const PWMModule* PWMModule3;
+	const PWMModule* PWMModule4;
+	const PWMModule* PWMModule5;
 };
 
 /**
