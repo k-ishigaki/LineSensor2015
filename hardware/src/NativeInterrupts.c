@@ -124,7 +124,7 @@ static void registerHandler(void (*handler)(), char priority) {
 #define PIEbit PIE3bits.TMR6IE
 
 #define EXIT_LOOP
-#endif /* AD_CONVERTER_MODULE_INTERRUPT_SERVICE_DECLARED */
+#endif
 
 static InterruptListener* InterruptService_(listener) = &listener_dummy;
 
