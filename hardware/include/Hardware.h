@@ -357,6 +357,27 @@ struct PWMModule_OutputPolarity {
 };
 extern const struct PWMModule_OutputPolarity PWMModule_OutputPolarity;
 
+// ----------------------------------------------------------------------------
+// FixedVoltageReference
+// ----------------------------------------------------------------------------
+#include "FixedVoltageReference.h"
+
+struct FixedVoltageReference_Buffer1Reference {
+	char OFF;
+	char OUTPUT_1x;
+	char OUTPUT_2x;
+	char OUTPUT_4x;
+};
+extern const struct FixedVoltageReference_Buffer1Reference FixedVoltageReference_Buffer1Reference;
+
+struct FixedVoltageReference_Buffer2Reference {
+	char OFF;
+	char OUTPUT_1x;
+	char OUTPUT_2x;
+	char OUTPUT_4x;
+};
+extern const struct FixedVoltageReference_Buffer2Reference FixedVoltageReference_Buffer2Reference;
+
 /**
  * Hardware peripheral definition.
  */
@@ -401,6 +422,7 @@ struct Hardware {
 	const PWMModule* PWM3;
 	const PWMModule* PWM4;
 	const PWMModule* PWM5;
+	const FixedVoltageReference* FixedVoltageReference;
 };
 
 /**

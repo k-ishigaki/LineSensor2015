@@ -46,6 +46,8 @@ extern const PWMModule PWMModule2_instance;
 extern const PWMModule PWMModule3_instance;
 extern const PWMModule PWMModule4_instance;
 extern const PWMModule PWMModule5_instance;
+// declared at FixedVoltageReference.c
+extern const FixedVoltageReference FixedVoltageReference_instance;
 
 const struct Hardware Hardware = {
 	&ADConverterModuleInterruptService_instance,
@@ -88,4 +90,5 @@ const struct Hardware Hardware = {
 	&PWMModule3_instance,
 	&PWMModule4_instance,
 	&PWMModule5_instance,
+	&FixedVoltageReference_instance,
 };
