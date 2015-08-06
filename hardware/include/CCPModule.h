@@ -46,6 +46,12 @@ typedef struct {
 	uint16_t (*getCapturedCount)(void);
 } CaptureModule;
 
+/**
+ * Compare presetting count value with base timer count value.
+ *
+ * On compare matched, a event occur.
+ * The event may be user settable. (ex: software interrupt)
+ */
 typedef struct {
 	/**
 	 * Enable compare module
@@ -81,6 +87,9 @@ typedef struct {
 	void (*setComparedCount)(uint16_t);
 } CompareModule;
 
+/**
+ * Configurator of PWM output.
+ */
 typedef struct {
 	/**
 	 * Enable PWM module.
@@ -122,9 +131,5 @@ typedef struct {
 	 */
 	void (*selectOutputPolarity)(char);
 } PWMModule;
-
-
-
-
 
 #endif
