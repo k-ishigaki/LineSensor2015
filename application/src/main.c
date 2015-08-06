@@ -22,10 +22,10 @@ void setup() {
 	setupOscillator();
 	port = Hardware.PortA;
 	port->setPinModes(0b11111111, IOPort_PinMode.DIGITAL_OUTPUT);
-	adc = Hardware.ADConverterModule;
+	adc = Hardware.ADConverter;
 	adc->enable();
 	adc->selectInputChannel(ADConverterModule_InputChannel.AN0);
-	const InterruptService* adcIntService = Hardware.ADConverterModuleInterruptService;
+	const InterruptService* adcIntService = Hardware.ADConverterInterruptService;
 	adcIntService->registerListener(&adcListener, InterruptService_Priority.DEFAULT);
 	adcIntService->enableInterrupt();
 
@@ -49,7 +49,7 @@ int main(void) {
 }
 
 void setupOscillator() {
-	Hardware.OscillatorModule->selectSystemClockSource(
+	Hardware.Oscillator->selectSystemClockSource(
 			OscillatorModule_ClockSource.INTERNAL);
 	Hardware.InternalOscillator->selectFrequency(
 			InternalOscillator_Frequency.HF_8MHz);
