@@ -123,6 +123,41 @@ static void registerHandler(void (*handler)(), char priority) {
 #define PIRbit PIR3bits.TMR6IF
 #define PIEbit PIE3bits.TMR6IE
 
+#elif !defined(CCP1_MODULE_INTERRUPT_SERVICE_DECLARED)
+#define CCP1_MODULE_INTERRUPT_SERVICE_DECLARED
+
+#define InterruptService_(name) CCP1ModuleInterruptService_##name
+#define PIRbit PIR1bits.CCP1IF
+#define PIEbit PIE1bits.CCP1IE
+
+#elif !defined(CCP2_MODULE_INTERRUPT_SERVICE_DECLARED)
+#define CCP2_MODULE_INTERRUPT_SERVICE_DECLARED
+
+#define InterruptService_(name) CCP2ModuleInterruptService_##name
+#define PIRbit PIR2bits.CCP2IF
+#define PIEbit PIE2bits.CCP2IE
+
+#elif !defined(CCP3_MODULE_INTERRUPT_SERVICE_DECLARED)
+#define CCP3_MODULE_INTERRUPT_SERVICE_DECLARED
+
+#define InterruptService_(name) CCP3ModuleInterruptService_##name
+#define PIRbit PIR3bits.CCP3IF
+#define PIEbit PIE3bits.CCP3IE
+
+#elif !defined(CCP4_MODULE_INTERRUPT_SERVICE_DECLARED)
+#define CCP4_MODULE_INTERRUPT_SERVICE_DECLARED
+
+#define InterruptService_(name) CCP4ModuleInterruptService_##name
+#define PIRbit PIR3bits.CCP4IF
+#define PIEbit PIE3bits.CCP4IE
+
+#elif !defined(CCP5_MODULE_INTERRUPT_SERVICE_DECLARED)
+#define CCP5_MODULE_INTERRUPT_SERVICE_DECLARED
+
+#define InterruptService_(name) CCP5ModuleInterruptService_##name
+#define PIRbit PIR3bits.CCP5IF
+#define PIEbit PIE3bits.CCP5IE
+
 #define EXIT_LOOP
 #endif
 

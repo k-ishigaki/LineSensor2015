@@ -368,6 +368,11 @@ struct Hardware {
 	const InterruptService* Timer2ModuleInterruptService;
 	const InterruptService* Timer4ModuleInterruptService;
 	const InterruptService* Timer6ModuleInterruptService;
+	const InterruptService* CCP1ModuleInterruptService;
+	const InterruptService* CCP2ModuleInterruptService;
+	const InterruptService* CCP3ModuleInterruptService;
+	const InterruptService* CCP4ModuleInterruptService;
+	const InterruptService* CCP5ModuleInterruptService;
 	const OscillatorModule* OscillatorModule;
 	const InternalOscillator* InternalOscillator;
 	const PhaseLockedLoop* PhaseLockedLoop;

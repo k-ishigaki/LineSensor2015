@@ -8,6 +8,11 @@ extern const InterruptService Timer1GateControlInterruptService_instance;
 extern const InterruptService Timer2ModuleInterruptService_instance;
 extern const InterruptService Timer4ModuleInterruptService_instance;
 extern const InterruptService Timer6ModuleInterruptService_instance;
+extern const InterruptService CCP1ModuleInterruptService_instance;
+extern const InterruptService CCP2ModuleInterruptService_instance;
+extern const InterruptService CCP3ModuleInterruptService_instance;
+extern const InterruptService CCP4ModuleInterruptService_instance;
+extern const InterruptService CCP5ModuleInterruptService_instance;
 // declared at OscillatorModule.c
 extern const OscillatorModule OscillatorModule_instance;
 extern const InternalOscillator InternalOscillator_instance;
@@ -50,6 +55,11 @@ const struct Hardware Hardware = {
 	&Timer2ModuleInterruptService_instance,
 	&Timer4ModuleInterruptService_instance,
 	&Timer6ModuleInterruptService_instance,
+	&CCP1ModuleInterruptService_instance,
+	&CCP2ModuleInterruptService_instance,
+	&CCP3ModuleInterruptService_instance,
+	&CCP4ModuleInterruptService_instance,
+	&CCP5ModuleInterruptService_instance,
 	&OscillatorModule_instance,
 	&InternalOscillator_instance,
 	&PhaseLockedLoop_instance,
