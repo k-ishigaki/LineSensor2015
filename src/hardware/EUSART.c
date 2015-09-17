@@ -4,51 +4,51 @@
 // ----------------------------------------------------------------------------
 // EUSART constants
 // ----------------------------------------------------------------------------
-enum UniversalReceiverTransmitter_Mode_Constant {
+enum EUSART_Mode_Constant {
 	ASYNCHRONOUS,
 	SYNCHRONOUS_MASTER,
 	SYNCHRONOUS_SLAVE,
 };
-const struct UniversalReceiverTransmitter_Mode UniversalReceiverTransmitter_Mode = {
+const struct EUSART_Mode EUSART_Mode = {
 	ASYNCHRONOUS,
 	SYNCHRONOUS_MASTER,
 	SYNCHRONOUS_SLAVE,
 };
 
-enum UniversalReceiverTransmitter_ReceiveMode_Constant {
+enum EUSART_ReceiveMode_Constant {
 	R_EIGHT_BIT                  = 0b00,
 	R_NINE_BIT                   = 0b01,
 	R_NINE_BIT_ADDRESS_DETECTION = 0b11,
 };
-const struct UniversalReceiverTransmitter_ReceiveMode UniversalReceiverTransmitter_ReceiveMode = {
+const struct EUSART_ReceiveMode EUSART_ReceiveMode = {
 	R_EIGHT_BIT,
 	R_NINE_BIT,
 	R_NINE_BIT_ADDRESS_DETECTION,
 };
 
-enum UniversalReceiverTransmitter_TransmitMode_Constant {
+enum EUSART_TransmitMode_Constant {
 	T_EIGHT_BIT = 0,
 	T_NINE_BIT  = 1,
 };
-const struct UniversalReceiverTransmitter_TransmitMode UniversalReceiverTransmitter_TransmitMode = {
+const struct EUSART_TransmitMode EUSART_TransmitMode = {
 	T_EIGHT_BIT,
 	T_NINE_BIT,
 };
 
-enum UniversalReceiverTransmitter_Polarity_Constant {
+enum EUSART_Polarity_Constant {
 	NON_INVERTED_OR_FALLING_EDGE = 0,
 	INVERTED_OR_RISING_EDGE      = 1,
 };
-const struct UniversalReceiverTransmitter_Polarity UniversalReceiverTransmitter_Polarity = {
+const struct EUSART_Polarity EUSART_Polarity = {
 	NON_INVERTED_OR_FALLING_EDGE,
 	INVERTED_OR_RISING_EDGE,
 };
 
-enum UniversalReceiverTransmitter_Error_Constant {
+enum EUSART_Error_Constant {
 	FRAMING = 0b10,
 	OVERRUN = 0b01,
 };
-const struct UniversalReceiverTransmitter_Error UniversalReceiverTransmitter_Error = {
+const struct EUSART_Error EUSART_Error = {
 	FRAMING,
 	OVERRUN,
 };
@@ -56,52 +56,52 @@ const struct UniversalReceiverTransmitter_Error UniversalReceiverTransmitter_Err
 // ----------------------------------------------------------------------------
 // EUSART interface
 // ----------------------------------------------------------------------------
-#define UniversalReceiverTransmitter_(name) UniversalReceiverTransmitter_##name
+#define EUSART_(name) EUSART_##name
 
-static uint16_t UniversalReceiverTransmitter_(read)() {
+static uint16_t EUSART_(read)() {
 	// RCSTA<0> = RX9D
 	return RCREG + ((uint16_t)(RCSTA & 0b00000001) << 8);
 }
 
-static bool UniversalReceiverTransmitter_(hasReceived)() {
+static bool EUSART_(hasReceived)() {
 	return PIR1bits.RCIF;
 }
 
-static void UniversalReceiverTransmitter_(write)(uint16_t data) {
+static void EUSART_(write)(uint16_t data) {
 	while(!TXSTAbits.TRMT);
 	TXSTAbits.TX9D = data >> 8;
 	TXREG = data;
 }
 
-static bool UniversalReceiverTransmitter_(isTransmitting)() {
+static bool EUSART_(isTransmitting)() {
 	return !TXSTAbits.TRMT;
 }
 
-static void UniversalReceiverTransmitter_(resetReceiver)() {
+static void EUSART_(resetReceiver)() {
 	RCSTAbits.SPEN = 0;
 	RCSTAbits.SPEN = 1;
 }
 
-static uint8_t UniversalReceiverTransmitter_(getErrors)() {
+static uint8_t EUSART_(getErrors)() {
 	// get FERR bit and OERR bit
 	// RCSTA<2> = FERR
 	// RCSTA<1> = OERR
 	return (RCSTA & 0b00000110) >> 1;
 }
 
-static const UniversalReceiverTransmitter UniversalReceiverTransmitter_(instance) = {
-	UniversalReceiverTransmitter_(read),
-	UniversalReceiverTransmitter_(hasReceived),
-	UniversalReceiverTransmitter_(write),
-	UniversalReceiverTransmitter_(isTransmitting),
-	UniversalReceiverTransmitter_(resetReceiver),
-	UniversalReceiverTransmitter_(getErrors),
+static const struct USART EUSART_(instance) = {
+	EUSART_(read),
+	EUSART_(hasReceived),
+	EUSART_(write),
+	EUSART_(isTransmitting),
+	EUSART_(resetReceiver),
+	EUSART_(getErrors),
 };
 
 // ----------------------------------------------------------------------------
 // EUSART constructor
 // ----------------------------------------------------------------------------
-const UniversalReceiverTransmitter* UniversalReceiverTransmitter_(constructor)(
+const struct USART* EUSART_(constructor)(
 		char mode,
 		char receiveMode,
 		char transmitMode,
@@ -125,6 +125,6 @@ const UniversalReceiverTransmitter* UniversalReceiverTransmitter_(constructor)(
 	RCSTAbits.CREN = 1;
 	RCSTAbits.SPEN = 1;
 	// return instance
-	return &UniversalReceiverTransmitter_(instance);
+	return &EUSART_(instance);
 }
 

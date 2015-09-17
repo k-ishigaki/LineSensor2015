@@ -1,9 +1,9 @@
-#ifndef UNIVERSAL_RECEIVER_TRANSMITTER_H
-#define UNIVERSAL_RECEIVER_TRANSMITTER_H
+#ifndef USART_H
+#define USART_H
 
 #include <stdint.h>
 
-typedef struct {
+struct USART {
 	/**
 	 * Read from receive buffer.
 	 *
@@ -17,9 +17,9 @@ typedef struct {
 	/**
 	 * Represent receive buffer status.
 	 *
-	 * If UniversalReceiverTransmitter#read method can be used, this
+	 * If USART#read method can be used, this
 	 * method returns true.
-	 * To read from received buffer, see UniversalReceiverTransmitter#read.
+	 * To read from received buffer, see USART#read.
 	 *
 	 * @return true if received data exits<br>
 	 * 	false if no data exits.
@@ -31,7 +31,7 @@ typedef struct {
 	 *
 	 * Before writing to the buffer, you must confirm that it is empty.
 	 * {@code
-	 * const UniversalReceiverTransmitter* serial = Hardware.EUSART;
+	 * const USART* serial = Hardware.EUSART;
 	 * ... (setup serial module)
 	 * while(serial->isTransmitting);
 	 * serial->write(data);
@@ -44,9 +44,9 @@ typedef struct {
 	/**
 	 * Represent transmit buffer status.
 	 *
-	 * If UniversalReceiverTransmitter#write method can be used, this
+	 * If USART#write method can be used, this
 	 * method returns true.
-	 * To write to transmit buffer, see UniversalReceiverTransmitter#write.
+	 * To write to transmit buffer, see USART#write.
 	 * 
 	 * @return true if transmit buffer is full<br>
 	 * 	false if it is empty
@@ -56,7 +56,7 @@ typedef struct {
 	/**
 	 * Reset reciver and re-enable it.
 	 *
-	 * When UniversalReceiverTransmitter#getErrors != 0, clearing flag
+	 * When USART#getErrors != 0, clearing flag
 	 * may be needed.
 	 * Using this method, the errors can be cleared.
 	 */
@@ -66,23 +66,23 @@ typedef struct {
 	 * Get errors in receiver.
 	 *
 	 * If you want to detect which errors occured, use
-	 * UniversalReceiverTransmitter_Error constants defined at Hardware.h.
+	 * USART_Error constants defined at Hardware.h.
 	 * {@code
-	 * const UniversalReceiverTransmitter uasrt = Hardware.
-	 * 	UniversalReceiverTransmitter(...);
+	 * const USART uasrt = Hardware.
+	 * 	USART(...);
 	 * uint8_t error = usart->getErrors();
-	 * if(error & UniversalReceiverTransmitter_Error.OVERRUN) {
+	 * if(error & USART_Error.OVERRUN) {
 	 * 	// overrun error occured
-	 * } else if (error & UniversalReceiverTransmitter_Error.FRAMING) {
+	 * } else if (error & USART_Error.FRAMING) {
 	 * 	// framing error occured
 	 * }
 	 * }
 	 *
 	 * @return 0 if no error occurs<br>
 	 * 	the kinds of error can be detect by<br>
-	 * 	UniversalReceiverTransmitter_Error
+	 * 	USART_Error
 	 */
 	uint8_t (*getErrors)(void);
-} UniversalReceiverTransmitter;
+};
 
 #endif /* UNIVERSAL_RECEIVER_TRANSMITTER_H */
