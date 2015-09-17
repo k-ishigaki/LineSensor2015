@@ -23,9 +23,9 @@
 
 static const IOPort* portA;
 static const IOPort* portC;
-static const ADConverterModule* adc;
+static const struct ADConverter* adc;
 static const TimerModule* timer;
-static const UniversalReceiverTransmitter* serial;
+static const struct USART* serial;
 
 void onADCInterrupt() {
 	// do something
@@ -82,7 +82,7 @@ void setup() {
 	// all leds off
 	portC->write(RC2_D0_PIN | RC3_D1_PIN | RC4_D2_PIN | RC5_D3_PIN, 0x00);
 
-	adc = Hardware.ADConverter(
+	adc = Hardware.ADConverterModule(
 			ADConverterModule_PositiveReference.VDD,
 			ADConverterModule_NegativeReference.VSS,
 			ADConverterModule_ConversionClock.F_OSC_DIV_32);
@@ -98,10 +98,10 @@ void setup() {
 	timer->start();
 
 	serial = Hardware.EUSART(
-			UniversalReceiverTransmitter_Mode.ASYNCHRONOUS,
-			UniversalReceiverTransmitter_ReceiveMode.EIGHT_BIT,
-			UniversalReceiverTransmitter_TransmitMode.EIGHT_BIT,
-			UniversalReceiverTransmitter_Polarity.NON_INVERTED_OR_FALLING_EDGE,
+			EUSART_Mode.ASYNCHRONOUS,
+			EUSART_ReceiveMode.EIGHT_BIT,
+			EUSART_TransmitMode.EIGHT_BIT,
+			EUSART_Polarity.NON_INVERTED_OR_FALLING_EDGE,
 			9600);
 }
 
