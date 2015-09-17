@@ -30,22 +30,22 @@ extern const TimerModule* Timer2Module_constructor(char, char, uint8_t);
 extern const TimerModule* Timer4Module_constructor(char, char, uint8_t);
 extern const TimerModule* Timer6Module_constructor(char, char, uint8_t);
 // declared at CCPModule.c
-extern const CaptureModule* CaptureModule1_constructor(char);
-extern const CaptureModule* CaptureModule2_constructor(char);
-extern const CaptureModule* CaptureModule3_constructor(char);
-extern const CaptureModule* CaptureModule4_constructor(char);
-extern const CompareModule* CompareModule1_constructor(char);
-extern const CompareModule* CompareModule2_constructor(char);
-extern const CompareModule* CompareModule3_constructor(char);
-extern const CompareModule* CompareModule4_constructor(char);
-extern const PWMModule* PWMModule1_constructor(char, char, char);
-extern const PWMModule* PWMModule2_constructor(char, char, char);
-extern const PWMModule* PWMModule3_constructor(char, char);
-extern const PWMModule* PWMModule4_constructor(char, char);
+extern const struct Capture* CaptureModule1_constructor(char);
+extern const struct Capture* CaptureModule2_constructor(char);
+extern const struct Capture* CaptureModule3_constructor(char);
+extern const struct Capture* CaptureModule4_constructor(char);
+extern const struct Compare* CompareModule1_constructor(char);
+extern const struct Compare* CompareModule2_constructor(char);
+extern const struct Compare* CompareModule3_constructor(char);
+extern const struct Compare* CompareModule4_constructor(char);
+extern const struct PWM* PWMModule1_constructor(char, char, char);
+extern const struct PWM* PWMModule2_constructor(char, char, char);
+extern const struct PWM* PWMModule3_constructor(char, char);
+extern const struct PWM* PWMModule4_constructor(char, char);
 // declared at FixedVoltageReference.c
 extern void FixedVoltageReference_configure(char, char);
-// declared at UniversalReceiverTransmitter.c
-extern const UniversalReceiverTransmitter* UniversalReceiverTransmitter_constructor(char, char, char, char, unsigned long);
+// declared at EUSART.c
+extern const struct USART* EUSART_constructor(char, char, char, char, unsigned long);
 
 const struct Hardware Hardware = {
 	ADConverterModuleInterruptService_constructor,
@@ -83,5 +83,5 @@ const struct Hardware Hardware = {
 	PWMModule3_constructor,
 	PWMModule4_constructor,
 	FixedVoltageReference_configure,
-	UniversalReceiverTransmitter_constructor,
+	EUSART_constructor,
 };

@@ -131,11 +131,11 @@ static uint16_t CaptureModule_(getCapturedCount)() {
 	return ((uint16_t)CCPRxH << 8) + CCPRxL;
 }
 
-static const CaptureModule CaptureModule_(instance) = {
+static const struct Capture CaptureModule_(instance) = {
 	CaptureModule_(getCapturedCount),
 };
 
-const CaptureModule* CaptureModule_(constructor)(
+const struct Capture* CaptureModule_(constructor)(
 		char mode) {
 	CCPxM = mode;
 	return &CaptureModule_(instance);
@@ -153,11 +153,11 @@ static void CompareModule_(setComparedCount)(uint16_t count) {
 	CCPRxL = count;
 }
 
-static const CompareModule CompareModule_(instance) = {
+static const struct Compare CompareModule_(instance) = {
 	CompareModule_(setComparedCount),
 };
 
-const CompareModule* CompareModule_(constructor)(
+const struct Compare* CompareModule_(constructor)(
 		char mode) {
 	CCPxM = mode;
 	return &CompareModule_(instance);
@@ -175,12 +175,12 @@ static void PWMModule_(setDutyCycle)(uint16_t dutyCycle) {
 	DCxB = dutyCycle;
 }
 
-static const PWMModule PWMModule_(instance) = {
+static const struct PWM PWMModule_(instance) = {
 	PWMModule_(setDutyCycle),
 };
 
 #ifdef PxM
-const PWMModule* PWMModule_(constructor)(
+const struct PWM* PWMModule_(constructor)(
 		char baseTimer,
 		char outputConfig,
 		char outputPolarity) {
@@ -190,7 +190,7 @@ const PWMModule* PWMModule_(constructor)(
 	return &PWMModule_(instance);
 }
 #else
-const PWMModule* PWMModule_(constructor)(
+const struct PWM* PWMModule_(constructor)(
 		char baseTimer,
 		char outputPolarity) {
 	CxTSEL = baseTimer;

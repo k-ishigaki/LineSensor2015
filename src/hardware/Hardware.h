@@ -424,11 +424,11 @@ struct FixedVoltageReference_Buffer2Reference {
 extern const struct FixedVoltageReference_Buffer2Reference FixedVoltageReference_Buffer2Reference;
 
 // ----------------------------------------------------------------------------
-// UniversalReceiverTransmitter
+// USART
 // ----------------------------------------------------------------------------
-#include "UniversalReceiverTransmitter.h"
+#include "USART.h"
 
-struct UniversalReceiverTransmitter_Mode {
+struct EUSART_Mode {
 	/**
 	 * Asynchronous mode.
 	 */
@@ -442,9 +442,9 @@ struct UniversalReceiverTransmitter_Mode {
 	 */
 	char SYNCHRONOUS_SLAVE;
 };
-extern const struct UniversalReceiverTransmitter_Mode UniversalReceiverTransmitter_Mode;
+extern const struct EUSART_Mode EUSART_Mode;
 
-struct UniversalReceiverTransmitter_ReceiveMode {
+struct EUSART_ReceiveMode {
 	/**
 	 * 8bit reception mode.
 	 */
@@ -458,9 +458,9 @@ struct UniversalReceiverTransmitter_ReceiveMode {
 	 */
 	char NINE_BIT_ADDRESS_DETECTION;
 };
-extern const struct UniversalReceiverTransmitter_ReceiveMode UniversalReceiverTransmitter_ReceiveMode;
+extern const struct EUSART_ReceiveMode EUSART_ReceiveMode;
 
-struct UniversalReceiverTransmitter_TransmitMode {
+struct EUSART_TransmitMode {
 	/**
 	 * 8bit transmission mode.
 	 */
@@ -472,11 +472,11 @@ struct UniversalReceiverTransmitter_TransmitMode {
 	 */
 	char NINE_BIT;
 };
-extern const struct UniversalReceiverTransmitter_TransmitMode UniversalReceiverTransmitter_TransmitMode;
+extern const struct EUSART_TransmitMode EUSART_TransmitMode;
 
 
 
-struct UniversalReceiverTransmitter_Polarity {
+struct EUSART_Polarity {
 	/**
 	 * Non inverted in asynchronous mode, falling edge in synchronous mode.
 	 */
@@ -486,9 +486,9 @@ struct UniversalReceiverTransmitter_Polarity {
 	 */
 	char INVERTED_OR_RISING_EDGE;
 };
-extern const struct UniversalReceiverTransmitter_Polarity UniversalReceiverTransmitter_Polarity;
+extern const struct EUSART_Polarity EUSART_Polarity;
 
-struct UniversalReceiverTransmitter_Error {
+struct EUSART_Error {
 	/**
 	 * Framing error mask.
 	 */
@@ -498,7 +498,7 @@ struct UniversalReceiverTransmitter_Error {
 	 */
 	char OVERRUN;
 };
-extern const struct UniversalReceiverTransmitter_Error UniversalReceiverTransmitter_Error;
+extern const struct EUSART_Error EUSART_Error;
 
 /**
  * Hardware peripheral definition.
@@ -553,7 +553,7 @@ struct Hardware {
 	 * @param negative reference
 	 * @param conversion clock
 	 */
-	const struct ADConverter* (*ADConverter)(char, char, char);
+	const struct ADConverter* (*ADConverterModule)(char, char, char);
 
 	/**
 	 * Timer0 constructor.
@@ -595,20 +595,20 @@ struct Hardware {
 	 *
 	 * @param mode
 	 */
-	const CaptureModule* (*Capture1)(char);
-	const CaptureModule* (*Capture2)(char);
-	const CaptureModule* (*Capture3)(char);
-	const CaptureModule* (*Capture4)(char);
+	const struct Capture* (*Capture1Module)(char);
+	const struct Capture* (*Capture2Module)(char);
+	const struct Capture* (*Capture3Module)(char);
+	const struct Capture* (*Capture4Module)(char);
 
 	/**
 	 * Compare1/2/3/4 constructor.
 	 *
 	 * @param mode
 	 */
-	const CompareModule* (*Compare1)(char);
-	const CompareModule* (*Compare2)(char);
-	const CompareModule* (*Compare3)(char);
-	const CompareModule* (*Compare4)(char);
+	const struct Compare* (*Compare1Module)(char);
+	const struct Compare* (*Compare2Module)(char);
+	const struct Compare* (*Compare3Module)(char);
+	const struct Compare* (*Compare4Module)(char);
 
 	/**
 	 * PWM1/2 constructor.
@@ -617,16 +617,16 @@ struct Hardware {
 	 * @param output config
 	 * @param output polarity
 	 */
-	const PWMModule* (*PWM1)(char, char, char);
-	const PWMModule* (*PWM2)(char, char, char);
+	const struct PWM* (*EnhancedPWM1Module)(char, char, char);
+	const struct PWM* (*EnhancedPWM2Module)(char, char, char);
 	/**
 	 * PWM3/4 constructor
 	 *
 	 * @param base timer
 	 * @param output polarity
 	 */
-	const PWMModule* (*PWM3)(char, char);
-	const PWMModule* (*PWM4)(char, char);
+	const struct PWM* (*PWM3Module)(char, char);
+	const struct PWM* (*PWM4Module)(char, char);
 
 	/**
 	 * Configure fixed voltage reference.
@@ -644,7 +644,7 @@ struct Hardware {
 	 * @param polarity
 	 * @param baudrate
 	 */
-	const UniversalReceiverTransmitter* (*EUSART)(char, char, char, char, unsigned long);
+	const struct USART* (*EUSART)(char, char, char, char, unsigned long);
 };
 
 /**
