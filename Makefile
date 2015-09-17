@@ -27,7 +27,7 @@ else
 endif
 
 # processor name
-PROSESSOR_NAME := 16F1938
+PROSESSOR_NAME := 16F1825
 # include paths
 INCLUDE_DIRS := ./ ./hardware/include ./hardware/src ./application/include ./hardware/src
 # compiler command
