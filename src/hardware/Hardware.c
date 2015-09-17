@@ -21,7 +21,7 @@ extern void AlternatePinFunction_configure(char, char, char, char, char, char, c
 extern const IOPort PortA_instance;
 extern const IOPort PortC_instance;
 // declared at ADConverterModule.c
-extern const ADConverterModule* ADConverterModule_constructor(char, char, char);
+extern const struct ADConverter* ADConverterModule_constructor(char, char, char);
 // declared at TimerModule.c
 extern const TimerModule* Timer0Module_constructor(char, char);
 extern const TimerModule* Timer1Module_constructor(char, char);

@@ -108,14 +108,14 @@ static uint16_t ADConverterModule_(getResult)() {
 	return ((unsigned int)ADRESH << 2) + (ADRESL >> 6);
 }
 
-static const ADConverterModule ADConverterModule_(instance) = {
+static const struct ADConverter ADConverterModule_(instance) = {
 	ADConverterModule_selectInputChannel,
 	ADConverterModule_startConversion,
 	ADConverterModule_isConverting,
 	ADConverterModule_getResult,
 };
 
-const ADConverterModule* ADConverterModule_(constructor)(
+const struct ADConverter* ADConverterModule_(constructor)(
 		char positiveReference,
 		char negativeReference,
 		char conversionClock) {

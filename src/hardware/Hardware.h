@@ -163,7 +163,7 @@ extern const struct IOPort_PinMode IOPort_PinMode;
 // ----------------------------------------------------------------------------
 // ADConverterModule
 // ----------------------------------------------------------------------------
-#include "ADConverterModule.h"
+#include "ADConverter.h"
 
 struct ADConverterModule_PositiveReference {
 	char FVR;
@@ -553,7 +553,7 @@ struct Hardware {
 	 * @param negative reference
 	 * @param conversion clock
 	 */
-	const ADConverterModule* (*ADConverter)(char, char, char);
+	const struct ADConverter* (*ADConverter)(char, char, char);
 
 	/**
 	 * Timer0 constructor.
