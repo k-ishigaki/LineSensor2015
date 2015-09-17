@@ -19,11 +19,10 @@
  * ...
  * 	const InterruptService* intService;
  * ...
- * 	intService = Hardware.SomeInterruptService;
+ * 	intService = Hardware.SomeInterruptService(...);
  * ...
  * 	// register listener to service
- * 	intService->registerListener(listener,
- * 		InterruptService.XXX);
+ * 	intService->registerListener(&listener);
  * 	intService->enableInterrupt();
  * 	// when interrupt occured, onInterrupt method is called
  * }
@@ -45,8 +44,7 @@ typedef struct {
  *
  * Other modules can use the interrupt through
  * {@code
- * intService->registerListener(listener,
- * 		InterruptService_Priority.XXX);
+ * intService->registerListener(listener);
  * intService->enableInterrupt();
  * }
  * where the argument are explained below.
