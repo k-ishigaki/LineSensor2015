@@ -330,7 +330,9 @@ extern const struct Timer2Module_Postscaler Timer2Module_Postscaler;
 // ----------------------------------------------------------------------------
 // CCPModule
 // ----------------------------------------------------------------------------
-#include "CCPModule.h"
+#include "Capture.h"
+#include "Compare.h"
+#include "PWM.h"
 
 struct CaptureModule_Mode {
 	char EVERY_FALLING_EDGE;
