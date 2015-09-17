@@ -1,1 +1,1 @@
--I./hardware/include -I./hardware/src -I./application/include -I./application/src
+-I./src/hardware -I./src/application
