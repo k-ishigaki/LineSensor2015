@@ -1,5 +1,5 @@
-#include "Hardware.h"
 #include <xc.h>
+#include "Hardware.h"
 
 // ----------------------------------------------------------------------------
 // ADConverterModule_PositiveReference
@@ -62,12 +62,9 @@ enum ADConverterModule_InputChannel_Constants {
 	FVR_BUFFER_1          = 0b11111,
 	DAC                   = 0b11110,
 	TEMPERATURE_INDICATOR = 0b11101,
-	AN13                  = 0b01101,
-	AN12                  = 0b01100,
-	AN11                  = 0b01011,
-	AN10                  = 0b01010,
-	AN9                   = 0b01001,
-	AN8                   = 0b01000,
+	AN7                   = 0b00111,
+	AN6                   = 0b00110,
+	AN5                   = 0b00101,
 	AN4                   = 0b00100,
 	AN3                   = 0b00011,
 	AN2                   = 0b00010,
@@ -79,12 +76,9 @@ const struct ADConverterModule_InputChannel ADConverterModule_InputChannel = {
 	FVR_BUFFER_1,
 	DAC,
 	TEMPERATURE_INDICATOR,
-	AN13,
-	AN12,
-	AN11,
-	AN10,
-	AN9,
-	AN8,
+	AN7,
+	AN6,
+	AN5,
 	AN4,
 	AN3,
 	AN2,
@@ -95,57 +89,40 @@ const struct ADConverterModule_InputChannel ADConverterModule_InputChannel = {
 // ----------------------------------------------------------------------------
 // ADConverterModule
 // ----------------------------------------------------------------------------
-static char ADConverterModule_getResolution() {
-	return 10;
-}
+#define ADConverterModule_(name) ADConverterModule_##name
 
-static void ADConverterModule_selectPositiveReference(char ref) {
-	ADCON1bits.ADPREF = ref;
-}
-
-static void ADConverterModule_selectNegativeReference(char ref) {
-	ADCON1bits.ADNREF = ref;
-}
-
-static void ADConverterModule_selectConversionClock(char clock) {
-	ADCON1bits.ADCS = clock;
-}
-
-static void ADConverterModule_selectInputChannel(char channel) {
+static void ADConverterModule_(selectInputChannel)(char channel) {
 	ADCON0bits.CHS = channel;
 }
 
-static void ADConverterModule_enable() {
-	ADCON0bits.ADON = 1;
-}
-
-static void ADConverterModule_disable() {
-	ADCON0bits.ADON = 0;
-}
-
-static void ADConverterModule_startConversion() {
+static void ADConverterModule_(startConversion)() {
 	while(ADCON0bits.GO);
 	ADCON0bits.GO = 1;
 }
 
-static bool ADConverterModule_isConverting() {
+static bool ADConverterModule_(isConverting)() {
 	return ADCON0bits.GO;
 }
 
-static unsigned long ADConverterModule_getResult() {
+static uint16_t ADConverterModule_(getResult)() {
 	return ((unsigned int)ADRESH << 2) + (ADRESL >> 6);
 }
 
-const ADConverterModule ADConverterModule_instance = {
-	ADConverterModule_getResolution,
-	ADConverterModule_selectPositiveReference,
-	ADConverterModule_selectNegativeReference,
-	ADConverterModule_selectConversionClock,
+static const ADConverterModule ADConverterModule_(instance) = {
 	ADConverterModule_selectInputChannel,
-	ADConverterModule_enable,
-	ADConverterModule_disable,
 	ADConverterModule_startConversion,
 	ADConverterModule_isConverting,
 	ADConverterModule_getResult,
 };
+
+const ADConverterModule* ADConverterModule_(constructor)(
+		char positiveReference,
+		char negativeReference,
+		char conversionClock) {
+	ADCON1bits.ADPREF = positiveReference;
+	ADCON1bits.ADNREF = negativeReference;
+	ADCON1bits.ADCS = conversionClock;
+	ADCON0bits.ADON = 1;
+	return &ADConverterModule_(instance);
+}
 

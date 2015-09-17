@@ -2,109 +2,66 @@
 #define TIMER_MODULE_H
 
 #include <stdint.h>
-
-/**
- * device's maximum timer counter size type.
- */
-typedef uint16_t timer_module_counter_max_t;
+#include <stdbool.h>
 
 /**
  * Timer module interface.
- * If you want to use timer overflow interrupt, use
- * TimerxModuleInterruptService (x is number or char identifier).
+ * If you want to use timer overflow interrupt, use InterruptService
+ * interface.
  */
 typedef struct {
 
 	/**
 	 * Get counter value of timer module.
 	 *
+	 * At several device, countup operation is stoped temporarily to
+	 * set accurate counter value.
+	 * So you should pay attention to the temporary timer stop.
+	 *
 	 * @return counter value of timer module<br>
 	 * 	(8bit timer) 0~255<br>
 	 * 	(16bit timer) 0~65535
 	 */
-	timer_module_counter_max_t (*getCount)(void);
+	uint16_t (*getCount)(void);
 
 	/**
 	 * Set counter value of timer module.
+	 *
+	 * At several device, countup operation is stoped temporarily to
+	 * get accurate counter value.
+	 * So you should pay attention to the temporary timer stop.
 	 *
 	 * @param counter value of timer module<br>
 	 * 	(8bit timer) 0~255<br>
 	 * 	(16bit timer) 0~65535
 	 */
-	void (*setCount)(timer_module_counter_max_t);
+	void (*setCount)(uint16_t);
 
 	/**
-	 * Enable timer module and start Counting.
+	 * Start Counting.
 	 *
-	 * If not enabled, countup is not occured.
+	 * When timer module constructor called, the counting is disabled.
+	 * So this method is needed to start timer operation.
+	 * But timer counting is always enabled at timer module which counting
+	 * cannot be stoped. (see datasheet)
 	 */
-	void (*enable)(void);
+	void (*start)(void);
 
 	/**
-	 * Disable timer module and stop Counting.
-	 */
-	void (*disable)(void);
-
-	/**
-	 * Select clock source of timer count.
-	 * 
-	 * @param timer module clock source identifier
-	 */
-	void (*selectClockSource)(char);
-
-	/**
-	 * Select prescaler value of conting source.
+	 * Stop Counting.
 	 *
-	 * @param prescaler value identifier
+	 * If you stop timer counting operation temporarily, use this method.
+	 * TimerModule#start method can be used for resumption operation.
+	 * But timer counting is always enabled at timer module which counting
+	 * cannot be stoped. (see datasheet)
 	 */
-	void (*selectPrescaler)(char);
-
-	/**
-	 * Select postscaler value of conting source.
-	 *
-	 * @param postscaler value identifier
-	 */
-	void (*selectPostscaler)(char);
-
-	/**
-	 * Set timer period count.
-	 *
-	 * @param timer period count<br>
-	 * 	do nothing if<br>
-	 * 		count value is out of bounds<br>
-	 * 		a timer module unsupport period count setting
-	 */
-	void (*setPeriodCount)(timer_module_counter_max_t);
+	void (*stop)(void);
 } TimerModule;
 
 /**
  * Timer gate control interface.
  */
 typedef struct {
-	/**
-	 * Enable gate function.
-	 */
-	void (*enable)(void);
-
-	/**
-	 * Disable gate function.
-	 */
-	void (*disable)(void);
-
-	/**
-	 * Select gate count source.
-	 *
-	 * @param identifier of gate count source
-	 */
-	void (*selectSource)(char);
-
-	/**
-	 * Select gate control mode.
-	 *
-	 * @param identifier of gate control mode
-	 */
-	void (*selectMode)(char);
-
 	/**
 	 * Get current state of gate value.
 	 *

@@ -1,6 +1,6 @@
 /*
  * Hardware.h
- * definitions for PIC16F1938
+ * definitions for PIC16F1825
  */
 #ifndef HARDWARE_H
 #define HARDWARE_H
@@ -10,16 +10,16 @@
 // ----------------------------------------------------------------------------
 // CLKOUT function is disabled. I/O or oscillator function on the CLKOUT pin
 #pragma config CLKOUTEN = OFF
-// WDT controlled by the SWDTEN bit in the WDTCON register
-#pragma config WDTE = SWDTEN
-// PWRT enabled
-#pragma config PWRTE = ON
+// WDT disabled
+#pragma config WDTE = OFF
+// PWRT disabled
+#pragma config PWRTE = OFF
 // Program memory code protection is disabled
 #pragma config CP = OFF
-// Brown-out Reset controlled by the SBOREN bit in the BORCON register
-#pragma config BOREN = ON
-// Fail-Safe Clock Monitor is enabled
-#pragma config FCMEN = ON
+// Brown-out Reset disabled
+#pragma config BOREN = OFF
+// Fail-Safe Clock Monitor is disabled
+#pragma config FCMEN = OFF
 // MCLR/VPP pin function is MCLR
 #pragma config MCLRE = ON
 // Data memory code protection is disabled
@@ -50,19 +50,67 @@
 // ----------------------------------------------------------------------------
 #include "NativeInterrupts.h"
 
-struct InterruptService_Priority {
-	/** priority is dafault only */
-	char DEFAULT;
+// ----------------------------------------------------------------------------
+// AlternatePinFunction
+// ----------------------------------------------------------------------------
+struct AlternatePinFunction_RXAndDT {
+	char RC5;
+	char RA1;
 };
+extern const struct AlternatePinFunction_RXAndDT AlternatePinFunction_RXAndDT;
 
-extern const struct InterruptService_Priority InterruptService_Priority;
+struct AlternatePinFunction_SDO {
+	char RC2;
+	char RA4;
+};
+extern const struct AlternatePinFunction_SDO AlternatePinFunction_SDO;
+
+struct AlternatePinFunction_SS {
+	char RC3;
+	char RA3;
+};
+extern const struct AlternatePinFunction_SS AlternatePinFunction_SS;
+
+struct AlternatePinFunction_T1G {
+	char RA4;
+	char RA3;
+};
+extern const struct AlternatePinFunction_T1G AlternatePinFunction_T1G;
+
+struct AlternatePinFunction_TXAndCK {
+	char RC4;
+	char RA0;
+};
+extern const struct AlternatePinFunction_TXAndCK AlternatePinFunction_TXAndCK;
+
+struct AlternatePinFunction_P1D {
+	char RC2;
+	char RC0;
+};
+extern const struct AlternatePinFunction_P1D AlternatePinFunction_P1D;
+
+struct AlternatePinFunction_P1C {
+	char RC3;
+	char RC1;
+};
+extern const struct AlternatePinFunction_P1C AlternatePinFunction_P1C;
+
+struct AlternatePinFunction_P2B {
+	char RC2;
+	char RA4;
+};
+extern const struct AlternatePinFunction_P2B AlternatePinFunction_P2B;
+
+struct AlternatePinFunction_CCP2 {
+	char RC3;
+	char RA5;
+};
+extern const struct AlternatePinFunction_CCP2 AlternatePinFunction_CCP2;
 
 // ----------------------------------------------------------------------------
 // OscillatorModule
 // ----------------------------------------------------------------------------
-#include "OscillatorModule.h"
-
-struct InternalOscillator_Frequency {
+struct OscillatorModule_InternalClockFrequency {
 	char HF_16MHz;
 	char HF_8MHz;
 	char HF_4MHz;
@@ -79,10 +127,15 @@ struct InternalOscillator_Frequency {
 	char MF_31250Hz;
 	char LF_31kHz;
 };
+extern const struct OscillatorModule_InternalClockFrequency OscillatorModule_InternalClockFrequency;
 
-extern const struct InternalOscillator_Frequency InternalOscillator_Frequency;
+struct OscillatorModule_PhaseLockedLoop {
+	char ENABLE;
+	char DISABLE;
+};
+extern const struct OscillatorModule_PhaseLockedLoop OscillatorModule_PhaseLockedLoop;
 
-struct OscillatorModule_ClockSource {
+struct OscillatorModule_SystemClockSource {
 	/** Internal oscillator block */
 	char INTERNAL;
 	/** Secondary (SOSC) oscillator */
@@ -90,9 +143,7 @@ struct OscillatorModule_ClockSource {
 	/** Primary clock (determined by FOSC<3:0> in CONFIG1H)  */
 	char DETERMINED_BY_CONFIG;
 };
-
-/** defined at OscillatorModule.c */
-extern const struct OscillatorModule_ClockSource OscillatorModule_ClockSource;
+extern const struct OscillatorModule_SystemClockSource OscillatorModule_SystemClockSource;
 
 // ----------------------------------------------------------------------------
 // IOPort
@@ -145,13 +196,9 @@ struct ADConverterModule_InputChannel {
 	char FVR_BUFFER_1;
 	char DAC;
 	char TEMPERATURE_INDICATOR;
-	char AN13;
-	char AN12;
-	char AN11;
-	char AN10;
-	char AN9;
-	char AN8;
-	// AN5, AN6, AN7 are not available on the PIC16F1933/1936/1938
+	char AN7;
+	char AN6;
+	char AN5;
 	char AN4;
 	char AN3;
 	char AN2;
@@ -360,8 +407,6 @@ extern const struct PWMModule_OutputPolarity PWMModule_OutputPolarity;
 // ----------------------------------------------------------------------------
 // FixedVoltageReference
 // ----------------------------------------------------------------------------
-#include "FixedVoltageReference.h"
-
 struct FixedVoltageReference_Buffer1Reference {
 	char OFF;
 	char OUTPUT_1x;
@@ -378,51 +423,228 @@ struct FixedVoltageReference_Buffer2Reference {
 };
 extern const struct FixedVoltageReference_Buffer2Reference FixedVoltageReference_Buffer2Reference;
 
+// ----------------------------------------------------------------------------
+// UniversalReceiverTransmitter
+// ----------------------------------------------------------------------------
+#include "UniversalReceiverTransmitter.h"
+
+struct UniversalReceiverTransmitter_Mode {
+	/**
+	 * Asynchronous mode.
+	 */
+	char ASYNCHRONOUS;
+	/**
+	 * Synchronous master mode.
+	 */
+	char SYNCHRONOUS_MASTER;
+	/**
+	 * Synchronous slave mode.
+	 */
+	char SYNCHRONOUS_SLAVE;
+};
+extern const struct UniversalReceiverTransmitter_Mode UniversalReceiverTransmitter_Mode;
+
+struct UniversalReceiverTransmitter_ReceiveMode {
+	/**
+	 * 8bit reception mode.
+	 */
+	char EIGHT_BIT;
+	/**
+	 * 9bit reception mode.
+	 */
+	char NINE_BIT;
+	/**
+	 * 9bit reception mode with address detection (asynchronous mode only)
+	 */
+	char NINE_BIT_ADDRESS_DETECTION;
+};
+extern const struct UniversalReceiverTransmitter_ReceiveMode UniversalReceiverTransmitter_ReceiveMode;
+
+struct UniversalReceiverTransmitter_TransmitMode {
+	/**
+	 * 8bit transmission mode.
+	 */
+	char EIGHT_BIT;
+	/**
+	 * 9bit transmission mode.
+	 *
+	 * This mode is used for address detection.
+	 */
+	char NINE_BIT;
+};
+extern const struct UniversalReceiverTransmitter_TransmitMode UniversalReceiverTransmitter_TransmitMode;
+
+
+
+struct UniversalReceiverTransmitter_Polarity {
+	/**
+	 * Non inverted in asynchronous mode, falling edge in synchronous mode.
+	 */
+	char NON_INVERTED_OR_FALLING_EDGE;
+	/**
+	 * Inverted in asynchronous mode, rising edge in synchronous mode.
+	 */
+	char INVERTED_OR_RISING_EDGE;
+};
+extern const struct UniversalReceiverTransmitter_Polarity UniversalReceiverTransmitter_Polarity;
+
+struct UniversalReceiverTransmitter_Error {
+	/**
+	 * Framing error mask.
+	 */
+	char FRAMING;
+	/**
+	 * Overrun error mask.
+	 */
+	char OVERRUN;
+};
+extern const struct UniversalReceiverTransmitter_Error UniversalReceiverTransmitter_Error;
+
 /**
  * Hardware peripheral definition.
  */
 struct Hardware {
-	const InterruptService* ADConverterInterruptService;
-	const InterruptService* Timer0InterruptService;
-	const InterruptService* Timer1InterruptService;
-	const InterruptService* Timer1GateControlInterruptService;
-	const InterruptService* Timer2InterruptService;
-	const InterruptService* Timer4InterruptService;
-	const InterruptService* Timer6InterruptService;
-	const InterruptService* CCP1InterruptService;
-	const InterruptService* CCP2InterruptService;
-	const InterruptService* CCP3InterruptService;
-	const InterruptService* CCP4InterruptService;
-	const InterruptService* CCP5InterruptService;
-	const OscillatorModule* Oscillator;
-	const InternalOscillator* InternalOscillator;
-	const PhaseLockedLoop* PhaseLockedLoop;
+	/**
+	 * Interrupt service constructor.
+	 */
+	const InterruptService* (*ADConverterInterruptService)();
+	const InterruptService* (*Timer0InterruptService)();
+	const InterruptService* (*Timer1InterruptService)();
+	const InterruptService* (*Timer1GateControlInterruptService)();
+	const InterruptService* (*Timer2InterruptService)();
+	const InterruptService* (*Timer4InterruptService)();
+	const InterruptService* (*Timer6InterruptService)();
+	const InterruptService* (*CCP1InterruptService)();
+	const InterruptService* (*CCP2InterruptService)();
+	const InterruptService* (*CCP3InterruptService)();
+	const InterruptService* (*CCP4InterruptService)();
+
+	/**
+	 * Configure alternate pin function.
+	 *
+	 * @param RX and DT
+	 * @param SDO
+	 * @param SS
+	 * @param T1G
+	 * @param TX and CK
+	 * @param P1D
+	 * @param P1C
+	 * @param P2B
+	 * @param CCP2
+	 */
+	void (*configureAlternatePinFunction)(char, char, char, char, char, char, char, char, char);
+
+	/**
+	 * Configure oscillator module.
+	 *
+	 * @param identifier of internal clock frequency
+	 * @param identifier of phase locked loop
+	 * @param identifier of system clock source
+	 */
+	void (*configureOscillator)(char, char, char);
+
 	const IOPort* PortA;
-	const IOPort* PortB;
 	const IOPort* PortC;
-	const ADConverterModule* ADConverter;
-	const TimerModule* Timer0;
-	const TimerModule* Timer1;
-	const TimerGateControl* Timer1GateControl;
-	const TimerModule* Timer2;
-	const TimerModule* Timer4;
-	const TimerModule* Timer6;
-	const CaptureModule* Capture1;
-	const CaptureModule* Capture2;
-	const CaptureModule* Capture3;
-	const CaptureModule* Capture4;
-	const CaptureModule* Capture5;
-	const CompareModule* Compare1;
-	const CompareModule* Compare2;
-	const CompareModule* Compare3;
-	const CompareModule* Compare4;
-	const CompareModule* Compare5;
-	const PWMModule* PWM1;
-	const PWMModule* PWM2;
-	const PWMModule* PWM3;
-	const PWMModule* PWM4;
-	const PWMModule* PWM5;
-	const FixedVoltageReference* FixedVoltageReference;
+
+	/**
+	 * AD converter constructor.
+	 *
+	 * @param positie reference
+	 * @param negative reference
+	 * @param conversion clock
+	 */
+	const ADConverterModule* (*ADConverter)(char, char, char);
+
+	/**
+	 * Timer0 constructor.
+	 *
+	 * @param clock source
+	 * @param prescaler
+	 */
+	const TimerModule* (*Timer0)(char, char);
+
+	/**
+	 * Timer1 constructor.
+	 *
+	 * @param clock source
+	 * @param prescaler
+	 */
+	const TimerModule* (*Timer1)(char, char);
+
+	/**
+	 * Timer1 gate control constructor.
+	 *
+	 * @param source
+	 * @param mode
+	 */
+	const TimerGateControl* (*Timer1GateControl)(char, char);
+
+	/**
+	 * Timer2/4/6 constructor.
+	 *
+	 * @param prescaler
+	 * @param postscaler
+	 * @param period count
+	 */
+	const TimerModule* (*Timer2)(char, char, uint8_t);
+	const TimerModule* (*Timer4)(char, char, uint8_t);
+	const TimerModule* (*Timer6)(char, char, uint8_t);
+
+	/**
+	 * Capture1/2/3/4 constructor.
+	 *
+	 * @param mode
+	 */
+	const CaptureModule* (*Capture1)(char);
+	const CaptureModule* (*Capture2)(char);
+	const CaptureModule* (*Capture3)(char);
+	const CaptureModule* (*Capture4)(char);
+
+	/**
+	 * Compare1/2/3/4 constructor.
+	 *
+	 * @param mode
+	 */
+	const CompareModule* (*Compare1)(char);
+	const CompareModule* (*Compare2)(char);
+	const CompareModule* (*Compare3)(char);
+	const CompareModule* (*Compare4)(char);
+
+	/**
+	 * PWM1/2 constructor.
+	 *
+	 * @param base timer
+	 * @param output config
+	 * @param output polarity
+	 */
+	const PWMModule* (*PWM1)(char, char, char);
+	const PWMModule* (*PWM2)(char, char, char);
+	/**
+	 * PWM3/4 constructor
+	 *
+	 * @param base timer
+	 * @param output polarity
+	 */
+	const PWMModule* (*PWM3)(char, char);
+	const PWMModule* (*PWM4)(char, char);
+
+	/**
+	 * Configure fixed voltage reference.
+	 *
+	 * @param buffer1 reference
+	 * @param buffer2 reference
+	 */
+	void (*configureFixedVoltageReference)(char, char);
+	/**
+	 * Universal receiver transmitter constructor.
+	 *
+	 * @param operating mode
+	 * @param receive mode
+	 * @param transmit mode
+	 * @param polarity
+	 * @param baudrate
+	 */
+	const UniversalReceiverTransmitter* (*EUSART)(char, char, char, char, unsigned long);
 };
 
 /**

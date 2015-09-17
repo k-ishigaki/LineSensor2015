@@ -1,6 +1,5 @@
-#include "Hardware.h"
 #include <xc.h>
-#include <stddef.h>
+#include "Hardware.h"
 
 #ifndef DECLARED_ONCE
 #define DECLARED_ONCE
@@ -8,9 +7,9 @@
 // Timer0Module_Constants
 // ----------------------------------------------------------------------------
 enum Timer0Module_ClockSource_Constants {
-	T0_T0CKI,
-	T0_CPSCLK,
-	T0_F_OSC_DIV_4,
+	T0_T0CKI       = 0b01,
+	T0_CPSCLK      = 0b11,
+	T0_F_OSC_DIV_4 = 0b00,
 };
 const struct Timer0Module_ClockSource Timer0Module_ClockSource = {
 	T0_T0CKI,
@@ -44,69 +43,47 @@ const struct Timer0Module_Prescaler Timer0Module_Prescaler = {
 // ----------------------------------------------------------------------------
 // Timer0Module
 // ----------------------------------------------------------------------------
-static timer_module_counter_max_t Timer0Module_getCount() {
+static uint16_t Timer0Module_getCount() {
 	return TMR0;
 }
 
-static void Timer0Module_setCount(timer_module_counter_max_t count) {
+static void Timer0Module_setCount(uint16_t count) {
 	// note:
 	// When TMR0 is written, the increment is inhibited for
 	// two instruction cycles immediately following the write
 	TMR0 = count;
 }
 
-static void Timer0Module_enable() {
+static void Timer0Module_start() {
 	// timer0 module is always enabled
 }
 
-static void Timer0Module_disable() {
+static void Timer0Module_stop() {
 	// timer0 module is always enabled
 }
 
-static void Timer0Module_selectClockSource(char clockSource) {
-	switch((enum Timer0Module_ClockSource_Constants)clockSource) {
-		case T0_T0CKI:
-			OPTION_REGbits.TMR0CS = 1;
-			CPSCON0bits.T0XCS     = 0;
-			break;
-		case T0_CPSCLK:
-			OPTION_REGbits.TMR0CS = 1;
-			CPSCON0bits.T0XCS     = 1;
-			break;
-		case T0_F_OSC_DIV_4:
-			OPTION_REGbits.TMR0CS = 0;
-			CPSCON0bits.T0XCS     = 0;
-			break;
-	}
-}
+static const TimerModule Timer0Module_instance = {
+	Timer0Module_getCount,
+	Timer0Module_setCount,
+	Timer0Module_start,
+	Timer0Module_stop,
+};
 
-static void Timer0Module_selectPrescaler(char prescaler) {
+const TimerModule* Timer0Module_constructor(
+		char clockSource,
+		char prescaler) {
+	// decide clock source
+	CPSCON0bits.T0XCS = clockSource;
+	OPTION_REGbits.TMR0CS = clockSource >> 1;
+	// decide prescaler
 	if(prescaler == T0_RATE_1_1) {
 		OPTION_REGbits.PSA = 1;
 	} else {
 		OPTION_REGbits.PSA = 0;
 		OPTION_REGbits.PS  = prescaler;
 	}
+	return &Timer0Module_instance;
 }
-
-static void Timer0Module_selectPostScaler(char postscaler) {
-	// postscaler value is always 1:1
-}
-
-static void Timer0Module_setPeriodCount(timer_module_counter_max_t period) {
-	// period count is fixed to 255 and not changeable
-}
-
-const TimerModule Timer0Module_instance = {
-	Timer0Module_getCount,
-	Timer0Module_setCount,
-	Timer0Module_enable,
-	Timer0Module_disable,
-	Timer0Module_selectClockSource,
-	Timer0Module_selectPrescaler,
-	Timer0Module_selectPostScaler,
-	Timer0Module_setPeriodCount,
-};
 
 // ----------------------------------------------------------------------------
 // Timer1Module_Constants
@@ -148,55 +125,52 @@ const struct Timer1Module_Prescaler Timer1Module_Prescaler = {
 // ----------------------------------------------------------------------------
 // Timer1Module
 // ----------------------------------------------------------------------------
-static timer_module_counter_max_t Timer1Module_getCount() {
+static uint16_t Timer1Module_getCount() {
 	// 16bit read/write mode is not available (pic16f)
 	// so it is recommended to stop timer before read count
-	return ((timer_module_counter_max_t)TMR1H << 8) + TMR1L;
+	bool state = T1CONbits.TMR1ON;
+	T1CONbits.TMR1ON = 0;
+	uint16_t count = ((uint16_t)TMR1H << 8) + TMR1L;
+	T1CONbits.TMR1ON = state;
+	return count;
 }
 
-static void Timer1Module_setCount(timer_module_counter_max_t count) {
+static void Timer1Module_setCount(uint16_t count) {
 	// 16bit read/write mode is not available (pic16f)
 	// so it is recommended to stop timer before write count
+	bool state = T1CONbits.TMR1ON;
+	T1CONbits.TMR1ON = 0;
 	TMR1H = count >> 8;
 	TMR1L = count;
+	T1CONbits.TMR1ON = state;
 }
 
-static void Timer1Module_enable() {
+static void Timer1Module_start() {
 	T1CONbits.TMR1ON = 1;
 }
 
-static void Timer1Module_disable() {
+static void Timer1Module_stop() {
 	T1CONbits.TMR1ON = 0;
 }
 
-static void Timer1Module_selectClockSource(char clockSource) {
+static const TimerModule Timer1Module_instance = {
+	Timer1Module_getCount,
+	Timer1Module_setCount,
+	Timer1Module_start,
+	Timer1Module_stop,
+};
+
+const TimerModule* Timer1Module_constructor(
+		char clockSource,
+		char prescaler) {
+	// decide clock source
 	T1CONbits.TMR1CS  = clockSource;
 	T1CONbits.T1OSCEN = clockSource >> 2;
 	T1CONbits.nT1SYNC = clockSource >> 3;
-}
-
-static void Timer1Module_selectPrescaler(char prescaler) {
+	// decide prescaler
 	T1CONbits.T1CKPS = prescaler;
+	return &Timer1Module_instance;
 }
-
-static void Timer1Module_selectPostscaler(char postscaler) {
-	// postscaler is fixed to 1:1
-}
-
-static void Timer1Module_setPeriodCount(timer_module_counter_max_t count) {
-	// period count is fixed to 65535 and not changeable
-}
-
-const TimerModule Timer1Module_instance = {
-	Timer1Module_getCount,
-	Timer1Module_setCount,
-	Timer1Module_enable,
-	Timer1Module_disable,
-	Timer1Module_selectClockSource,
-	Timer1Module_selectPrescaler,
-	Timer1Module_selectPostscaler,
-	Timer1Module_setPeriodCount,
-};
 
 // ----------------------------------------------------------------------------
 // Timer1GateControl_Constants
@@ -238,24 +212,6 @@ const struct Timer1GateControl_Mode Timer1GateControl = {
 // ----------------------------------------------------------------------------
 // Timer1GateControl
 // ----------------------------------------------------------------------------
-static void Timer1GateControl_enable() {
-	T1GCONbits.TMR1GE = 1;
-}
-
-static void Timer1GateControl_disable() {
-	T1GCONbits.TMR1GE = 0;
-}
-
-static void Timer1GateControl_selectSource(char source) {
-	T1GCONbits.T1GSS = source;
-}
-
-static void Timer1GateControl_selectMode(char mode) {
-	T1GCONbits.T1GPOL = mode >> 2;
-	T1GCONbits.T1GTM  = mode >> 1;
-	T1GCONbits.T1GSPM = mode;
-}
-
 static bool Timer1GateControl_getState() {
 	return T1GCONbits.T1GVAL;
 }
@@ -268,15 +224,26 @@ static bool Timer1GateControl_isWaitingSinglePulse() {
 	return T1GCONbits.T1GGO;
 }
 
-const TimerGateControl Timer1GateControl_instance = {
-	Timer1GateControl_enable,
-	Timer1GateControl_disable,
-	Timer1GateControl_selectSource,
-	Timer1GateControl_selectMode,
+static const TimerGateControl Timer1GateControl_instance = {
 	Timer1GateControl_getState,
 	Timer1GateControl_startSinglePulseAquisition,
 	Timer1GateControl_isWaitingSinglePulse,
 };
+
+const TimerGateControl* Timer1GateControl_constructor(
+		char source,
+		char mode) {
+	T1GCONbits.T1GSS = source;
+	T1GCONbits.T1GPOL = mode >> 2;
+	T1GCONbits.T1GTM  = mode >> 1;
+	T1GCONbits.T1GSPM = mode;
+	T1GCONbits.TMR1GE = 1;
+	return &Timer1GateControl_instance;
+}
+
+void Timer1GateControl_destructor() {
+	T1GCONbits.TMR1GE = 0;
+}
 
 // ----------------------------------------------------------------------------
 // Timer2/4/6Module_Constants
@@ -369,48 +336,40 @@ const struct Timer2Module_Postscaler Timer2Module_Postscaler = {
 #define EXIT_LOOP
 #endif
 
-static timer_module_counter_max_t TimerxModule_(getCount)() {
+static int TimerxModule_(data);
+
+static uint16_t TimerxModule_(getCount)() {
 	return TMRx;
 }
 
-static void TimerxModule_(setCount)(timer_module_counter_max_t count) {
+static void TimerxModule_(setCount)(uint16_t count) {
 	TMRx = count;
 }
 
-static void TimerxModule_(enable)() {
+static void TimerxModule_(start)() {
 	TMRxON = 1;
 }
 
-static void TimerxModule_(disable)() {
+static void TimerxModule_(stop)() {
 	TMRxON = 0;
 }
 
-static void TimerxModule_(selectClockSource)(char clockSource) {
-	// clock source is fixed to Fosc/4
-}
-
-static void TimerxModule_(selectPrescaler)(char prescaler) {
-	TxCKPS = prescaler;
-}
-
-static void TimerxModule_(selectPostscaler)(char postscaler) {
-	TxOUTPS = postscaler;
-}
-
-static void TimerxModule_(setPeriodCount)(timer_module_counter_max_t count) {
-	PRx = count;
-}
-
-const TimerModule TimerxModule_(instance) = {
+static const TimerModule TimerxModule_(instance) = {
 	TimerxModule_(getCount),
 	TimerxModule_(setCount),
-	TimerxModule_(enable),
-	TimerxModule_(disable),
-	TimerxModule_(selectClockSource),
-	TimerxModule_(selectPrescaler),
-	TimerxModule_(selectPostscaler),
-	TimerxModule_(setPeriodCount),
+	TimerxModule_(start),
+	TimerxModule_(stop),
 };
+
+const TimerModule* TimerxModule_(constructor)(
+		char prescaler,
+		char postscaler,
+		uint8_t periodCount) {
+	TxCKPS = prescaler;
+	TxOUTPS = postscaler;
+	PRx = periodCount;
+	return &TimerxModule_(instance);
+}
 
 #undef TimerxModule_
 #undef TMRx

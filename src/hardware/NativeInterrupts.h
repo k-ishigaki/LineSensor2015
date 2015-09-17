@@ -1,7 +1,6 @@
 #ifndef NATIVE_INTERRUPTS_H
 #define NATIVE_INTERRUPTS_H
 
-#include <stdbool.h>
 /**
  * A interface of interrupt listener.
  *
@@ -64,9 +63,8 @@ typedef struct {
 	 * vector, so it is recommended calling it at initilization.
 	 *
 	 * @param interrupt listener
-	 * @param priority of interrupt
 	 */
-	void (*registerListener)(InterruptListener*, char);
+	void (*registerListener)(InterruptListener*);
 
 	/**
 	 * Enable the interrupt.

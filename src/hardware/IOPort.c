@@ -1,5 +1,5 @@
-#include "Hardware.h"
 #include <xc.h>
+#include "Hardware.h"
 
 #ifndef IO_PORT_COMMON_DECRARED
 #define IO_PORT_COMMON_DECRARED
@@ -23,7 +23,7 @@ const struct IOPort_PinMode IOPort_PinMode = {
 #endif
 
 // ----------------------------------------------------------------------------
-// Port A, Port B, Port C
+// Port A, Port C
 // ----------------------------------------------------------------------------
 #if !defined(PORTA_DECLARED)
 #define PORTA_DECLARED
@@ -33,24 +33,17 @@ const struct IOPort_PinMode IOPort_PinMode = {
 #define ANSELx       ANSELA
 #define TRISx        TRISA
 #define LATx         LATA
-
-#elif !defined(PORTB_DECLARED)
-#define PORTB_DECLARED
-
-#define Portx_(name) PortB_##name
-#define PORTx        PORTB
-#define ANSELx       ANSELB
-#define TRISx        TRISB
-#define LATx         LATB
-#define WPUx         WPUB
+#define WPUx         WPUA
 
 #elif !defined(PORTC_DECLARED)
 #define PORTC_DECLARED
 
 #define Portx_(name) PortC_##name
 #define PORTx        PORTC
+#define ANSELx       ANSELC
 #define TRISx        TRISC
 #define LATx         LATC
+#define WPUx         WPUC
 
 #define EXIT_LOOP
 #endif
@@ -71,6 +64,7 @@ static void Portx_(setPinModes)(uint8_t bits, char mode) {
 			ANSELx &= ~bits;
 #endif
 #ifdef WPUx
+			OPTION_REGbits.nWPUEN = 0;
 			WPUx   |= bits;
 #endif
 			TRISx  |= bits;
@@ -90,18 +84,26 @@ static void Portx_(setPinModes)(uint8_t bits, char mode) {
 	}
 }
 
-static uint8_t Portx_(readDigital)() {
+static uint8_t Portx_(read)() {
 	return PORTx;
 }
 
-static void Portx_(writeDigital)(uint8_t bits) {
-	LATx = bits;
+static void Portx_(write)(uint8_t pos, uint8_t bits) {
+	LATx = LATx | (pos & bits);
+	LATx = LATx & (~pos | bits);
+}
+
+static void Portx_(toggle)(uint8_t pos) {
+	uint8_t bits = ~LATx;
+	LATx = LATx | (pos & bits);
+	LATx = LATx & (~pos | bits);
 }
 
 const IOPort Portx_(instance) = {
 	Portx_(setPinModes),
-	Portx_(readDigital),
-	Portx_(writeDigital),
+	Portx_(read),
+	Portx_(write),
+	Portx_(toggle),
 };
 
 #undef Portx_

@@ -1,9 +1,9 @@
+#include <xc.h>
 /*
  * To increase registerable number of interrupts,
  * you can increase LIST_SIZE constant.
  */
 #include "Hardware.h"
-#include <xc.h>
 
 // dummy instances, priority constants, interrupt vector
 // are declared once.
@@ -30,17 +30,6 @@ static InterruptListener listener_dummy = {
 };
 
 // ----------------------------------------------------------------------------
-// InterruptService_Priority
-// ----------------------------------------------------------------------------
-enum InterruptService_Priority_Constants {
-	DEFAULT,
-};
-
-const struct InterruptService_Priority InterruptService_Priority = {
-	DEFAULT,
-};
-
-// ----------------------------------------------------------------------------
 // InterruptVector
 // ----------------------------------------------------------------------------
 /** interrupt handlers */
@@ -57,7 +46,7 @@ static void __interrupt isr() {
 }
 
 /** register handler (void function pointer) to interrupt vector */
-static void registerHandler(void (*handler)(), char priority) {
+static void registerHandler(void (*handler)()) {
 	// If argument handler has been already registered to vector;
 	// remove it and register again.
 	for(unsigned char i = 0; i < numOfHandlers; i++) {
@@ -151,13 +140,6 @@ static void registerHandler(void (*handler)(), char priority) {
 #define PIRbit PIR3bits.CCP4IF
 #define PIEbit PIE3bits.CCP4IE
 
-#elif !defined(CCP5_MODULE_INTERRUPT_SERVICE_DECLARED)
-#define CCP5_MODULE_INTERRUPT_SERVICE_DECLARED
-
-#define InterruptService_(name) CCP5ModuleInterruptService_##name
-#define PIRbit PIR3bits.CCP5IF
-#define PIEbit PIE3bits.CCP5IE
-
 #define EXIT_LOOP
 #endif
 
@@ -171,11 +153,9 @@ static void InterruptService_(handleInterrupt)() {
 }
 
 static void InterruptService_(registerListener)(
-		InterruptListener* listener,
-		char priority) {
+		InterruptListener* listener) {
 	InterruptService_(listener) = listener;
-	registerHandler(&InterruptService_(handleInterrupt), priority);
-	// priority is not determined (enhanced mid-range)
+	registerHandler(&InterruptService_(handleInterrupt));
 }
 
 static void InterruptService_(enableInterrupt)() {
@@ -188,11 +168,15 @@ static void InterruptService_(disableInterrupt)() {
 	PIRbit = 0;
 }
 
-const InterruptService InterruptService_(instance) = {
+static const InterruptService InterruptService_(instance) = {
 	InterruptService_(registerListener),
 	InterruptService_(enableInterrupt),
 	InterruptService_(disableInterrupt),
 };
+
+const InterruptService* InterruptService_(constructor)() {
+	return &InterruptService_(instance);
+}
 
 #undef InterruptService_
 #undef PIRbit

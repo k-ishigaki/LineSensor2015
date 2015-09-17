@@ -1,7 +1,5 @@
-#include "Hardware.h"
-
-
 #include <xc.h>
+#include "Hardware.h"
 
 #ifndef CCP_MODULE_COMMON
 #define CCP_MODULE_COMMON
@@ -77,7 +75,7 @@ const struct PWMModule_OutputPolarity PWMModule_OutputPolarity = {
 #define CCP1_MODULE_DECLARED
 
 #define CCPxM CCP1CONbits.CCP1M
-#define CxTSEL CCPTMRS0bits.C1TSEL
+#define CxTSEL CCPTMRSbits.C1TSEL
 #define DCxB CCP1CONbits.DC1B
 #define CCPRxL CCPR1L
 #define CCPRxH CCPR1H
@@ -90,7 +88,7 @@ const struct PWMModule_OutputPolarity PWMModule_OutputPolarity = {
 #define CCP2_MODULE_DECLARED
 
 #define CCPxM CCP2CONbits.CCP2M
-#define CxTSEL CCPTMRS0bits.C2TSEL
+#define CxTSEL CCPTMRSbits.C2TSEL
 #define DCxB CCP2CONbits.DC2B
 #define CCPRxL CCPR2L
 #define CCPRxH CCPR2H
@@ -103,11 +101,10 @@ const struct PWMModule_OutputPolarity PWMModule_OutputPolarity = {
 #define CCP3_MODULE_DECLARED
 
 #define CCPxM CCP3CONbits.CCP3M
-#define CxTSEL CCPTMRS0bits.C3TSEL
+#define CxTSEL CCPTMRSbits.C3TSEL
 #define DCxB CCP3CONbits.DC3B
 #define CCPRxL CCPR3L
 #define CCPRxH CCPR3H
-#define PxM CCP3CONbits.P3M
 #define CaptureModule_(name) CaptureModule3_##name
 #define CompareModule_(name) CompareModule3_##name
 #define PWMModule_(name) PWMModule3_##name
@@ -116,7 +113,7 @@ const struct PWMModule_OutputPolarity PWMModule_OutputPolarity = {
 #define CCP4_MODULE_DECLARED
 
 #define CCPxM CCP4CONbits.CCP4M
-#define CxTSEL CCPTMRS0bits.C4TSEL
+#define CxTSEL CCPTMRSbits.C4TSEL
 #define DCxB CCP4CONbits.DC4B
 #define CCPRxL CCPR4L
 #define CCPRxH CCPR4H
@@ -124,123 +121,88 @@ const struct PWMModule_OutputPolarity PWMModule_OutputPolarity = {
 #define CompareModule_(name) CompareModule4_##name
 #define PWMModule_(name) PWMModule4_##name
 
-#elif !defined(CCP5_MODULE_DECLARED)
-#define CCP5_MODULE_DECLARED
-
-#define CCPxM CCP5CONbits.CCP5M
-#define CxTSEL CCPTMRS1bits.C5TSEL
-#define DCxB CCP5CONbits.DC5B
-#define CCPRxL CCPR5L
-#define CCPRxH CCPR5H
-#define CaptureModule_(name) CaptureModule5_##name
-#define CompareModule_(name) CompareModule5_##name
-#define PWMModule_(name) PWMModule5_##name
-
 #define EXIT_LOOP
 #endif
 
 // ----------------------------------------------------------------------------
 // CaptureModule
 // ----------------------------------------------------------------------------
-static void CaptureModule_(enable)() {
-	// capture module is enabled at CaptureModule#selectMode method
-}
-
-static void CaptureModule_(disable)() {
-	CCPxM = 0;
-}
-
-static void CaptureModule_(selectBaseTimer)(char timer) {
-	// base timer is fixed to timer1
-}
-
-static void CaptureModule_(selectMode)(char mode) {
-	CCPxM = mode;
-}
-
 static uint16_t CaptureModule_(getCapturedCount)() {
 	return ((uint16_t)CCPRxH << 8) + CCPRxL;
 }
 
-const CaptureModule CaptureModule_(instance) = {
-	CaptureModule_(enable),
-	CaptureModule_(disable),
-	CaptureModule_(selectBaseTimer),
-	CaptureModule_(selectMode),
+static const CaptureModule CaptureModule_(instance) = {
 	CaptureModule_(getCapturedCount),
 };
+
+const CaptureModule* CaptureModule_(constructor)(
+		char mode) {
+	CCPxM = mode;
+	return &CaptureModule_(instance);
+}
+
+void CaptureModule_(destructor)() {
+	CCPxM = 0;
+}
 
 // ----------------------------------------------------------------------------
 // CompareModule
 // ----------------------------------------------------------------------------
-static void CompareModule_(enable)() {
-	// compare module is enabled at CompareModule#selectMode method
-}
-
-static void CompareModule_(disable)() {
-	CCPxM = 0;
-}
-
-static void CompareModule_(selectBaseTimer)(char baseTimer) {
-	// base timer is fixed to timer1
-}
-
-static void CompareModule_(selectMode)(char mode) {
-	CCPxM = mode;
-}
-
 static void CompareModule_(setComparedCount)(uint16_t count) {
 	CCPRxH = count >> 8;
 	CCPRxL = count;
 }
 
-const CompareModule CompareModule_(instance) = {
-	CompareModule_(enable),
-	CompareModule_(disable),
-	CompareModule_(selectBaseTimer),
-	CompareModule_(selectMode),
+static const CompareModule CompareModule_(instance) = {
 	CompareModule_(setComparedCount),
 };
+
+const CompareModule* CompareModule_(constructor)(
+		char mode) {
+	CCPxM = mode;
+	return &CompareModule_(instance);
+}
+
+void CompareModule_(destructor)() {
+	CCPxM = 0;
+}
 
 // ----------------------------------------------------------------------------
 // PWMModule
 // ----------------------------------------------------------------------------
-static void PWMModule_(enable)() {
-	// pwm module is enabled at PWMModule#selectOutputPolarity method
-}
-
-static void PWMModule_(disable)() {
-	CCPxM = 0;
-}
-
-static void PWMModule_(selectBaseTimer)(char baseTimer) {
-	CxTSEL = baseTimer;
-}
-
 static void PWMModule_(setDutyCycle)(uint16_t dutyCycle) {
 	CCPRxL = dutyCycle >> 2;
 	DCxB = dutyCycle;
 }
 
-static void PWMModule_(selectOutputConfig)(char outputConfig) {
-	// CCP4 and CCP5 don't have configurable output (single output only).
-#ifdef PxM
-	PxM = outputConfig;
-#endif
-}
-
-static void PWMModule_(selectOutputPolarity)(char outputPolarity) {
-	CCPxM = outputPolarity;
-}
-
-const PWMModule PWMModule_(instance) = {
-	PWMModule_(enable),
-	PWMModule_(disable),
-	PWMModule_(selectBaseTimer),
+static const PWMModule PWMModule_(instance) = {
 	PWMModule_(setDutyCycle),
-	PWMModule_(selectOutputConfig),
-	PWMModule_(selectOutputPolarity),
 };
+
+#ifdef PxM
+const PWMModule* PWMModule_(constructor)(
+		char baseTimer,
+		char outputConfig,
+		char outputPolarity) {
+	CxTSEL = baseTimer;
+	PxM = outputConfig;
+	CCPxM = outputPolarity;
+	return &PWMModule_(instance);
+}
+#else
+const PWMModule* PWMModule_(constructor)(
+		char baseTimer,
+		char outputPolarity) {
+	CxTSEL = baseTimer;
+	// CCP4 and CCP5 don't have configurable output (single output only).
+	CCPxM = outputPolarity;
+	return &PWMModule_(instance);
+}
+#endif
+
+void PWMModule_(destructor)() {
+	CCPxM = 0;
+}
 
 #undef CCPxM
 #undef CxTSEL

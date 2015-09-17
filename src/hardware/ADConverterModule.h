@@ -11,50 +11,6 @@
 typedef struct {
 
 	/**
-	 * Get digital resolution of the AD converter.
-	 * 
-	 * The return value unit is bit.
-	 * {@code
-	 * const ADConverterModule* adc = Hardware.ADConverterModule;
-	 * char a = adc->getResolution(); // returns 10 (PIC16F1938)
-	 * }
-	 *
-	 * @return digital resolution of the ADC (bit)
-	 */
-	char (*getResolution)(void);
-
-	/**
-	 * Select positive reference voltage source of the AD converter.
-	 *
-	 * Default value depends on the device, please check at data sheet.
-	 * The selectable constants are defined at Hardware.h.
-	 *
-	 * @param positive reference voltage source constant
-	 */
-	void (*selectPositiveReference)(char);
-
-	/**
-	 * Select negative reference voltage source of the AD converter.
-	 *
-	 * Default value depends on the device, please check at data sheet.
-	 * The selectable constants are defined at Hardware.h.
-	 *
-	 * @param negative reference voltage source constant
-	 */
-	void (*selectNegativeReference)(char);
-
-	/**
-	 * Select conversion clock of the AD converter.
-	 *
-	 * If conversion clock is too fast, the results may be incorrect.
-	 * So, please refer to the data sheet of the device.
-	 * The selectable constants are defined at Hardware.h.
-	 *
-	 * @param conversion clock speed identifier
-	 */
-	void (*selectConversionClock)(char);
-
-	/**
 	 * Select input channel of the AD conveter.
 	 *
 	 * Please ensure the pin is analog inputable before connect
@@ -67,22 +23,6 @@ typedef struct {
 	 * @param input channel identifier
 	 */
 	void (*selectInputChannel)(char);
-
-	/**
-	 * Power on the AD converer module.
-	 *
-	 * Before call {@code ADConverterModule#startConversion}, you should
-	 * make sure the module is enabled.
-	 */
-	void (*enable)(void);
-
-	/**
-	 * Power off the AD converter module.
-	 *
-	 * If you don't use the module and want to save the electric power,
-	 * it is recommended to use this method.
-	 */
-	void (*disable)(void);
 
 	/**
 	 * Initiate AD conversion cycle.
@@ -125,7 +65,7 @@ typedef struct {
 	 *
 	 * @return result value of previous AD conversion
 	 */
-	unsigned long (*getResult)(void);
+	uint16_t (*getResult)(void);
 } ADConverterModule;
 
 #endif /* AD_CONVERTER_MODULE_H */

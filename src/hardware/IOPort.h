@@ -59,13 +59,25 @@ typedef struct {
 	/**
 	 * Write outputs to digital output pins.
 	 *
-	 * If a pin is not digital output, its state is unchanged.
+	 * If a pin is not digital output or not selected by first argument,
+	 * its state is unchanged.
 	 *
+	 * @param pin positions
 	 * @param a output levels for respective pins<br>
 	 * 	1 = output high<br>
 	 * 	0 = output low
 	 */
-	void (*write)(uint8_t);
+	void (*write)(uint8_t, uint8_t);
+
+	/**
+	 * Toggle outputs of digital output pins.
+	 *
+	 * If a pin is not digital output of not selected by first arguments,
+	 * its status is unchanged.
+	 *
+	 * @param pin positions
+	 */
+	void (*toggle)(uint8_t);
 } IOPort;
 
 #endif /* IO_PORT_H */
