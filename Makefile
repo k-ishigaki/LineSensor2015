@@ -5,7 +5,7 @@ ifeq ($(OS),Windows_NT)
 	MKDIR = mkdir
 	FixPath = $(subst /,\,$1)
 # microchip mdb script file location
-	MDB = "C:\Program Files (x86)\Microchip\MPLABX\mplab_ide\bin\mdb.bat"
+	MDB = "C:\Program Files (x86)\Microchip\MPLABX\v3.00\mplab_ide\bin\mdb.bat"
 # TEMP redirect target
 	TEMP_TARGET = $(TEMP)\microchip_mdb.log
 # source files
