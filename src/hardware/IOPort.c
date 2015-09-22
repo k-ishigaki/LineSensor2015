@@ -99,12 +99,16 @@ static void Portx_(toggle)(uint8_t pos) {
 	LATx = LATx & (~pos | bits);
 }
 
-const IOPort Portx_(instance) = {
+static const struct IOPort Portx_(instance) = {
 	Portx_(setPinModes),
 	Portx_(read),
 	Portx_(write),
 	Portx_(toggle),
 };
+
+const struct IOPort* Portx_(constructor)() {
+	return &Portx_(instance);
+}
 
 #undef Portx_
 #undef PORTx

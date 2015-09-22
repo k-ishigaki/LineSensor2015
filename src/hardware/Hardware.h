@@ -155,7 +155,7 @@ struct IOPort_PinMode {
 	char DIGITAL_INPUT_WITH_INTERNAL_PULLUP;
 	char DIGITAL_OUTPUT;
 	char ANALOG_INPUT;
-}
+};
 
 /** defined at IOPort.c */
 extern const struct IOPort_PinMode IOPort_PinMode;
@@ -545,8 +545,8 @@ struct Hardware {
 	 */
 	void (*configureOscillator)(char, char, char);
 
-	const IOPort* PortA;
-	const IOPort* PortC;
+	const struct IOPort* (*PortA)();
+	const struct IOPort* (*PortC)();
 
 	/**
 	 * AD converter constructor.

@@ -5,8 +5,6 @@
 
 #define _XTAL_FREQ OPERATING_FREQUENCY
 
-
-
 // RA0 and RA1 are used for debug serial port
 // (RA0 : TX, RA1 : RX)
 #define RA0_A0_PIN  0b00000001
@@ -21,8 +19,8 @@
 #define RC4_D2_PIN  0b00010000
 #define RC5_D3_PIN  0b00100000
 
-static const IOPort* portA;
-static const IOPort* portC;
+static const struct IOPort* portA;
+static const struct IOPort* portC;
 static const struct ADConverter* adc;
 static const TimerModule* timer;
 static const struct USART* serial;
@@ -54,8 +52,8 @@ void setup() {
 			OscillatorModule_InternalClockFrequency.HF_8MHz,
 			OscillatorModule_PhaseLockedLoop.ENABLE,
 			OscillatorModule_SystemClockSource.DETERMINED_BY_CONFIG);
-	portA = Hardware.PortA;
-	portC = Hardware.PortC;
+	portA = Hardware.PortA();
+	portC = Hardware.PortC();
 
 	// photo transister input pins
 	portA->setPinModes(
@@ -102,18 +100,18 @@ void setup() {
 			EUSART_ReceiveMode.EIGHT_BIT,
 			EUSART_TransmitMode.EIGHT_BIT,
 			EUSART_Polarity.NON_INVERTED_OR_FALLING_EDGE,
-			9600);
+			115200L);
 }
 
 void loop() {
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < 100; i++) {
 		__delay_ms(10);
 	}
 	portC->toggle(RC4_D2_PIN);
-	adc->selectInputChannel(ADConverterModule_InputChannel.AN2);
+	adc->selectInputChannel(ADConverterModule_InputChannel.AN1);
 	__delay_us(100);
 	adc->startConversion();
-	while(adc->isConverting);
+	while(adc->isConverting());
 	unsigned int res = adc->getResult();
 	portC->toggle(RC4_D2_PIN);
 	printf("res = %d\n",res);

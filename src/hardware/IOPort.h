@@ -11,7 +11,7 @@
  *
  * usage: write to output latch
  * {@code
- * IOPort port = Hardware.PortA; // get instance of Port A
+ * const struct IOPort* port = Hardware.PortA; // get instance of Port A
  * // set all pins to digital output
  * port->setPinModes(0xFF, IOPort_PinMode.DIGITAL_OUTPUT);
  * port->writeDigital(0x55);     // pin 0, 2, 4, 6: output high
@@ -20,13 +20,13 @@
  *
  * usage: read port status
  * {@code
- * IOPort port = Hardware.PortA;
+ * const struct IOPort* port = Hardware.PortA;
  * // set all pins to digital input
  * port->setPinModes(0xFF, IOPort_PinMode.DIGITAL_INPUT);
  * uint8_t result = port->readDigital(); // read port and store
  * }
  */
-typedef struct {
+struct IOPort {
 
 	/**
 	 * Apply pin mode to selected pins.
@@ -78,6 +78,6 @@ typedef struct {
 	 * @param pin positions
 	 */
 	void (*toggle)(uint8_t);
-} IOPort;
+};
 
 #endif /* IO_PORT_H */

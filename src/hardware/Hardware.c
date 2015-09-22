@@ -18,8 +18,8 @@ extern void OscillatorModule_configure(char, char, char);
 // declared at AlternatePinFunction.c
 extern void AlternatePinFunction_configure(char, char, char, char, char, char, char, char, char);
 // declared at IOPort.c
-extern const IOPort PortA_instance;
-extern const IOPort PortC_instance;
+extern const struct IOPort* PortA_constructor();
+extern const struct IOPort* PortC_constructor();
 // declared at ADConverterModule.c
 extern const struct ADConverter* ADConverterModule_constructor(char, char, char);
 // declared at TimerModule.c
@@ -61,8 +61,8 @@ const struct Hardware Hardware = {
 	CCP4ModuleInterruptService_constructor,
 	AlternatePinFunction_configure,
 	OscillatorModule_configure,
-	&PortA_instance,
-	&PortC_instance,
+	PortA_constructor,
+	PortC_constructor,
 	ADConverterModule_constructor,
 	Timer0Module_constructor,
 	Timer1Module_constructor,
