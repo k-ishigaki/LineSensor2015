@@ -1,7 +1,9 @@
+#include <xc.h>
 #include "Hardware.h"
+#include "LineSensor.h"
+
 #include <stdbool.h>
 #include <stdio.h>
-#include <xc.h>
 
 #define _XTAL_FREQ OPERATING_FREQUENCY
 
@@ -19,19 +21,9 @@
 #define RC4_D2_PIN  0b00010000
 #define RC5_D3_PIN  0b00100000
 
-static const struct IOPort* portA;
-static const struct IOPort* portC;
-static const struct ADConverter* adc;
-static const TimerModule* timer;
 static const struct USART* serial;
-
-void onADCInterrupt() {
-	// do something
-}
-
-InterruptListener ADIntListener = {
-	onADCInterrupt,
-};
+static const struct LED* leds[4];
+static const struct PhotoTransistor* photoTrs[4];
 
 void putch(char data) {
 	serial->write(data);
@@ -52,13 +44,19 @@ void setup() {
 			OscillatorModule_InternalClockFrequency.HF_8MHz,
 			OscillatorModule_PhaseLockedLoop.ENABLE,
 			OscillatorModule_SystemClockSource.DETERMINED_BY_CONFIG);
-	portA = Hardware.PortA();
-	portC = Hardware.PortC();
 
-	// photo transister input pins
-	portA->setPinModes(
-			RA0_A0_PIN | RA1_A1_PIN | RA2_A2_PIN | RA4_A3_PIN,
-			IOPort_PinMode.ANALOG_INPUT);
+	// get line sensor hardware instances
+	leds[0] = LineSensor.getLED0();
+	leds[1] = LineSensor.getLED1();
+	leds[2] = LineSensor.getLED2();
+	leds[3] = LineSensor.getLED3();
+	photoTrs[0] = LineSensor.getPhotoTransistor0();
+	photoTrs[1] = LineSensor.getPhotoTransistor1();
+	photoTrs[2] = LineSensor.getPhotoTransistor2();
+	photoTrs[3] = LineSensor.getPhotoTransistor3();
+	const struct IOPort* portA = Hardware.PortA();
+	const struct IOPort* portC = Hardware.PortC();
+
 	// switch input pin
 	portA->setPinModes(
 			RA5_nSW_PIN,
@@ -68,57 +66,33 @@ void setup() {
 	portA->setPinModes(RA0_A0_PIN, IOPort_PinMode.DIGITAL_OUTPUT);
 	// debug serial RX pin
 	portA->setPinModes(RA1_A1_PIN, IOPort_PinMode.DIGITAL_INPUT);
-	// i2c pins
-	portC->setPinModes(
-			RC0_SCL_PIN | RC1_SDA_PIN,
-			IOPort_PinMode.ANALOG_INPUT);
-	// led nch fet gate pins
-	portC->setPinModes(
-			RC2_D0_PIN | RC3_D1_PIN | RC4_D2_PIN | RC5_D3_PIN,
-			IOPort_PinMode.DIGITAL_OUTPUT);
-
-	// all leds off
-	portC->write(RC2_D0_PIN | RC3_D1_PIN | RC4_D2_PIN | RC5_D3_PIN, 0x00);
-
-	adc = Hardware.ADConverterModule(
-			ADConverterModule_PositiveReference.VDD,
-			ADConverterModule_NegativeReference.VSS,
-			ADConverterModule_ConversionClock.F_OSC_DIV_32);
-
-	const InterruptService* adcIntSer = Hardware.ADConverterInterruptService();
-	adcIntSer->registerListener(&ADIntListener);
-	adcIntSer->enableInterrupt();
-
-	timer = Hardware.Timer0(
-			Timer0Module_ClockSource.F_OSC_DIV_4,
-			Timer0Module_Prescaler.RATE_1_1);
-	timer->setCount(0);
-	timer->start();
-
+	// debug serial settings
 	serial = Hardware.EUSART(
 			EUSART_Mode.ASYNCHRONOUS,
 			EUSART_ReceiveMode.EIGHT_BIT,
 			EUSART_TransmitMode.EIGHT_BIT,
 			EUSART_Polarity.NON_INVERTED_OR_FALLING_EDGE,
 			115200L);
+	// i2c pins
+	portC->setPinModes(
+			RC0_SCL_PIN | RC1_SDA_PIN,
+			IOPort_PinMode.ANALOG_INPUT);
 }
 
 void loop() {
 	for (int i = 0; i < 100; i++) {
 		__delay_ms(10);
 	}
-	portC->toggle(RC4_D2_PIN);
-	adc->selectInputChannel(ADConverterModule_InputChannel.AN1);
-	__delay_us(100);
-	adc->startConversion();
-	while(adc->isConverting());
-	unsigned int res = adc->getResult();
-	portC->toggle(RC4_D2_PIN);
-	printf("res = %d\n",res);
-
-	if(!(portA->read() & RA5_nSW_PIN)) {
-		printf("pushed\n");
+	leds[3]->turnOn();
+	for (int i = 0; i < 10; i++) {
+		__delay_ms(10);
 	}
+	printf("res = %d\r\n", photoTrs[2]->read());
+	leds[3]->turnOff();
+
+//	if(!(portA->read() & RA5_nSW_PIN)) {
+//		printf("pushed\r\n");
+//	}
 
 	serial->write('A');
 	serial->write('B');
