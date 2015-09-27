@@ -92,24 +92,24 @@ const struct DigitalPin* createDigitalPin(
 #endif
 
 static const struct IOPort* this_(port);
-static uint8_t this_(pos);
+static char this_(position);
 static char this_(inputMode);
 static char this_(outputMode);
 
 static void this_(setDirection)(bool direction) {
 	if (direction == false) {
 		this_(port)->setPinModes(
-				this_(pos),
+				this_(position),
 				this_(inputMode));
 	} else {
 		this_(port)->setPinModes(
-				this_(pos),
+				this_(position),
 				this_(outputMode));
 	}
 }
 
 static bool this_(read)() {
-	if ((this_(port)->read() & this_(pos)) == 0) {
+	if ((this_(port)->read() & this_(position)) == 0) {
 		return false;
 	} else {
 		return true;
@@ -119,11 +119,11 @@ static bool this_(read)() {
 static void this_(write)(bool value) {
 	if (value == true) {
 		this_(port)->write(
-				this_(pos),
+				this_(position),
 				0xFF);
 	} else {
 		this_(port)->write(
-				this_(pos),
+				this_(position),
 				0x00);
 	}
 }
@@ -141,6 +141,7 @@ static const struct DigitalPin* this_(constructor)(
 		char outputPinMode) {
 	this_(port) = &IOPort_dummy;
 	this_(port) = port;
+	this_(position) = position;
 	this_(inputMode) = inputPinMode;
 	this_(outputMode) = outputPinMode;
 	return &this_(instance);
