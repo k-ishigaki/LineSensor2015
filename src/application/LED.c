@@ -1,5 +1,7 @@
 #include "LED.h"
 
+#include "DigitalPin.h"
+
 #include <stdbool.h>
 
 #ifndef COMMON_DECLARATION
@@ -74,6 +76,7 @@ static const struct LED* LEDn_(constructor)(const struct DigitalPin* pin) {
 	LEDn_(pin) = &DigitalPin_dummy;
 	LEDn_(pin) = pin;
 	LEDn_(pin)->setDirection(true);
+
 	return &LEDn_(instance);
 }
 
