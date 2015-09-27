@@ -86,7 +86,7 @@ const struct AnalogInputPin* createAnalogInputPin(
 #define EXIT_LOOP
 #endif
 
-static const struct ADConverter* this_(adc);
+static const struct ADConverter* this_(adc) = &ADConverter_dummy;
 static char this_(inputChannel);
 
 static int this_(read)() {
@@ -108,7 +108,6 @@ static const struct AnalogInputPin* this_(constructor)(
 		char inputChannel) {
 	port->setPinModes(position, analogInputPinMode);
 	port = &IOPort_dummy;
-	this_(adc) = &ADConverter_dummy;
 	this_(adc) = adc;
 	this_(inputChannel) = inputChannel;
 	return &this_(instance);
