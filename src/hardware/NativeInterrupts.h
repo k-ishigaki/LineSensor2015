@@ -27,7 +27,7 @@
  * 	// when interrupt occured, onInterrupt method is called
  * }
  */
-typedef struct {
+struct InterruptListener {
 
 	/**
 	 * Called on a interrupt occured if registerd by the service.
@@ -37,7 +37,7 @@ typedef struct {
 	 * other any interrupts cannnot occur.
 	 */
 	void (*onInterrupt)(void);
-} InterruptListener;
+};
 
 /*+
  * A interface of interrupt vector and interrupt service.
@@ -49,12 +49,11 @@ typedef struct {
  * }
  * where the argument are explained below.
  */
-typedef struct {
+struct InterruptService {
 
 	/**
 	 * Add a listener handles interrupt.
 	 *
-	 * The interrupt priority constants is defined at Hardware.h.
 	 * If you call this method twice, only one listener is registered.
 	 * (First registerd listener is overwriten by second one.)
 	 * This method may takes time to register listener to interrupt
@@ -62,7 +61,7 @@ typedef struct {
 	 *
 	 * @param interrupt listener
 	 */
-	void (*registerListener)(InterruptListener*);
+	void (*registerListener)(const struct InterruptListener*);
 
 	/**
 	 * Enable the interrupt.
@@ -79,6 +78,6 @@ typedef struct {
 	 * because it is unable to remove registerd listener.
 	 */
 	void (*disableInterrupt)(void);
-} InterruptService;
+};
 
 #endif /* NATIVE_INTERRUPTS_H */

@@ -1,18 +1,18 @@
 #include "Hardware.h"
 
 // declared at InterruptVector.c
-extern const InterruptService* ADConverterModuleInterruptService_constructor();
-extern const InterruptService* Timer0ModuleInterruptService_constructor();
-extern const InterruptService* Timer1ModuleInterruptService_constructor();
-extern const InterruptService* Timer1GateControlInterruptService_constructor();
-extern const InterruptService* Timer2ModuleInterruptService_constructor();
-extern const InterruptService* Timer4ModuleInterruptService_constructor();
-extern const InterruptService* Timer6ModuleInterruptService_constructor();
-extern const InterruptService* CCP1ModuleInterruptService_constructor();
-extern const InterruptService* CCP2ModuleInterruptService_constructor();
-extern const InterruptService* CCP3ModuleInterruptService_constructor();
-extern const InterruptService* CCP4ModuleInterruptService_constructor();
-extern const InterruptService* CCP5ModuleInterruptService_constructor();
+extern const struct InterruptService* ADConverterModuleInterruptService_constructor();
+extern const struct InterruptService* Timer0ModuleInterruptService_constructor();
+extern const struct InterruptService* Timer1ModuleInterruptService_constructor();
+extern const struct InterruptService* Timer1GateControlInterruptService_constructor();
+extern const struct InterruptService* Timer2ModuleInterruptService_constructor();
+extern const struct InterruptService* Timer4ModuleInterruptService_constructor();
+extern const struct InterruptService* Timer6ModuleInterruptService_constructor();
+extern const struct InterruptService* CCP1ModuleInterruptService_constructor();
+extern const struct InterruptService* CCP2ModuleInterruptService_constructor();
+extern const struct InterruptService* CCP3ModuleInterruptService_constructor();
+extern const struct InterruptService* CCP4ModuleInterruptService_constructor();
+extern const struct InterruptService* CCP5ModuleInterruptService_constructor();
 // declared at OscillatorModule.c
 extern void OscillatorModule_configure(char, char, char);
 // declared at AlternatePinFunction.c

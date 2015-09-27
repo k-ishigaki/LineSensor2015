@@ -509,17 +509,17 @@ struct Hardware {
 	/**
 	 * Interrupt service constructor.
 	 */
-	const InterruptService* (*ADConverterInterruptService)();
-	const InterruptService* (*Timer0InterruptService)();
-	const InterruptService* (*Timer1InterruptService)();
-	const InterruptService* (*Timer1GateControlInterruptService)();
-	const InterruptService* (*Timer2InterruptService)();
-	const InterruptService* (*Timer4InterruptService)();
-	const InterruptService* (*Timer6InterruptService)();
-	const InterruptService* (*CCP1InterruptService)();
-	const InterruptService* (*CCP2InterruptService)();
-	const InterruptService* (*CCP3InterruptService)();
-	const InterruptService* (*CCP4InterruptService)();
+	const struct InterruptService* (*ADConverterInterruptService)();
+	const struct InterruptService* (*Timer0InterruptService)();
+	const struct InterruptService* (*Timer1InterruptService)();
+	const struct InterruptService* (*Timer1GateControlInterruptService)();
+	const struct InterruptService* (*Timer2InterruptService)();
+	const struct InterruptService* (*Timer4InterruptService)();
+	const struct InterruptService* (*Timer6InterruptService)();
+	const struct InterruptService* (*CCP1InterruptService)();
+	const struct InterruptService* (*CCP2InterruptService)();
+	const struct InterruptService* (*CCP3InterruptService)();
+	const struct InterruptService* (*CCP4InterruptService)();
 
 	/**
 	 * Configure alternate pin function.

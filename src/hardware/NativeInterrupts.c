@@ -25,7 +25,7 @@ static void InterruptListener_onInterrupt() {
 	// do nothing
 }
 
-static InterruptListener listener_dummy = {
+static const struct InterruptListener listener_dummy = {
 	InterruptListener_onInterrupt,
 };
 
@@ -143,7 +143,7 @@ static void registerHandler(void (*handler)()) {
 #define EXIT_LOOP
 #endif
 
-static InterruptListener* InterruptService_(listener) = &listener_dummy;
+static const struct InterruptListener* InterruptService_(listener) = &listener_dummy;
 
 static void InterruptService_(handleInterrupt)() {
 	if(PIRbit && PIEbit) {
@@ -153,7 +153,7 @@ static void InterruptService_(handleInterrupt)() {
 }
 
 static void InterruptService_(registerListener)(
-		InterruptListener* listener) {
+		const struct InterruptListener* listener) {
 	InterruptService_(listener) = listener;
 	registerHandler(&InterruptService_(handleInterrupt));
 }
@@ -168,13 +168,13 @@ static void InterruptService_(disableInterrupt)() {
 	PIRbit = 0;
 }
 
-static const InterruptService InterruptService_(instance) = {
+static const struct InterruptService InterruptService_(instance) = {
 	InterruptService_(registerListener),
 	InterruptService_(enableInterrupt),
 	InterruptService_(disableInterrupt),
 };
 
-const InterruptService* InterruptService_(constructor)() {
+const struct InterruptService* InterruptService_(constructor)() {
 	return &InterruptService_(instance);
 }
 
