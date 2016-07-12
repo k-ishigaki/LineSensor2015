@@ -502,6 +502,101 @@ struct EUSART_Error {
 };
 extern const struct EUSART_Error EUSART_Error;
 
+// ----------------------------------------------------------------------------
+// MSSP
+// ----------------------------------------------------------------------------
+#include "I2C.h"
+
+struct I2C_SlewRateControl {
+	/**
+	 * Slew rate control enabled for high speed mode (400 kHz)
+	 */
+	char ENABLE;
+	/**
+	 * Slew rate control disabled for standard speed mode
+	 * (100 kHz and 1 MHz)
+	 */
+	char DISABLE;
+};
+extern const struct I2C_SlewRateControl I2C_SlewRateControl;
+
+struct I2C_InputThreshold {
+	/**
+	 * Disable SMbus specific inputs
+	 */
+	char DEFAULT;
+	/**
+	 * Enable input logic so that thresholds are compliant
+	 * with SMbus specification
+	 */
+	char SMBUS;
+};
+extern const struct I2C_InputThreshold I2C_InputThreshold;
+
+struct I2C_GeneralCallInterrupt {
+	/**
+	 * General call address disabled
+	 */
+	char DISABLE;
+	/**
+	 * Enable interrupt when a general call address (0x00 or 00h)
+	 * is received in the SSPxSR
+	 */
+	char ENABLE;
+};
+extern const struct I2C_GeneralCallInterrupt I2C_GeneralCallInterrupt;
+
+struct I2C_ConditionInterrupt {
+	/**
+	 * Start and Stop detection interrupts are disabled
+	 */
+	char DISABLE;
+	/**
+	 * Enable interrupt on detection of Start or Restart conditions
+	 */
+	char START;
+	/**
+	 * Enable interrupt on detection of Stop condition
+	 */
+	char STOP;
+	/**
+	 * Enable interrupt on detection of Start or Restart or Stop conditions
+	 */
+	char START_AND_STOP;
+};
+extern const struct I2C_ConditionInterrupt I2C_ConditionInterrupt;
+
+struct I2C_SDAHoldTime {
+	/**
+	 * Minimum of 100 ns hold time on SDAx after the falling edge of SCLx
+	 */
+	char ONE_HUNDRED_NS;
+	/**
+	 * Minimum of 300 ns hold time on SDAx after the falling edge of SCLx
+	 */
+	char THREE_HUNDRED_NS;
+};
+extern const struct I2C_SDAHoldTime I2C_SDAHoldTime;
+
+struct I2C_SlaveBusCollisionDetect {
+	char DISABLE;
+	char ENABLE;
+};
+extern const struct I2C_SlaveBusCollisionDetect I2C_SlaveBusCollisionDetect;
+
+struct I2C_ClockStretch {
+	char ADDRESS;
+	char DATA;
+	char ADDRESS_AND_DATA;
+	char DISABLE;
+};
+extern const struct I2C_ClockStretch I2C_ClockStretch;
+
+
+
+
+
+
 /**
  * Hardware peripheral definition.
  */
